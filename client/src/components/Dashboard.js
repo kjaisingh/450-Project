@@ -38,9 +38,9 @@ export default class Dashboard extends React.Component {
       // A button which triggers the showMovies function for each keyword.
       const keywordsDivs = keywordsList.map((keywordObj, i) =>
         <KeywordButton 
-          id={"button-" + keywordObj.kwd_name} 
-          onClick={() => this.showMovies(keywordObj.kwd_name)} 
-          keyword={keywordObj.kwd_name} 
+          id={"button-" + keywordObj.city} 
+          onClick={() => this.showMovies(keywordObj.city)} 
+          keyword={keywordObj.city} 
         /> 
       );
 

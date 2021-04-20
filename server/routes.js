@@ -13,7 +13,7 @@ const connection = mysql.createPool(config);
 // Equivalent to: function getTop20Keywords(req, res) {}
 const getTop20Keywords = (req, res) => {
   const query = `
-    SELECT city
+    SELECT DISTINCT city
     FROM Airbnb
     LIMIT 20;
   `;
@@ -31,6 +31,7 @@ const getTopMoviesWithKeyword = (req, res) => {
   const query = `
   SELECT city, longitude, latitude
   FROM Airbnb
+  WHERE city LIKE '${inputKwd}'
   LIMIT 20;
 `;
 
