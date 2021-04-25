@@ -13,9 +13,12 @@ const connection = mysql.createPool(config);
 // Equivalent to: function getTop20Keywords(req, res) {}
 const getTop20Keywords = (req, res) => {
   const query = `
-    SELECT DISTINCT city
-    FROM Airbnb
-    LIMIT 20;
+  WITH tab1 AS (SELECT city, COUNT(*) AS num 
+  FROM Airbnb GROUP BY city) 
+  SELECT city 
+  FROM tab1 
+  ORDER BY num DESC 
+  LIMIT 20;
   `;
 
   connection.query(query, (err, rows, fields) => {
@@ -29,10 +32,11 @@ const getTop20Keywords = (req, res) => {
 const getTopMoviesWithKeyword = (req, res) => {
   const inputKwd = req.params.keyword
   const query = `
-  SELECT city, longitude, latitude
-  FROM Airbnb
-  WHERE city LIKE '${inputKwd}'
-  LIMIT 20;
+  SELECT name, room_type, price 
+  FROM Airbnb 
+  WHERE city = '${inputKwd}' 
+  ORDER BY reviews_per_month DESC 
+  LIMIT 10;
 `;
 
 connection.query(query, (err, rows, fields) => {
