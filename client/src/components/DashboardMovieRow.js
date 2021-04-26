@@ -8,9 +8,9 @@ export default class DashboardMovieRow extends React.Component {
 	render() {
 		return (
 			<div className="movie">
-				<div className="title">{this.props.movie.city}</div>
-				<div className="rating">{this.props.movie.longitude}</div>
-				<div className="votes">{this.props.movie.latitude}</div>
+				<div className="title">{this.props.movie.name}</div>
+				<div className="rating">{this.props.movie.room_type}</div>
+				<div className="votes">{this.props.movie.price}</div>
 			</div>
 		);
 	};
