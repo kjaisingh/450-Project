@@ -15,7 +15,7 @@ const getTop20Keywords = (req, res) => {
   const query = `
   WITH tab1 AS (SELECT city, COUNT(*) AS num 
   FROM Airbnb GROUP BY city) 
-  SELECT city 
+  SELECT DISTINCT city 
   FROM tab1 
   ORDER BY num DESC 
   LIMIT 20;
@@ -34,7 +34,7 @@ const getTopMoviesWithKeyword = (req, res) => {
   const query = `
   SELECT name, room_type, price 
   FROM Airbnb 
-  WHERE city LIKE '$inputKwd' 
+  WHERE city LIKE '${inputKwd}' 
   ORDER BY reviews_per_month DESC 
   LIMIT 10;
 `;
