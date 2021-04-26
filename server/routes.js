@@ -34,7 +34,7 @@ const getTopMoviesWithKeyword = (req, res) => {
   const query = `
   SELECT name, room_type, price 
   FROM Airbnb 
-  WHERE city = '${inputKwd}' 
+  WHERE city = 'Denver' 
   ORDER BY reviews_per_month DESC 
   LIMIT 10;
 `;
