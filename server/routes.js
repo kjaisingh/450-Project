@@ -154,7 +154,7 @@ const getPartyBnb = (req, res) => {
     tab3 AS 
     (SELECT * FROM Listings
     WHERE neighbourhood LIKE '${x}' ORDER BY number_of_reviews * rating)
-    SELECT listing_url, price, rating, number_of_reviews, picture_url
+    SELECT DISTINCT id, name, listing_url, price, rating, number_of_reviews, picture_url
     FROM tab3 JOIN tab2 ON ABS(tab3.latitude - tab2.latitude) <= .001 AND ABS(tab3.longitude - tab2.longitude) <= .001
     LIMIT 10;`;
 

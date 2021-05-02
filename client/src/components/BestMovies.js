@@ -163,11 +163,11 @@ export default class BestMovies extends React.Component {
 					<div className="jumbotron">
 						<div className="movies-container">
 							<div className="movie">
-								<div className="header"><strong>Booking Link</strong></div>
+								<div className="header"><strong>ID</strong></div>
 								<div className="header"><strong>Previous Price</strong></div>
 								<div className="header"><strong>Rating</strong></div>
 								<div className="header"><strong>Number of Reviews</strong></div>
-								<div className="header"><strong>Picture Link</strong></div>
+								<div className="header"><strong>About</strong></div>
 							</div>
 							<div className="movies-container" id="results">
 								{this.state.movies}
