@@ -12,6 +12,6 @@
   padding: 0 10px;
 }
 
-.movie .header, .movieResults .title, .movieResults .id, .movieResults .rating {
-  flex: 1 0 25%;
+.movie .header, .movieResults .bookinglink, .movieResults .price, .movieResults .rating, .movieResults .reviews, .movieResults .picture {
+  flex: 0 0 15%;
 }

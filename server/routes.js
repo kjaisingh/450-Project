@@ -107,39 +107,56 @@ const getGenres = (req, res) => {
 
 
 /* ---- Q3b (Best Movies) ---- */
-const bestMoviesPerDecadeGenre = (req, res) => {
-  const genre = req.params.selectedGenre;
-  const decade = req.params.selectedDecade;
+
+const getPartyBnb = (req, res) => {
+  const x = req.params.selectedBorough;
+  var y = req.params.selectedParty;
+  var a;
+  var b;
+  
+  console.log("Borough is:" +x);
+
+  var Manhattan = [0, 10, 25, 50, 100, 300];
+  var Brooklyn = [0, 10, 20, 40, 100, 2000];
+  var StatenIsland = [0, 2, 10, 21, 40, 65];
+  var Queens = [0, 6, 10, 25, 50, 150];
+  var Bronx = [0, 10, 30, 50, 100, 600];
+
+  if(x === "Manhattan"){
+    a = Manhattan[y-1];
+    b = Manhattan[y];
+  } else if(x === "Brooklyn") {
+    a = Brooklyn[y-1];
+    b = Brooklyn[y];
+  } else if(x === "Queens"){
+    a = Queens[y-1];
+    b = Queens[y];
+  } else if(x === "Staten Island"){
+    a = StatenIsland[y-1];
+    b = StatenIsland[y];
+  } else{
+    a = Bronx[y-1];
+    b = Bronx[y];
+  }
+  console.log("A is:" +a);
+  console.log("B is:" +b);
+
+
   const query = `
-  WITH info AS
-    (SELECT a.movie_id, title, genre_name, a.release_year, a.rating
-    FROM (SELECT movie.movie_id, title, release_year, rating
-    FROM movie JOIN movie_genre ON movie_genre.movie_id = movie.movie_id
-    WHERE release_year >= '${decade}' AND release_year < '${decade}' + 10 AND movie_genre.genre_name LIKE '${genre}') a
-    JOIN movie_genre ON a.movie_id = movie_genre.movie_id),
-    info2 AS
-        (SELECT AVG(rating) as aver, genre_name
-         FROM movie JOIN movie_genre ON movie_genre.movie_id = movie.movie_id
-         WHERE release_year >= '${decade}' AND release_year < '${decade}' + 10
-         GROUP BY genre_name),
-    info3 AS
-    (SELECT movie_id, title, info.genre_name, release_year, rating, aver
-    FROM info JOIN info2 ON info.genre_name = info2.genre_name),
-    info4 AS
-    (SELECT movie_id, count(*) as cnt 
-    FROM info
-    GROUP BY movie_id),
-    info5 AS
-    (SELECT movie_id, count(*) as cnt 
-    FROM info3
-    WHERE rating >= aver
-    GROUP BY movie_id)
-SELECT info4.movie_id, movie.title, movie.rating
-FROM info4 JOIN info5 ON info4.movie_id = info5.movie_id JOIN movie ON info4.movie_id = movie.movie_id
-WHERE info4.cnt = info5.cnt
-ORDER BY title
-LIMIT 100;
-`;
+  WITH tab1 AS (
+    SELECT latitude, longitude, COUNT(*) as NumParties
+    FROM Parties
+    WHERE Borough LIKE '${x}'
+    GROUP BY latitude, longitude),
+    tab2 AS 
+    (SELECT * FROM tab1
+    WHERE NumParties > '${a}' and NumParties <= '${b}'),
+    tab3 AS 
+    (SELECT * FROM Listings
+    WHERE neighbourhood LIKE '${x}' ORDER BY number_of_reviews * rating)
+    SELECT listing_url, price, rating, number_of_reviews, picture_url
+    FROM tab3 JOIN tab2 ON ABS(tab3.latitude - tab2.latitude) <= .001 AND ABS(tab3.longitude - tab2.longitude) <= .001
+    LIMIT 10;`;
 
   connection.query(query, (err, rows, fields) => {
     if (err) console.log(err);
@@ -154,5 +171,5 @@ module.exports = {
 	getRecs: getRecs,
   getDecades: getDecades,
   getGenres: getGenres,
-  bestMoviesPerDecadeGenre: bestMoviesPerDecadeGenre
+  getPartyBnb: getPartyBnb
 };

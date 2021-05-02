@@ -31,59 +31,59 @@ export default class BestMovies extends React.Component {
 		// this.submitDecadeGenre = this.submitDecadeGenre.bind(this);
 	};
 
-	/* ---- Q3a (Best Movies) ---- */
-	componentDidMount() {
-	    // Send an HTTP request to the server.
-		fetch("http://localhost:8081/decades",
-		{
-		  method: 'GET' // The type of HTTP request.
-		}).then(res => {
-		  // Convert the response data to a JSON.
-		  return res.json();
-		}, err => {
-		  // Print the error if there is one.
-		  console.log(err);
-		}).then(decadesList => {
-		  if (!decadesList) return;
+	// /* ---- Q3a (Best Movies) ---- */
+	// componentDidMount() {
+	//     // Send an HTTP request to the server.
+	// 	fetch("http://localhost:8081/decades",
+	// 	{
+	// 	  method: 'GET' // The type of HTTP request.
+	// 	}).then(res => {
+	// 	  // Convert the response data to a JSON.
+	// 	  return res.json();
+	// 	}, err => {
+	// 	  // Print the error if there is one.
+	// 	  console.log(err);
+	// 	}).then(decadesList => {
+	// 	  if (!decadesList) return;
 			
-		  const decadeDivs = decadesList.map((movieObj, i) =>
-			<option className="decadesOption" value={movieObj.decade}>{movieObj.decade}</option>
-          );
-		  // Set the state of the keywords list to the value returned by the HTTP response from the server.
-		  this.setState({
-			decades: decadeDivs
-		  });
-		}, err => {
-		  // Print the error if there is one.
-		  console.log(err);
-		});
+	// 	  const decadeDivs = decadesList.map((movieObj, i) =>
+	// 		<option className="decadesOption" value={movieObj.decade}>{movieObj.decade}</option>
+    //       );
+	// 	  // Set the state of the keywords list to the value returned by the HTTP response from the server.
+	// 	  this.setState({
+	// 		decades: decadeDivs
+	// 	  });
+	// 	}, err => {
+	// 	  // Print the error if there is one.
+	// 	  console.log(err);
+	// 	});
 
-		// Send an HTTP request to the server.
-		fetch("http://localhost:8081/genres",
-		{
-		  method: 'GET' // The type of HTTP request.
-		}).then(res => {
-		  // Convert the response data to a JSON.
-		  return res.json();
-		}, err => {
-		  // Print the error if there is one.
-		  console.log(err);
-		}).then(genresList => {
-		  if (!genresList) return;
+	// 	// Send an HTTP request to the server.
+	// 	fetch("http://localhost:8081/genres",
+	// 	{
+	// 	  method: 'GET' // The type of HTTP request.
+	// 	}).then(res => {
+	// 	  // Convert the response data to a JSON.
+	// 	  return res.json();
+	// 	}, err => {
+	// 	  // Print the error if there is one.
+	// 	  console.log(err);
+	// 	}).then(genresList => {
+	// 	  if (!genresList) return;
 	
-		  const genreDivs = genresList.map((movieObj, i) =>
-		  <option className="genresOption" value={movieObj.name}>{movieObj.name}</option>
-		);
-		  // Set the state of the keywords list to the value returned by the HTTP response from the server.
-		  this.setState({
-			genres: genreDivs
-		  });
-		}, err => {
-		  // Print the error if there is one.
-		  console.log(err);
-		});
+	// 	  const genreDivs = genresList.map((movieObj, i) =>
+	// 	  <option className="genresOption" value={movieObj.name}>{movieObj.name}</option>
+	// 	);
+	// 	  // Set the state of the keywords list to the value returned by the HTTP response from the server.
+	// 	  this.setState({
+	// 		genres: genreDivs
+	// 	  });
+	// 	}, err => {
+	// 	  // Print the error if there is one.
+	// 	  console.log(err);
+	// 	});
 
-	};
+	// };
 
 	/* ---- Q3a (Best Movies) ---- */
 	handleBoroughChange(e) {
@@ -132,6 +132,8 @@ export default class BestMovies extends React.Component {
 		return (
 			<div className="BestMovies">
 				<PageNavbar active="bestgenres" />
+
+				<br />
 				<div className="container bestmovies-container">
 					<div className="jumbotron">
 						<div className="h5">Party Filter</div>
@@ -147,9 +149,9 @@ export default class BestMovies extends React.Component {
 
 						<div>
 							<header>Party Intensity</header>
-							<Slider pips={{ mode: "steps", stepped: true, density: 10 }}
+							<Slider pips={{ mode: "steps", stepped: true, density: 5 }}
 									step={1} onSlide={this.handleSlide} connect={[true, false]} 
-									start={[this.state.selectedParty]} range={{ min: 1, max: 10 }}
+									start={[this.state.selectedParty]} range={{ min: 1, max: 5 }}
 							/>
 						</div>
 
@@ -157,20 +159,22 @@ export default class BestMovies extends React.Component {
 							<button className="submit-btn" id="submitBtn" onClick={this.submitPreferences}>Submit</button>
 						</div>
 					</div>
-
+				</div>
 					<div className="jumbotron">
 						<div className="movies-container">
 							<div className="movie">
-			          			<div className="header"><strong>Name</strong></div>
-			          			<div className="header"><strong>Price</strong></div>
-								<div className="header"><strong>Party Rating</strong></div>
-			        		</div>
-			        	<div className="movies-container" id="results">
-			          		{this.state.movies}
-			        	</div>
-			      	</div>
-			    </div>
-			  </div>
+								<div className="header"><strong>Booking Link</strong></div>
+								<div className="header"><strong>Previous Price</strong></div>
+								<div className="header"><strong>Rating</strong></div>
+								<div className="header"><strong>Number of Reviews</strong></div>
+								<div className="header"><strong>Picture Link</strong></div>
+							</div>
+							<div className="movies-container" id="results">
+								{this.state.movies}
+							</div>
+						</div>
+					</div>
+			  
 			</div>
 		);
 	};
