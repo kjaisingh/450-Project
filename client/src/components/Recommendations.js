@@ -28,7 +28,7 @@ export default class Recommendations extends React.Component {
 	// Hint: Name of movie submitted is contained in `this.state.movieName`.
 	submitMovie() {
 		
-		// Send an HTTP request to the server.
+		// Send an HTTP request to the SERVER.
         fetch("http://localhost:8081/recomendations/" + this.state.movieName,
         {
           method: 'GET' // The type of HTTP request.
