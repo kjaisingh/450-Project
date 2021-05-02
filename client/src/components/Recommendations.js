@@ -29,7 +29,7 @@ export default class Recommendations extends React.Component {
 	submitMovie() {
 		
 		// Send an HTTP request to the server.
-        fetch("http://localhost:8081/reccomendations/" + this.state.movieName,
+        fetch("http://localhost:8081/recomendations/" + this.state.movieName,
         {
           method: 'GET' // The type of HTTP request.
         }).then(res => {
