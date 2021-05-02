@@ -50,21 +50,7 @@ connection.query(query, (err, rows, fields) => {
 const getRecs = (req, res) => {
   const movie = req.params.movieName;
   const query = `
-  WITH popular AS
-    (SELECT movie_id, count(*) as count
-    FROM cast_in
-    WHERE cast_id IN
-    (SELECT cast_id
-    FROM cast_in JOIN movie ON cast_in.movie_id = movie.movie_id
-    WHERE movie.title LIKE '${movie}')
-    GROUP BY movie_id
-    ORDER BY count DESC
-    LIMIT 11)
-  SELECT movie.title, movie.movie_id, movie.rating, movie.num_ratings
-  FROM popular
-  JOIN movie ON popular.movie_id = movie.movie_id
-  WHERE movie.title <> '${movie}'
-  ORDER BY popular.count DESC, movie.rating DESC, num_ratings DESC
+  SELECT name, room_type, price, number_of_reviews FROM Airbnb
   LIMIT 10;
 `;
 

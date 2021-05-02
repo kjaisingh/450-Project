@@ -6,10 +6,10 @@ export default class RecommendationsRow extends React.Component {
 	render() {
 		return (
 			<div className="movieResults">
-				<div className="title">{this.props.movie.title}</div>
-				<div className="id">{this.props.movie.movie_id}</div>
-				<div className="rating">{this.props.movie.rating}</div>
-				<div className="votes">{this.props.movie.num_ratings}</div>
+				<div className="Name">{this.props.movie.name}</div>
+				<div className="Room Type">{this.props.movie.room_type}</div>
+				<div className="Price">{this.props.movie.price}</div>
+				<div className="Number of reviews">{this.props.movie.number_of_reviews}</div>
 			</div>
 		);
 	};
