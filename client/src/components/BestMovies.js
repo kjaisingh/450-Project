@@ -25,65 +25,7 @@ export default class BestMovies extends React.Component {
 		this.handleBoroughChange = this.handleBoroughChange.bind(this);
 		this.handleSlide = this.handleSlide.bind(this);
 		this.submitPreferences = this.submitPreferences.bind(this);
-		
-		// this.handleDecadeChange = this.handleDecadeChange.bind(this);
-		// this.handleGenreChange = this.handleGenreChange.bind(this);
-		// this.submitDecadeGenre = this.submitDecadeGenre.bind(this);
 	};
-
-	// /* ---- Q3a (Best Movies) ---- */
-	// componentDidMount() {
-	//     // Send an HTTP request to the server.
-	// 	fetch("http://localhost:8081/decades",
-	// 	{
-	// 	  method: 'GET' // The type of HTTP request.
-	// 	}).then(res => {
-	// 	  // Convert the response data to a JSON.
-	// 	  return res.json();
-	// 	}, err => {
-	// 	  // Print the error if there is one.
-	// 	  console.log(err);
-	// 	}).then(decadesList => {
-	// 	  if (!decadesList) return;
-			
-	// 	  const decadeDivs = decadesList.map((movieObj, i) =>
-	// 		<option className="decadesOption" value={movieObj.decade}>{movieObj.decade}</option>
-    //       );
-	// 	  // Set the state of the keywords list to the value returned by the HTTP response from the server.
-	// 	  this.setState({
-	// 		decades: decadeDivs
-	// 	  });
-	// 	}, err => {
-	// 	  // Print the error if there is one.
-	// 	  console.log(err);
-	// 	});
-
-	// 	// Send an HTTP request to the server.
-	// 	fetch("http://localhost:8081/genres",
-	// 	{
-	// 	  method: 'GET' // The type of HTTP request.
-	// 	}).then(res => {
-	// 	  // Convert the response data to a JSON.
-	// 	  return res.json();
-	// 	}, err => {
-	// 	  // Print the error if there is one.
-	// 	  console.log(err);
-	// 	}).then(genresList => {
-	// 	  if (!genresList) return;
-	
-	// 	  const genreDivs = genresList.map((movieObj, i) =>
-	// 	  <option className="genresOption" value={movieObj.name}>{movieObj.name}</option>
-	// 	);
-	// 	  // Set the state of the keywords list to the value returned by the HTTP response from the server.
-	// 	  this.setState({
-	// 		genres: genreDivs
-	// 	  });
-	// 	}, err => {
-	// 	  // Print the error if there is one.
-	// 	  console.log(err);
-	// 	});
-
-	// };
 
 	/* ---- Q3a (Best Movies) ---- */
 	handleBoroughChange(e) {

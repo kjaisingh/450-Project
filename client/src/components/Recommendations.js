@@ -12,12 +12,11 @@ export default class Recommendations extends React.Component {
 	constructor(props) {
 		super(props);
 
-		// State maintained by this React component is the selected movie name, and the list of recommended movies.
 		this.state = {
 			movieName: " ",
 			recMovies: [],
-			numberOfPeople:1,
-			superHostNeeded:"Yes",
+			numberOfPeople: 1,
+			superHostNeeded: "Yes",
 			prefPrice:0
 		};
 
