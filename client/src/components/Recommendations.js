@@ -56,7 +56,7 @@ export default class Recommendations extends React.Component {
 	// Hint: Name of movie submitted is contained in `this.state.movieName`.
 	submitMovie() {
 		// Send an HTTP request to the server.
-        fetch("http://localhost:8081/recommendations/" + this.state.movieName,
+        fetch("http://localhost:8081/find/" + this.state.movieName,
         {
           method: 'GET' // The type of HTTP request.
         }).then(res => {
@@ -86,8 +86,9 @@ export default class Recommendations extends React.Component {
 	render() {
 		return (
 			<div className="Recommendations">
-				<PageNavbar active="recommendations" />
+				<PageNavbar active="Find an Airbnb" />
 
+				<br />
 				<div className="container recommendations-container">
 					<div className="jumbotron">
 						<div className="h5">Recommendations</div>

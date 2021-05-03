@@ -22,15 +22,15 @@ export default class App extends React.Component {
 						/>
 						<Route
 							exact
-							path="/dashboard"
+							path="/home"
 							render={() => <Dashboard />}
 						/>
 						<Route
-							path="/recommendations"
+							path="/find"
 							render={() => <Recommendations />}
 						/>
 						<Route
-							path="/bestmovies"
+							path="/nycparty"
 							render={() => <BestMovies />}
 						/>
 					</Switch>

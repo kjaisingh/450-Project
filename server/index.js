@@ -25,7 +25,7 @@ app.get('/keywords/:keyword', routes.getTopMoviesWithKeyword);
 
 /* ---- Q2 (Recommendations) ---- */
 
-app.get('/recommendations/:movieName', routes.getRecs);
+app.get('/find/:movieName', routes.getRecs);
 
 /* ---- (Best Movies) ---- */
 app.get('/decades', routes.getDecades);
@@ -33,7 +33,7 @@ app.get('/genres', routes.getGenres);
 
 
 /* ---- Q3b (Best Movies) ---- */
-app.get('/bestmovies/:selectedBorough/:selectedParty', routes.getPartyBnb);
+app.get('/nycparty/:selectedBorough/:selectedParty', routes.getPartyBnb);
 
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);

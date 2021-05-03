@@ -102,7 +102,7 @@ export default class BestMovies extends React.Component {
 
 	/* ---- Q3b (Best Movies) ---- */
 	submitPreferences() {
-		fetch("http://localhost:8081/bestmovies/" + this.state.selectedBorough + "/" + this.state.selectedParty,
+		fetch("http://localhost:8081/nycparty/" + this.state.selectedBorough + "/" + this.state.selectedParty,
         {
           method: 'GET' // The type of HTTP request.
         }).then(res => {
@@ -146,7 +146,7 @@ export default class BestMovies extends React.Component {
 							<input type="radio" value="Staten Island" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Staten Island" ? "checked": null}/> Staten Island
 							<input type="radio" value="Bronx" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Bronx" ? "checked": null}/> Bronx
 						</div>
-
+						<br />
 						<div>
 							<header>Party Intensity</header>
 							<Slider pips={{ mode: "steps", stepped: true, density: 5 }}
@@ -154,12 +154,12 @@ export default class BestMovies extends React.Component {
 									start={[this.state.selectedParty]} range={{ min: 1, max: 5 }}
 							/>
 						</div>
-
+						<br />
 						<div>
 							<button className="submit-btn" id="submitBtn" onClick={this.submitPreferences}>Submit</button>
 						</div>
 					</div>
-				</div>
+				
 					<div className="jumbotron">
 						<div className="movies-container">
 							<div className="movie">
@@ -174,7 +174,7 @@ export default class BestMovies extends React.Component {
 							</div>
 						</div>
 					</div>
-			  
+				</div>
 			</div>
 		);
 	};
