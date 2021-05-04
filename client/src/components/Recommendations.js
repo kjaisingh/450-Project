@@ -18,10 +18,14 @@ export default class Recommendations extends React.Component {
 			recMovies: [],
 			numberOfPeople: 1,
 			superHostNeeded: "Yes",
+			amenityVerification: "Yes",
 			prefPrice:0,
 			selectedFilter: "minimum_nights",
-			selectedBorough: "Manhattan",
+			selectedBorough_T10: "Manhattan",
 			decades: [],
+			selectedBorough_topHosts: "Manhattan",
+			hostResults: [],
+			reviewResults: [],
 			filterResults: []
 		};
 
@@ -31,12 +35,26 @@ export default class Recommendations extends React.Component {
 		this.handleSuperHostChange = this.handleSuperHostChange.bind(this);
 		this.handleSlide = this.handleSlide.bind(this);
 		this.handleFilterChange = this.handleFilterChange.bind(this);
-		this.handleBoroughChange = this.handleBoroughChange.bind(this);
+		this.handleBoroughT10Change = this.handleBoroughT10Change.bind(this);
+		this.handleBoroughTopHostsChange = this.handleBoroughTopHostsChange.bind(this);
+		this.handleAmenityVerificationChange = this.handleAmenityVerificationChange.bind(this);
 	};
 
-	handleBoroughChange(e5) {
+	handleAmenityVerificationChange(e7) {
 		this.setState({
-			selectedBorough : e5.target.value
+			amenityVerification : e7.target.value
+		})
+	}
+
+	handleBoroughT10Change(e5) {
+		this.setState({
+			selectedBorough_topHosts : e5.target.value
+		})
+	}
+
+	handleBoroughTopHostsChange(e6) {
+		this.setState({
+			selectedBorough_T10 : e6.target.value
 		})
 	}
 
@@ -123,9 +141,11 @@ export default class Recommendations extends React.Component {
 
 	};
 
+
+	//For the T-10 filter. filterResults contains the results.
 	submitFilterAndBorough() {
 	
-		fetch("http://localhost:8081/find/" + this.state.selectedFilter + "/" + this.state.selectedBorough,
+		fetch("http://localhost:8081/find/" + this.state.selectedFilter + "/" + this.state.selectedBorough_T10,
         {
           method: 'GET' // The type of HTTP request.
         }).then(res => {
@@ -153,6 +173,68 @@ export default class Recommendations extends React.Component {
         });
 	};
 
+
+
+	submitBoroughToHosts() {
+		fetch("http://localhost:8081/find/" + this.state.selectedBorough_topHosts,
+        {
+          method: 'GET' // The type of HTTP request.
+        }).then(res => {
+          // Convert the response data to a JSON.
+          return res.json();
+        }, err => {
+          // Print the error if there is one.
+          console.log(err);
+        }).then(movieList => {
+          if (!movieList) return;
+    
+          // Map each keyword in this.state.keywords to an HTML element:
+          // A button which triggers the showMovies function for each keyword.
+          const movieDivs = movieList.map((movieObj, i) =>
+            <RecommendationsRow movie = {movieObj}/> 
+          );
+    
+          // Set the state of the keywords list to the value returned by the HTTP response from the server.
+          this.setState({
+            hostResults: movieDivs
+          });
+        }, err => {
+          // Print the error if there is one.
+          console.log(err);
+        });
+	};
+
+
+
+	// submitReviews() {
+	// 	fetch("http://localhost:8081/find/" + this.state.selectedBorough_topHosts,
+    //     {
+    //       method: 'GET' // The type of HTTP request.
+    //     }).then(res => {
+    //       // Convert the response data to a JSON.
+    //       return res.json();
+    //     }, err => {
+    //       // Print the error if there is one.
+    //       console.log(err);
+    //     }).then(movieList => {
+    //       if (!movieList) return;
+    
+    //       // Map each keyword in this.state.keywords to an HTML element:
+    //       // A button which triggers the showMovies function for each keyword.
+    //       const movieDivs = movieList.map((movieObj, i) =>
+    //         <RecommendationsRow movie = {movieObj}/> 
+    //       );
+    
+    //       // Set the state of the keywords list to the value returned by the HTTP response from the server.
+    //       this.setState({
+    //         reviewResults: movieDivs
+    //       });
+    //     }, err => {
+    //       // Print the error if there is one.
+    //       console.log(err);
+    //     });
+	// };
+
 	
 	render() {
 		return (
@@ -173,10 +255,10 @@ export default class Recommendations extends React.Component {
 
 						<div className="dropdown-container">
 							Borough:
-							<br></br> <select value={this.state.selectedBorough} onChange={this.handleBoroughChange} className="decadesOptions" id="decadesDropdown">
+							<br></br> <select value={this.state.selectedBorough_T10} onChange={this.handleBoroughT10Change} className="decadesOptions" id="decadesDropdown">
 								{this.state.decades}
 							</select>
-							<button className="submit-btn" id="submitBtn" onClick={this.submitFilterAndBorough}>Submit</button>
+							<button className="submit-btn" id="submitT10Filter" onClick={this.submitFilterAndBorough}>Submit</button>
 						</div>
 
 
@@ -188,7 +270,6 @@ export default class Recommendations extends React.Component {
 								<div className="header"><strong>Number of Reviews</strong></div>
 							</div>
 						</div>
-
 						<div className="results-container" id="results">
 							{this.state.filterResults}
 						</div>
@@ -203,7 +284,7 @@ export default class Recommendations extends React.Component {
 						<br></br>
 						<div className="input-container">
 							<input type='text' placeholder="Search for an Airbnb" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
-							<button id="submitMovieBtn" className="submit-btn" onClick={this.submitMovie}>Submit</button>
+							<button id="submitSearch" className="submit-btn" onClick={this.submitMovie}>Submit</button>
 						</div>
 						<div>
 							<header> Number of people</header>
@@ -218,6 +299,12 @@ export default class Recommendations extends React.Component {
 							<header> Is having a superhost essential to you?</header>
 							<input type="radio" value="Yes" name="SuperHost" onChange = {this.handleSuperHostChange} checked = {this.state.superHostNeeded === "Yes" ? "checked": null}/> Yes 
 							<input type="radio" value="No" name="SuperHost" onChange = {this.handleSuperHostChange} checked = {this.state.superHostNeeded === "No" ? "checked": null} /> No 
+						</div>
+
+						<div>
+							<header> Do you want amenity verification? </header>
+							<input type="radio" value="Yes" name="AmVerf" onChange = {this.handleAmenityVerificationChange} checked = {this.state.amenityVerification === "Yes" ? "checked": null}/> Yes 
+							<input type="radio" value="No" name="AmVerf" onChange = {this.handleAmenityVerificationChange} checked = {this.state.amenityVerification === "No" ? "checked": null} /> No 
 						</div>
 
 						<div>
@@ -241,6 +328,49 @@ export default class Recommendations extends React.Component {
 						</div>
 					</div>
 				</div>
+
+				<div class="container">
+						<div class="row">
+
+							<div class="col-md-6 col-sm-6">
+							<div class="jumbotron">
+								<header>Top Hosts by reviews</header>
+								<div className="movies-container">
+									<div className="dropdown-container">
+										Borough:
+										<br></br> <select value = {this.state.selectedBorough_topHosts} onChange={this.handleBoroughTopHostsChange} className="decadesOptions" id="decadesDropdown">
+											{this.state.decades}
+										</select>
+										<button className="submit-btn" id="submitHostFilter" onClick={this.submitBoroughToHosts}>Submit</button>
+									</div>									
+									<div className="movie">
+										<div className="header"><strong>Name</strong></div>
+										<div className="header"><strong>Picture</strong></div>
+									</div>
+									<div className="movies-container" id="results">
+										{this.state.hostResults}
+									</div>
+								</div>
+							</div>
+							</div>
+							
+							<div class="col-md-6 col-sm-6">
+							<div class="jumbotron">
+								<header>Recent Reviews</header>
+								<div className="movies-container">
+									<div className="movie">
+										<div className="header"><strong>Name</strong></div>
+										<div className="header"><strong>Comment</strong></div>
+									</div>
+									<div className="movies-container" id="results">
+										
+									</div>
+								</div>
+							</div>
+							</div>
+
+						</div>
+					</div>
 			</div>
 		);
 	};
