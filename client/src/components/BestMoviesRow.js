@@ -2,7 +2,6 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class BestGenreRow extends React.Component {
-	/* ---- Q3b (Best Movies) ---- */
 	render() {
 		return (
 			<div className="movieResults" id={this.props.id} onClick={this.props.onClick}>

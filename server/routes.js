@@ -8,9 +8,7 @@ const connection = mysql.createPool(config);
 /* ------------------- Route Handlers --------------- */
 /* -------------------------------------------------- */
 
-
-/* ---- Q1a (Dashboard) ---- */
-// Equivalent to: function getTop20Keywords(req, res) {}
+/* ---- Dashboard ---- */
 const getTop20Keywords = (req, res) => {
   const query = `
   WITH tab1 AS (SELECT city, COUNT(*) AS num 
@@ -27,8 +25,6 @@ const getTop20Keywords = (req, res) => {
   });
 };
 
-
-/* ---- Q1b (Dashboard) ---- */
 const getTopMoviesWithKeyword = (req, res) => {
   const inputKwd = req.params.keyword;
   const query = `
@@ -46,7 +42,7 @@ const getTopMoviesWithKeyword = (req, res) => {
 };
 
 
-/* ---- Q2 (Recommendations) ---- */
+/* ---- Find an AirBNB ---- */
 const getRecs = (req, res) => {
   const movie = req.params.movieName;
   const price = req.params.prefPrice;
@@ -92,7 +88,7 @@ connection.query(query, (err, rows, fields) => {
 };
 
 
-/* ---- Q3a (Best Movies) ---- */
+/* ---- The New York Party Experience ---- */
 const getDecades = (req, res) => {
   const query = `
   SELECT DISTINCT 10*FLOOR(release_year / 10) as decade  
@@ -106,8 +102,6 @@ const getDecades = (req, res) => {
   });
 };
 
-
-/* ---- (Best Movies) ---- */
 const getGenres = (req, res) => {
   const query = `
     SELECT name
@@ -122,9 +116,6 @@ const getGenres = (req, res) => {
   });
 };
 
-
-/* ---- Q3b (Best Movies) ---- */
-
 const getPartyBnb = (req, res) => {
   const x = req.params.selectedBorough;
   var y = req.params.selectedParty;
@@ -135,7 +126,7 @@ const getPartyBnb = (req, res) => {
   var d;
   
   console.log(x, y, z);
-  
+
   var Manhattan = [0, 10, 25, 50, 100, 300];
   var Brooklyn = [0, 10, 20, 40, 100, 2000];
   var StatenIsland = [0, 2, 10, 21, 40, 65];
@@ -174,7 +165,6 @@ const getPartyBnb = (req, res) => {
     c = Bronx2[z-1];
     d = Bronx2[z];
   }
-
 
   const query = `
     WITH tab1 AS (
@@ -229,6 +219,7 @@ const getResultsWithId = (req, res) => {
   });
 };
 
+/* ---- App ---- */
 module.exports = {
 	getTop20Keywords: getTop20Keywords,
 	getTopMoviesWithKeyword: getTopMoviesWithKeyword,

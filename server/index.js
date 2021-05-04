@@ -13,30 +13,22 @@ app.use(bodyParser.urlencoded({extended: false}));
 /* ------------------- Route handler registration ----------------- */
 /* ---------------------------------------------------------------- */
 
-/* ---- (Dashboard) ---- */
-// The route localhost:8081/keywords is registered to the function
-// routes.getTop20Keywords, specified in routes.js.
+/* ---- Dashboard ---- */
 app.get('/keywords', routes.getTop20Keywords);
-
-
-/* ---- Q1b (Dashboard) ---- */
 app.get('/keywords/:keyword', routes.getTopMoviesWithKeyword);
 
 
-/* ---- Q2 (Recommendations) ---- */
-
+/* ---- Find an AirBNB ---- */
 app.get('/find/:movieName/:numberOfPeople/:superHostNeeded/:prefPrice', routes.getRecs);
 app.get('/find', routes.getFilter);
 
-/* ---- (Best Movies) ---- */
+/* ---- The New York Party Experience ---- */
 app.get('/decades', routes.getDecades);
 app.get('/genres', routes.getGenres);
-
-
-/* ---- Q3b (Best Movies) ---- */
 app.get('/nycparty/:selectedBorough/:selectedParty/:selectedBar', routes.getPartyBnb);
 app.get('/nycparty/:selectedBorough/:selectedParty/:selectedBar/:id', routes.getResultsWithId);
 
+/* ---- App ---- */
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);
 });
