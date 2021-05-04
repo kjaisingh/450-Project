@@ -30,7 +30,7 @@ const getTop20Keywords = (req, res) => {
 
 /* ---- Q1b (Dashboard) ---- */
 const getTopMoviesWithKeyword = (req, res) => {
-  const inputKwd = req.params.keyword
+  const inputKwd = req.params.keyword;
   const query = `
   SELECT name, room_type, price 
   FROM Airbnb 
@@ -202,7 +202,20 @@ const getPartyBnb = (req, res) => {
     if (err) console.log(err);
     else res.json(rows);
   });
-  
+};
+
+const getResultsWithId = (req, res) => {
+  const inputId = req.params.id;
+  const query = `
+    SELECT * 
+    FROM Airbnb 
+    LIMIT 10;
+  `;
+
+  connection.query(query, (err, rows, fields) => {
+    if (err) console.log(err);
+    else res.json(rows);
+  });
 };
 
 module.exports = {
@@ -211,5 +224,6 @@ module.exports = {
 	getRecs: getRecs,
   getDecades: getDecades,
   getGenres: getGenres,
-  getPartyBnb: getPartyBnb
+  getPartyBnb: getPartyBnb,
+  getResultsWithId: getResultsWithId
 };

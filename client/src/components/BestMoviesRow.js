@@ -5,7 +5,7 @@ export default class BestGenreRow extends React.Component {
 	/* ---- Q3b (Best Movies) ---- */
 	render() {
 		return (
-			<div className="movieResults">
+			<div className="movieResults" id={this.props.id} onClick={this.props.onClick}>
 				<div className="bookinglink"><a href={this.props.movie.listing_url}>{this.props.movie.id}</a></div>
 
 				<div className="price">{this.props.movie.price}</div>

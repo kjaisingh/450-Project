@@ -27,6 +27,7 @@ export default class BestMovies extends React.Component {
 		this.handlePartySlide = this.handlePartySlide.bind(this);
 		this.handleBarSlide = this.handleBarSlide.bind(this);
 		this.submitPreferences = this.submitPreferences.bind(this);
+		this.showResults = this.showResults.bind(this);
 	};
 
 	/* ---- Q3a (Best Movies) ---- */
@@ -56,29 +57,62 @@ export default class BestMovies extends React.Component {
 		fetch("http://localhost:8081/nycparty/" + this.state.selectedBorough + "/" + this.state.selectedParty 
 				+ "/" + this.state.selectedBar,
         {
-          method: 'GET' // The type of HTTP request.
+          method: 'GET'
         }).then(res => {
-          // Convert the response data to a JSON.
           return res.json();
         }, err => {
-          // Print the error if there is one.
           console.log(err);
         }).then(movieList => {
           if (!movieList) return;
-          // Map each keyword in this.state.keywords to an HTML element:
-          // A button which triggers the showMovies function for each keyword.
           const movieDivs = movieList.map((movieObj, i) =>
-            <BestMoviesRow movie = {movieObj}/> 
+            <BestMoviesRow 
+				id={"button-" + movieObj.id}
+				onClick={() => this.showResults(movieObj.id)}
+				movie = {movieObj}
+			/> 
           );
-          // Set the state of the keywords list to the value returned by the HTTP response from the server.
           this.setState({
             movies: movieDivs
           });
         }, err => {
-          // Print the error if there is one.
           console.log(err);
         });
 	};
+
+	showResults(id) {
+		console.log(id);
+		fetch("http://localhost:8081/nycparty/" + this.state.selectedBorough 
+			  + "/" + this.state.selectedParty 
+			  + "/" + this.state.selectedBar + "/" + id,
+        {
+          method: 'GET'
+        }).then(res => {
+          return res.json();
+        }, err => {
+          console.log(err);
+        }).then(resultsList => {
+          /*
+		  
+		  if (!resultsList) return;
+          // Map each keyword in this.state.keywords to an HTML element:
+          // A button which triggers the showMovies function for each keyword.
+          const resultsDiv = resultsList.map((resultObj, i) =>
+            <DashboardMovieRow movie = {movieObj}
+            /> 
+          );
+    
+          // Set the state of the keywords list to the value returned by the HTTP response from the server.
+          this.setState({
+            movies: movieDivs
+          });
+		  
+		  */
+		  console.log("Made it!");
+        }, err => {
+          // Print the error if there is one.
+          console.log(err);
+        });
+  	};
 
 	render() {
 		return (
