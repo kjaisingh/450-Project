@@ -9,6 +9,7 @@ import { Slider } from "shards-react";
 
 
 export default class Recommendations extends React.Component {
+	// test comment
 	constructor(props) {
 		super(props);
 

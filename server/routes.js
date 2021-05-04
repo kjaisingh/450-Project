@@ -39,10 +39,10 @@ const getTopMoviesWithKeyword = (req, res) => {
   LIMIT 10;
 `;
 
-connection.query(query, (err, rows, fields) => {
-  if (err) console.log(err);
-  else res.json(rows);
-});
+  connection.query(query, (err, rows, fields) => {
+    if (err) console.log(err);
+    else res.json(rows);
+  });
 };
 
 
@@ -160,41 +160,40 @@ const getPartyBnb = (req, res) => {
     c = Bronx2[y-1];
     d = Bronx2[y];
   }
-  console.log("A is:" +a);
-  console.log("B is:" +b);
 
 
   const query = `
-  WITH tab1 AS (
-    SELECT latitude, longitude, COUNT(*) as NumParties
-    FROM Parties
-    WHERE Borough LIKE '${x}'
-    GROUP BY latitude, longitude),
-   tab2 AS 
-    (SELECT * FROM tab1
-    WHERE NumParties > '${a}' and NumParties <= '${b}'),
-  tab3 AS 
-    (SELECT * 
-    FROM Listings
-    WHERE neighbourhood LIKE '${x}' ORDER BY number_of_reviews * rating),
-  tab4 AS
-    (SELECT id, name, listing_url, price, rating, number_of_reviews, picture_url
-    FROM tab3 JOIN tab2 ON ABS(tab3.latitude - tab2.latitude) <= .001 AND ABS(tab3.longitude - tab2.longitude) <= .001
-    LIMIT 20),
-  tab5 AS 
-    (SELECT * FROM Bars 
-    WHERE Borough LIKE '${x}' and num_calls > '${c}' and num_calls <= '${d}'),
-  tab6 AS
-    (SELECT tab3.id, name, listing_url, price, rating, number_of_reviews, picture_url
-    FROM tab3 JOIN tab5 ON ABS(tab3.latitude - tab5.latitude) <= .001 AND ABS(tab3.longitude - tab5.longitude) <= .001
-    LIMIT 20),
-  tab7 AS
-    (SELECT * FROM tab4
-    UNION
-    SELECT * FROM tab6)
-  SELECT DISTINCT id, name, listing_url, price, rating, number_of_reviews, picture_url FROM tab7
-  ORDER BY number_of_reviews * rating DESC
-  LIMIT 10;`;
+    WITH tab1 AS (
+      SELECT latitude, longitude, COUNT(*) as NumParties
+      FROM Parties
+      WHERE Borough LIKE '${x}'
+      GROUP BY latitude, longitude),
+    tab2 AS 
+      (SELECT * FROM tab1
+      WHERE NumParties > '${a}' and NumParties <= '${b}'),
+    tab3 AS 
+      (SELECT * 
+      FROM Listings
+      WHERE neighbourhood LIKE '${x}' ORDER BY number_of_reviews * rating),
+    tab4 AS
+      (SELECT id, name, listing_url, price, rating, number_of_reviews, picture_url
+      FROM tab3 JOIN tab2 ON ABS(tab3.latitude - tab2.latitude) <= .001 AND ABS(tab3.longitude - tab2.longitude) <= .001
+      LIMIT 20),
+    tab5 AS 
+      (SELECT * FROM Bars 
+      WHERE Borough LIKE '${x}' and num_calls > '${c}' and num_calls <= '${d}'),
+    tab6 AS
+      (SELECT tab3.id, name, listing_url, price, rating, number_of_reviews, picture_url
+      FROM tab3 JOIN tab5 ON ABS(tab3.latitude - tab5.latitude) <= .001 AND ABS(tab3.longitude - tab5.longitude) <= .001
+      LIMIT 20),
+    tab7 AS
+      (SELECT * FROM tab4
+      UNION
+      SELECT * FROM tab6)
+    SELECT DISTINCT id, name, listing_url, price, rating, number_of_reviews, picture_url FROM tab7
+    ORDER BY number_of_reviews * rating DESC
+    LIMIT 10;
+  `;
 
   connection.query(query, (err, rows, fields) => {
     if (err) console.log(err);
