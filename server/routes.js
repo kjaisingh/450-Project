@@ -49,8 +49,26 @@ connection.query(query, (err, rows, fields) => {
 /* ---- Q2 (Recommendations) ---- */
 const getRecs = (req, res) => {
   const movie = req.params.movieName;
+  const price = req.params.prefPrice;
+  const super_host = req.params.superHostNeeded;
+  const ppl = req.params.numberOfPeople;
+  var sh;
+
+if(super_host === "No"){
+    sh = 0;
+  } else{
+    sh = 1;
+  }
+  console.log(movie);
+  console.log(price);
+  console.log(ppl);
+  console.log(super_host);
+
   const query = `
-  SELECT name, room_type, price, number_of_reviews FROM Airbnb
+  SELECT DISTINCT name, room_type, price, number_of_reviews 
+  FROM Listings
+  WHERE host_is_superhost = '${sh}' AND accommodates >= '${ppl}'
+  AND amenities LIKE '%${movie}' AND price <= '${price}'
   LIMIT 10;
 `;
 

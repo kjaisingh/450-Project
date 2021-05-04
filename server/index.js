@@ -25,7 +25,7 @@ app.get('/keywords/:keyword', routes.getTopMoviesWithKeyword);
 
 /* ---- Q2 (Recommendations) ---- */
 
-app.get('/find/:movieName', routes.getRecs);
+app.get('/find/:movieName/:numberOfPeople/:superHostNeeded/:prefPrice', routes.getRecs);
 
 /* ---- (Best Movies) ---- */
 app.get('/decades', routes.getDecades);
