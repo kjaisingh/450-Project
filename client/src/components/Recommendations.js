@@ -277,7 +277,7 @@ export default class Recommendations extends React.Component {
 		return (
 			<div className="Recommendations">
 				<PageNavbar active="Find an Airbnb" />
-
+				<br />
 				<div className="container recommendations-container">
 					<div className="jumbotron">
 						<div className="h5">T-10 Filter</div>
