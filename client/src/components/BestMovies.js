@@ -1,6 +1,9 @@
 import React from 'react';
 import PageNavbar from './PageNavbar';
 import BestMoviesRow from './BestMoviesRow';
+import ListingBarsRow from './ListingBarsRow';
+import ListingReviewsRow from './ListingReviewsRow';
+
 import '../style/BestMovies.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,6 +19,9 @@ export default class BestMovies extends React.Component {
 			selectedParty: 1,
 			selectedBar: 1,
 
+			bars: [],
+			reviews: [],
+
 			selectedDecade: "",
 			selectedGenre: "",
 			decades: [],
@@ -27,10 +33,10 @@ export default class BestMovies extends React.Component {
 		this.handlePartySlide = this.handlePartySlide.bind(this);
 		this.handleBarSlide = this.handleBarSlide.bind(this);
 		this.submitPreferences = this.submitPreferences.bind(this);
-		this.showResults = this.showResults.bind(this);
+		this.showBarResults = this.showBarResults.bind(this);
+		this.showReviewResults = this.showReviewResults.bind(this);
 	};
 
-	/* ---- Q3a (Best Movies) ---- */
 	handleBoroughChange(e) {
 		this.setState({
 			selectedBorough: e.target.value
@@ -52,7 +58,6 @@ export default class BestMovies extends React.Component {
 		// console.log(Math.round(parseFloat(e[0])));
 	}
 
-	/* ---- Q3b (Best Movies) ---- */
 	submitPreferences() {
 		fetch("http://localhost:8081/nycparty/" + this.state.selectedBorough + "/" + this.state.selectedParty 
 				+ "/" + this.state.selectedBar,
@@ -67,7 +72,7 @@ export default class BestMovies extends React.Component {
           const movieDivs = movieList.map((movieObj, i) =>
             <BestMoviesRow 
 				id={"button-" + movieObj.id}
-				onClick={() => this.showResults(movieObj.id)}
+				onClick={() => { this.showBarResults(movieObj.id); this.showReviewResults(movieObj.id); }}
 				movie = {movieObj}
 			/> 
           );
@@ -79,38 +84,53 @@ export default class BestMovies extends React.Component {
         });
 	};
 
-	showResults(id) {
-		console.log(id);
+	showBarResults(id) {
 		fetch("http://localhost:8081/nycparty/" + this.state.selectedBorough 
 			  + "/" + this.state.selectedParty 
-			  + "/" + this.state.selectedBar + "/" + id,
+			  + "/" + this.state.selectedBar + "/" + id + "/bars",
         {
-          method: 'GET'
+          	method: 'GET'
         }).then(res => {
-          return res.json();
+          	return res.json();
         }, err => {
-          console.log(err);
+          	console.log(err);
         }).then(resultsList => {
-          /*
-		  
-		  if (!resultsList) return;
-          // Map each keyword in this.state.keywords to an HTML element:
-          // A button which triggers the showMovies function for each keyword.
-          const resultsDiv = resultsList.map((resultObj, i) =>
-            <DashboardMovieRow movie = {movieObj}
-            /> 
-          );
-    
-          // Set the state of the keywords list to the value returned by the HTTP response from the server.
-          this.setState({
-            movies: movieDivs
-          });
-		  
-		  */
-		  console.log("Made it!");
+			if (!resultsList) return;
+			const resultsDiv = resultsList.map((resultObj, i) =>
+				<ListingBarsRow movie = {resultObj}
+				/> 
+			);
+			this.setState({
+				bars: resultsDiv
+			});
+			console.log("Bars: " + id + "!");
         }, err => {
-          // Print the error if there is one.
-          console.log(err);
+			console.log(err);
+        });
+  	};
+
+	showReviewResults(id) {
+		fetch("http://localhost:8081/nycparty/" + this.state.selectedBorough 
+			  + "/" + this.state.selectedParty 
+			  + "/" + this.state.selectedBar + "/" + id + "/reviews",
+        {
+          	method: 'GET'
+        }).then(res => {
+          	return res.json();
+        }, err => {
+          	console.log(err);
+        }).then(resultsList => {
+			if (!resultsList) return;
+			const resultsDiv = resultsList.map((resultObj, i) =>
+				<ListingReviewsRow movie = {resultObj}
+				/> 
+			);
+			this.setState({
+				reviews: resultsDiv
+			});
+			console.log("Reviews: " + id + "!");
+        }, err => {
+          	console.log(err);
         });
   	};
 
@@ -155,6 +175,7 @@ export default class BestMovies extends React.Component {
 							<button className="submit-btn" id="submitBtn" onClick={this.submitPreferences}>Submit</button>
 						</div>
 					</div>
+					<br />
 				
 					<div className="jumbotron">
 						<div className="movies-container">
@@ -168,6 +189,43 @@ export default class BestMovies extends React.Component {
 							<div className="movies-container" id="results">
 								{this.state.movies}
 							</div>
+						</div>
+					</div>
+					<br />
+
+					<div class="container">
+						<div class="row">
+
+							<div class="col-md-6 col-sm-6">
+							<div class="jumbotron">
+								<header>Nearby Bars</header>
+								<div className="movies-container">
+									<div className="movie">
+										<div className="header"><strong>Address</strong></div>
+										<div className="header"><strong>Distance</strong></div>
+									</div>
+									<div className="movies-container" id="results">
+										{this.state.bars}
+									</div>
+								</div>
+							</div>
+							</div>
+							
+							<div class="col-md-6 col-sm-6">
+							<div class="jumbotron">
+								<header>Recent Reviews</header>
+								<div className="movies-container">
+									<div className="movie">
+										<div className="header"><strong>Name</strong></div>
+										<div className="header"><strong>Comment</strong></div>
+									</div>
+									<div className="movies-container" id="results">
+										{this.state.reviews}
+									</div>
+								</div>
+							</div>
+							</div>
+
 						</div>
 					</div>
 				</div>

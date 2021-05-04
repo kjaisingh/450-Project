@@ -10,13 +10,16 @@ const connection = mysql.createPool(config);
 
 /* ---- Dashboard ---- */
 const getTop20Keywords = (req, res) => {
+  /*
+  TEST CODE
+  */
   const query = `
-  WITH tab1 AS (SELECT city, COUNT(*) AS num 
-  FROM Airbnb GROUP BY city) 
-  SELECT DISTINCT city 
-  FROM tab1 
-  ORDER BY num DESC 
-  LIMIT 20;
+    WITH tab1 AS (SELECT city, COUNT(*) AS num 
+    FROM Airbnb GROUP BY city) 
+    SELECT DISTINCT city 
+    FROM tab1 
+    ORDER BY num DESC 
+    LIMIT 20;
   `;
 
   connection.query(query, (err, rows, fields) => {
@@ -205,11 +208,11 @@ const getPartyBnb = (req, res) => {
   });
 };
 
-const getResultsWithId = (req, res) => {
+const getBarResults = (req, res) => {
   const inputId = req.params.id;
   const query = `
-    SELECT * 
-    FROM Airbnb 
+    SELECT Incident_ZIP, num_calls
+    FROM Bars 
     LIMIT 10;
   `;
 
@@ -218,6 +221,21 @@ const getResultsWithId = (req, res) => {
     else res.json(rows);
   });
 };
+
+const getReviewResults = (req, res) => {
+  const inputId = req.params.id;
+  const query = `
+    SELECT reviewer_name AS name, comments AS comment
+    FROM reviews 
+    LIMIT 10;
+  `;
+
+  connection.query(query, (err, rows, fields) => {
+    if (err) console.log(err);
+    else res.json(rows);
+  });
+};
+
 
 /* ---- App ---- */
 module.exports = {
@@ -231,5 +249,6 @@ module.exports = {
   getGenres: getGenres,
 
   getPartyBnb: getPartyBnb,
-  getResultsWithId: getResultsWithId
+  getBarResults: getBarResults,
+  getReviewResults: getReviewResults
 };

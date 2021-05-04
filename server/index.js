@@ -26,7 +26,8 @@ app.get('/find', routes.getFilter);
 app.get('/decades', routes.getDecades);
 app.get('/genres', routes.getGenres);
 app.get('/nycparty/:selectedBorough/:selectedParty/:selectedBar', routes.getPartyBnb);
-app.get('/nycparty/:selectedBorough/:selectedParty/:selectedBar/:id', routes.getResultsWithId);
+app.get('/nycparty/:selectedBorough/:selectedParty/:selectedBar/:id/bars', routes.getBarResults);
+app.get('/nycparty/:selectedBorough/:selectedParty/:selectedBar/:id/reviews', routes.getReviewResults);
 
 /* ---- App ---- */
 app.listen(8081, () => {
