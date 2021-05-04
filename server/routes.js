@@ -78,6 +78,18 @@ connection.query(query, (err, rows, fields) => {
 });
 };
 
+const getFilter = (req, res) => {
+  const query = `
+  SELECT DISTINCT neighbourhood
+  FROM Lsting;
+`;
+
+connection.query(query, (err, rows, fields) => {
+  if (err) console.log(err);
+  else res.json(rows);
+});
+};
+
 
 /* ---- Q3a (Best Movies) ---- */
 const getDecades = (req, res) => {
@@ -208,5 +220,6 @@ module.exports = {
 	getRecs: getRecs,
   getDecades: getDecades,
   getGenres: getGenres,
-  getPartyBnb: getPartyBnb
+  getPartyBnb: getPartyBnb,
+  getFilter: getFilter
 };
