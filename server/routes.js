@@ -99,6 +99,8 @@ const getPartyBnb = (req, res) => {
   var y = req.params.selectedParty;
   var a;
   var b;
+  var c;
+  var d;
   
   console.log("Borough is:" +x);
 
@@ -108,21 +110,37 @@ const getPartyBnb = (req, res) => {
   var Queens = [0, 6, 10, 25, 50, 150];
   var Bronx = [0, 10, 30, 50, 100, 600];
 
+  var Manhattan2 = [0, 10, 20, 40, 100, 1300];
+  var Brooklyn2 = [0, 10, 20, 40, 100, 2000];
+  var StatenIsland2 = [0, 10, 20, 40, 60, 250];
+  var Queens2 = [0, 10, 20, 85, 120, 400];
+  var Bronx2 = [0, 10, 20, 50, 100, 200];
+
   if(x === "Manhattan"){
     a = Manhattan[y-1];
     b = Manhattan[y];
+    c = Manhattan2[y-1];
+    d = Manhattan2[y];
   } else if(x === "Brooklyn") {
     a = Brooklyn[y-1];
     b = Brooklyn[y];
+    c = Brooklyn2[y-1];
+    d = Brooklyn2[y];
   } else if(x === "Queens"){
     a = Queens[y-1];
     b = Queens[y];
+    c = Queens2[y-1];
+    d = Queens2[y];
   } else if(x === "Staten Island"){
     a = StatenIsland[y-1];
     b = StatenIsland[y];
+    c = StatenIsland2[y-1];
+    d = StatenIsland2[y];
   } else{
     a = Bronx[y-1];
     b = Bronx[y];
+    c = Bronx2[y-1];
+    d = Bronx2[y];
   }
   console.log("A is:" +a);
   console.log("B is:" +b);
@@ -134,15 +152,31 @@ const getPartyBnb = (req, res) => {
     FROM Parties
     WHERE Borough LIKE '${x}'
     GROUP BY latitude, longitude),
-    tab2 AS 
+   tab2 AS 
     (SELECT * FROM tab1
     WHERE NumParties > '${a}' and NumParties <= '${b}'),
-    tab3 AS 
-    (SELECT * FROM Listings
-    WHERE neighbourhood LIKE '${x}' ORDER BY number_of_reviews * rating)
-    SELECT DISTINCT id, name, listing_url, price, rating, number_of_reviews, picture_url
+  tab3 AS 
+    (SELECT * 
+    FROM Listings
+    WHERE neighbourhood LIKE '${x}' ORDER BY number_of_reviews * rating),
+  tab4 AS
+    (SELECT id, name, listing_url, price, rating, number_of_reviews, picture_url
     FROM tab3 JOIN tab2 ON ABS(tab3.latitude - tab2.latitude) <= .001 AND ABS(tab3.longitude - tab2.longitude) <= .001
-    LIMIT 10;`;
+    LIMIT 20),
+  tab5 AS 
+    (SELECT * FROM Bars 
+    WHERE Borough LIKE '${x}' and num_calls > '${c}' and num_calls <= '${d}'),
+  tab6 AS
+    (SELECT tab3.id, name, listing_url, price, rating, number_of_reviews, picture_url
+    FROM tab3 JOIN tab5 ON ABS(tab3.latitude - tab5.latitude) <= .001 AND ABS(tab3.longitude - tab5.longitude) <= .001
+    LIMIT 20),
+  tab7 AS
+    (SELECT * FROM tab4
+    UNION
+    SELECT * FROM tab6)
+  SELECT DISTINCT id, name, listing_url, price, rating, number_of_reviews, picture_url FROM tab7
+  ORDER BY number_of_reviews * rating DESC
+  LIMIT 10;`;
 
   connection.query(query, (err, rows, fields) => {
     if (err) console.log(err);
