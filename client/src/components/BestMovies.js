@@ -14,6 +14,7 @@ export default class BestMovies extends React.Component {
 		this.state = {
 			selectedBorough: "Manhattan",
 			selectedParty: 1,
+			selectedBar: 1,
 
 			selectedDecade: "",
 			selectedGenre: "",
@@ -23,7 +24,8 @@ export default class BestMovies extends React.Component {
 		};
 
 		this.handleBoroughChange = this.handleBoroughChange.bind(this);
-		this.handleSlide = this.handleSlide.bind(this);
+		this.handlePartySlide = this.handlePartySlide.bind(this);
+		this.handleBarSlide = this.handleBarSlide.bind(this);
 		this.submitPreferences = this.submitPreferences.bind(this);
 	};
 
@@ -35,16 +37,24 @@ export default class BestMovies extends React.Component {
 		// console.log(e.target.value);
 	};
 
-	handleSlide(e) {
+	handlePartySlide(e) {
 		this.setState({
 			selectedParty: Math.round(parseFloat(e[0]))
 		});
 		// console.log(Math.round(parseFloat(e[0])));
-	  }
+	}
+
+	handleBarSlide(e) {
+		this.setState({
+			selectedBar: Math.round(parseFloat(e[0]))
+		});
+		// console.log(Math.round(parseFloat(e[0])));
+	}
 
 	/* ---- Q3b (Best Movies) ---- */
 	submitPreferences() {
-		fetch("http://localhost:8081/nycparty/" + this.state.selectedBorough + "/" + this.state.selectedParty,
+		fetch("http://localhost:8081/nycparty/" + this.state.selectedBorough + "/" + this.state.selectedParty 
+				+ "/" + this.state.selectedBar,
         {
           method: 'GET' // The type of HTTP request.
         }).then(res => {
@@ -74,7 +84,6 @@ export default class BestMovies extends React.Component {
 		return (
 			<div className="BestMovies">
 				<PageNavbar active="bestgenres" />
-
 				<br />
 				<div className="container bestmovies-container">
 					<div className="jumbotron">
@@ -89,14 +98,25 @@ export default class BestMovies extends React.Component {
 							<input type="radio" value="Bronx" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Bronx" ? "checked": null}/> Bronx
 						</div>
 						<br />
+
 						<div>
 							<header>Party Intensity</header>
 							<Slider pips={{ mode: "steps", stepped: true, density: 5 }}
-									step={1} onSlide={this.handleSlide} connect={[true, false]} 
+									step={1} onSlide={this.handlePartySlide} connect={[true, false]} 
 									start={[this.state.selectedParty]} range={{ min: 1, max: 5 }}
 							/>
 						</div>
 						<br />
+
+						<div>
+							<header>Bar Intensity</header>
+							<Slider pips={{ mode: "steps", stepped: true, density: 5 }}
+									step={1} onSlide={this.handleBarSlide} connect={[true, false]} 
+									start={[this.state.selectedBar]} range={{ min: 1, max: 5 }}
+							/>
+						</div>
+						<br />
+
 						<div>
 							<button className="submit-btn" id="submitBtn" onClick={this.submitPreferences}>Submit</button>
 						</div>

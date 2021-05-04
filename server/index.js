@@ -33,7 +33,7 @@ app.get('/genres', routes.getGenres);
 
 
 /* ---- Q3b (Best Movies) ---- */
-app.get('/nycparty/:selectedBorough/:selectedParty', routes.getPartyBnb);
+app.get('/nycparty/:selectedBorough/:selectedParty/:selectedBar', routes.getPartyBnb);
 
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);

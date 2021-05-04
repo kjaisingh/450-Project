@@ -115,12 +115,15 @@ const getGenres = (req, res) => {
 const getPartyBnb = (req, res) => {
   const x = req.params.selectedBorough;
   var y = req.params.selectedParty;
+  var z = req.params.selectedBar;
   var a;
   var b;
   var c;
   var d;
   
-  console.log("Borough is:" +x);
+  console.log("Borough is:" + x);
+  console.log("Party is:" + y);
+  console.log("Bar is:" + z);
 
   var Manhattan = [0, 10, 25, 50, 100, 300];
   var Brooklyn = [0, 10, 20, 40, 100, 2000];
@@ -137,28 +140,28 @@ const getPartyBnb = (req, res) => {
   if(x === "Manhattan"){
     a = Manhattan[y-1];
     b = Manhattan[y];
-    c = Manhattan2[y-1];
-    d = Manhattan2[y];
+    c = Manhattan2[z-1];
+    d = Manhattan2[z];
   } else if(x === "Brooklyn") {
     a = Brooklyn[y-1];
     b = Brooklyn[y];
-    c = Brooklyn2[y-1];
-    d = Brooklyn2[y];
+    c = Brooklyn2[z-1];
+    d = Brooklyn2[z];
   } else if(x === "Queens"){
     a = Queens[y-1];
     b = Queens[y];
-    c = Queens2[y-1];
-    d = Queens2[y];
+    c = Queens2[z-1];
+    d = Queens2[z];
   } else if(x === "Staten Island"){
     a = StatenIsland[y-1];
     b = StatenIsland[y];
-    c = StatenIsland2[y-1];
-    d = StatenIsland2[y];
+    c = StatenIsland2[z-1];
+    d = StatenIsland2[z];
   } else{
     a = Bronx[y-1];
     b = Bronx[y];
-    c = Bronx2[y-1];
-    d = Bronx2[y];
+    c = Bronx2[z-1];
+    d = Bronx2[z];
   }
 
 
