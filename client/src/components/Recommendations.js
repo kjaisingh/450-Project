@@ -1,6 +1,7 @@
 import React from 'react';
 import PageNavbar from './PageNavbar';
 import RecommendationsRow from './RecommendationsRow';
+import AirbnbPriceRow from './AirbnbPriceRow';
 import '../style/Recommendations.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "shards-ui/dist/css/shards.min.css"
@@ -46,6 +47,8 @@ export default class Recommendations extends React.Component {
 		this.handleBathtubChange = this.handleBathtubChange.bind(this);
 		this.handleHeatingChange = this.handleHeatingChange.bind(this);
 		this.handleSmokeAlarmChange = this.handleSmokeAlarmChange.bind(this);
+		this.submitFilterAndBorough = this.submitFilterAndBorough.bind(this);
+
 	};
 
 	handleFridgeChange(e8) {
@@ -85,13 +88,13 @@ export default class Recommendations extends React.Component {
 
 	handleBoroughT10Change(e5) {
 		this.setState({
-			selectedBorough_topHosts : e5.target.value
+			selectedBorough_T10 : e5.target.value
 		})
 	}
 
 	handleBoroughTopHostsChange(e6) {
 		this.setState({
-			selectedBorough_T10 : e6.target.value
+			selectedBorough_topHosts : e6.target.value
 		})
 	}
 
@@ -181,7 +184,7 @@ export default class Recommendations extends React.Component {
 
 	//For the T-10 filter. filterResults contains the results.
 	submitFilterAndBorough() {
-	
+				console.log("Hello" + this.state.selectedFilter);
 		fetch("http://localhost:8081/find/" + this.state.selectedFilter + "/" + this.state.selectedBorough_T10,
         {
           method: 'GET' // The type of HTTP request.
@@ -197,7 +200,7 @@ export default class Recommendations extends React.Component {
           // Map each keyword in this.state.keywords to an HTML element:
           // A button which triggers the showMovies function for each keyword.
           const movieDivs = movieList.map((movieObj, i) =>
-            <RecommendationsRow movie = {movieObj}/> 
+            <AirbnbPriceRow movie = {movieObj}/> 
           );
     
           // Set the state of the keywords list to the value returned by the HTTP response from the server.
@@ -224,7 +227,6 @@ export default class Recommendations extends React.Component {
           console.log(err);
         }).then(movieList => {
           if (!movieList) return;
-    
           // Map each keyword in this.state.keywords to an HTML element:
           // A button which triggers the showMovies function for each keyword.
           const movieDivs = movieList.map((movieObj, i) =>
@@ -292,7 +294,7 @@ export default class Recommendations extends React.Component {
 
 						<div className="dropdown-container">
 							Borough:
-							<br></br> <select value={this.state.selectedBorough_T10} onChange={this.handleBoroughT10Change} className="decadesOptions" id="decadesDropdown">
+							<br></br> <select value={this.state.selectedBorough_T10} onChange={this.handleBoroughT10Change} className="decadesOptions" id="decadesDropdown1">
 								{this.state.decades}
 							</select>
 							<button className="submit-btn" id="submitT10Filter" onClick={this.submitFilterAndBorough}>Submit</button>
@@ -413,7 +415,7 @@ export default class Recommendations extends React.Component {
 								<div className="movies-container">
 									<div className="dropdown-container">
 										Borough:
-										<br></br> <select value = {this.state.selectedBorough_topHosts} onChange={this.handleBoroughTopHostsChange} className="decadesOptions" id="decadesDropdown">
+										<br></br> <select value = {this.state.selectedBorough_topHosts} onChange={this.handleBoroughTopHostsChange} className="decadesOptions" id="decadesDropdown2">
 											{this.state.decades}
 										</select>
 										<button className="submit-btn" id="submitHostFilter" onClick={this.submitBoroughToHosts}>Submit</button>

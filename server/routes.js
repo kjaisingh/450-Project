@@ -91,6 +91,49 @@ connection.query(query, (err, rows, fields) => {
 };
 
 
+const getAirbnbPrice = (req, res) => {
+
+  const filter = req.params.selectedFilter;
+  const borough = req.params.selectedBorough_T10;
+  var query;
+
+  console.log(filter);
+  console.log(borough);
+
+
+  if (filter == "price") {
+    query = `
+    SELECT DISTINCT name, room_type, price, number_of_reviews 
+    FROM Lsting
+    WHERE neighbourhood = '${borough}'
+    ORDER BY price
+    LIMIT 10;
+  `;
+  } else if (filter == "minimum_nights") {
+    query = `
+    SELECT DISTINCT name, room_type, price, number_of_reviews 
+    FROM Lsting
+    WHERE neighbourhood = '${borough}'
+    ORDER BY minimum_nights DESC
+    LIMIT 10;
+    `;
+  } else {
+    query = `
+    SELECT DISTINCT name, room_type, price, number_of_reviews 
+    FROM Lsting
+    WHERE neighbourhood = '${borough}'
+    ORDER BY reviews_per_month DESC
+    LIMIT 10;
+  `;
+  }
+
+connection.query(query, (err, rows, fields) => {
+  if (err) console.log(err);
+  else res.json(rows);
+});
+};
+
+
 /* ---- The New York Party Experience ---- */
 const getDecades = (req, res) => {
   const query = `
@@ -244,6 +287,7 @@ module.exports = {
 
 	getRecs: getRecs,
   getFilter: getFilter,
+  getAirbnbPrice: getAirbnbPrice,
 
   getDecades: getDecades,
   getGenres: getGenres,
