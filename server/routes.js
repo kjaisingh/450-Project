@@ -90,6 +90,25 @@ connection.query(query, (err, rows, fields) => {
 });
 };
 
+const getReviewPic = (req, res) => {
+
+  const borough = req.params.selectedBorough_topHosts;
+  console.log(borough);
+
+  const query = `
+  SELECT DISTINCT name, picture_url
+  FROM Lsting
+  WHERE neighbourhood = '${borough}'
+  ORDER BY number_of_reviews DESC
+  LIMIT 5;
+`;
+
+connection.query(query, (err, rows, fields) => {
+  if (err) console.log(err);
+  else res.json(rows);
+});
+};
+
 
 const getAirbnbPrice = (req, res) => {
 
@@ -288,6 +307,7 @@ module.exports = {
 	getRecs: getRecs,
   getFilter: getFilter,
   getAirbnbPrice: getAirbnbPrice,
+  getReviewPic: getReviewPic,
 
   getDecades: getDecades,
   getGenres: getGenres,

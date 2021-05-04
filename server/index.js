@@ -22,6 +22,7 @@ app.get('/keywords/:keyword', routes.getTopMoviesWithKeyword);
 app.get('/find/:movieName/:numberOfPeople/:superHostNeeded/:prefPrice', routes.getRecs);
 app.get('/find', routes.getFilter);
 app.get('/find/:selectedFilter/:selectedBorough_T10', routes.getAirbnbPrice);
+app.get('/find/:selectedBorough_topHosts', routes.getReviewPic);
 
 /* ---- The New York Party Experience ---- */
 app.get('/decades', routes.getDecades);

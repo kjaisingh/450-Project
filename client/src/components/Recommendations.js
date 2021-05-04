@@ -2,6 +2,7 @@ import React from 'react';
 import PageNavbar from './PageNavbar';
 import RecommendationsRow from './RecommendationsRow';
 import AirbnbPriceRow from './AirbnbPriceRow';
+import FindReviewRow from './FindReviewRow';
 import '../style/Recommendations.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "shards-ui/dist/css/shards.min.css"
@@ -48,6 +49,7 @@ export default class Recommendations extends React.Component {
 		this.handleHeatingChange = this.handleHeatingChange.bind(this);
 		this.handleSmokeAlarmChange = this.handleSmokeAlarmChange.bind(this);
 		this.submitFilterAndBorough = this.submitFilterAndBorough.bind(this);
+		this.submitBoroughToHosts = this.submitBoroughToHosts.bind(this);
 
 	};
 
@@ -184,7 +186,6 @@ export default class Recommendations extends React.Component {
 
 	//For the T-10 filter. filterResults contains the results.
 	submitFilterAndBorough() {
-				console.log("Hello" + this.state.selectedFilter);
 		fetch("http://localhost:8081/find/" + this.state.selectedFilter + "/" + this.state.selectedBorough_T10,
         {
           method: 'GET' // The type of HTTP request.
@@ -230,7 +231,7 @@ export default class Recommendations extends React.Component {
           // Map each keyword in this.state.keywords to an HTML element:
           // A button which triggers the showMovies function for each keyword.
           const movieDivs = movieList.map((movieObj, i) =>
-            <RecommendationsRow movie = {movieObj}/> 
+            <FindReviewRow movie = {movieObj}/> 
           );
     
           // Set the state of the keywords list to the value returned by the HTTP response from the server.
