@@ -134,10 +134,8 @@ const getPartyBnb = (req, res) => {
   var c;
   var d;
   
-  console.log("Borough is:" + x);
-  console.log("Party is:" + y);
-  console.log("Bar is:" + z);
-
+  console.log(x, y, z);
+  
   var Manhattan = [0, 10, 25, 50, 100, 300];
   var Brooklyn = [0, 10, 20, 40, 100, 2000];
   var StatenIsland = [0, 2, 10, 21, 40, 65];
@@ -234,10 +232,13 @@ const getResultsWithId = (req, res) => {
 module.exports = {
 	getTop20Keywords: getTop20Keywords,
 	getTopMoviesWithKeyword: getTopMoviesWithKeyword,
+
 	getRecs: getRecs,
   getFilter: getFilter,
+
   getDecades: getDecades,
   getGenres: getGenres,
+
   getPartyBnb: getPartyBnb,
   getResultsWithId: getResultsWithId
 };
