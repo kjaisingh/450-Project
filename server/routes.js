@@ -81,7 +81,8 @@ connection.query(query, (err, rows, fields) => {
 const getFilter = (req, res) => {
   const query = `
   SELECT DISTINCT neighbourhood
-  FROM Lsting;
+  FROM Lsting
+  LIMIT 5;
 `;
 
 connection.query(query, (err, rows, fields) => {

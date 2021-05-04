@@ -20,7 +20,9 @@ export default class Recommendations extends React.Component {
 			superHostNeeded: "Yes",
 			prefPrice:0,
 			selectedFilter: "minimum_nights",
-			decades: []
+			selectedBorough: "Manhattan",
+			decades: [],
+			filterResults: []
 		};
 
 		this.handleMovieNameChange = this.handleMovieNameChange.bind(this);
@@ -29,8 +31,14 @@ export default class Recommendations extends React.Component {
 		this.handleSuperHostChange = this.handleSuperHostChange.bind(this);
 		this.handleSlide = this.handleSlide.bind(this);
 		this.handleFilterChange = this.handleFilterChange.bind(this);
-		
+		this.handleBoroughChange = this.handleBoroughChange.bind(this);
 	};
+
+	handleBoroughChange(e5) {
+		this.setState({
+			selectedBorough : e5.target.value
+		})
+	}
 
 	handleSuperHostChange(e2) {
 		this.setState({
@@ -115,6 +123,36 @@ export default class Recommendations extends React.Component {
 
 	};
 
+	submitFilterAndBorough() {
+	
+		fetch("http://localhost:8081/find/" + this.state.selectedFilter + "/" + this.state.selectedBorough,
+        {
+          method: 'GET' // The type of HTTP request.
+        }).then(res => {
+          // Convert the response data to a JSON.
+          return res.json();
+        }, err => {
+          // Print the error if there is one.
+          console.log(err);
+        }).then(movieList => {
+          if (!movieList) return;
+    
+          // Map each keyword in this.state.keywords to an HTML element:
+          // A button which triggers the showMovies function for each keyword.
+          const movieDivs = movieList.map((movieObj, i) =>
+            <RecommendationsRow movie = {movieObj}/> 
+          );
+    
+          // Set the state of the keywords list to the value returned by the HTTP response from the server.
+          this.setState({
+            filterResults: movieDivs
+          });
+        }, err => {
+          // Print the error if there is one.
+          console.log(err);
+        });
+	};
+
 	
 	render() {
 		return (
@@ -135,10 +173,10 @@ export default class Recommendations extends React.Component {
 
 						<div className="dropdown-container">
 							Borough:
-							<br></br> <select value={this.state.selectedFilter} onChange={this.handleFilterChange} className="decadesOptions" id="decadesDropdown">
+							<br></br> <select value={this.state.selectedBorough} onChange={this.handleBoroughChange} className="decadesOptions" id="decadesDropdown">
 								{this.state.decades}
 							</select>
-							<button className="submit-btn" id="submitBtn" onClick={this.submitDecadeGenre}>Submit</button>
+							<button className="submit-btn" id="submitBtn" onClick={this.submitFilterAndBorough}>Submit</button>
 						</div>
 
 
@@ -150,6 +188,11 @@ export default class Recommendations extends React.Component {
 								<div className="header"><strong>Number of Reviews</strong></div>
 							</div>
 						</div>
+
+						<div className="results-container" id="results">
+							{this.state.filterResults}
+						</div>
+
 					</div>
 				</div>
 
