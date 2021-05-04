@@ -26,6 +26,10 @@ export default class Recommendations extends React.Component {
 			selectedBorough_topHosts: "Manhattan",
 			hostResults: [],
 			reviewResults: [],
+			refrigerator: false,
+			bathtub: false,
+			heating: false,
+			smokeAlarm: false,
 			filterResults: []
 		};
 
@@ -38,7 +42,40 @@ export default class Recommendations extends React.Component {
 		this.handleBoroughT10Change = this.handleBoroughT10Change.bind(this);
 		this.handleBoroughTopHostsChange = this.handleBoroughTopHostsChange.bind(this);
 		this.handleAmenityVerificationChange = this.handleAmenityVerificationChange.bind(this);
+		this.handleFridgeChange = this.handleFridgeChange.bind(this);
+		this.handleBathtubChange = this.handleBathtubChange.bind(this);
+		this.handleHeatingChange = this.handleHeatingChange.bind(this);
+		this.handleSmokeAlarmChange = this.handleSmokeAlarmChange.bind(this);
 	};
+
+	handleFridgeChange(e8) {
+		console.log(this.state.refrigerator);
+		this.setState({
+			refrigerator : e8.target.checked
+		})
+	}
+
+
+	handleHeatingChange(e8) {
+		this.setState({
+			heating : e8.target.checked
+		})
+		console.log(this.state.heating);
+	}
+
+	handleBathtubChange(e8) {
+		this.setState({
+			bathtub : e8.target.checked
+		})
+		console.log(this.state.bathtub);
+	}
+
+	handleSmokeAlarmChange(e8) {
+		this.setState({
+			smokeAlarm : e8.target.checked
+		})
+		console.log(this.state.smokeAlarm);
+	}
 
 	handleAmenityVerificationChange(e7) {
 		this.setState({
@@ -303,8 +340,46 @@ export default class Recommendations extends React.Component {
 
 						<div>
 							<header> Do you want amenity verification? </header>
-							<input type="radio" value="Yes" name="AmVerf" onChange = {this.handleAmenityVerificationChange} checked = {this.state.amenityVerification === "Yes" ? "checked": null}/> Yes 
-							<input type="radio" value="No" name="AmVerf" onChange = {this.handleAmenityVerificationChange} checked = {this.state.amenityVerification === "No" ? "checked": null} /> No 
+							<label>
+								Refrigerator:
+								<input
+								name="refrigerator"
+								type="checkbox"
+								checked = {this.state.refrigerator}
+								onChange = {this.handleFridgeChange} />
+							</label>
+
+							<label>
+								Bathtub:
+								<input
+								name="bathtub"
+								type="checkbox"
+								checked={this.state.bathtub}
+								onChange={this.handleBathtubChange} />
+							</label>
+
+							<label>
+								Heating:
+								<input
+								name="heating"
+								type="checkbox"
+								checked={this.state.heating}
+								onChange={this.handleHeatingChange} />
+							</label>
+
+							<label>
+								Smoke alarm:
+								<input
+								name="smokeAlarm"
+								type="checkbox"
+								checked={this.state.smokeAlarm}
+								onChange={this.handleSmokeAlarmChange} />
+							</label>
+
+							
+
+
+							
 						</div>
 
 						<div>
