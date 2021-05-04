@@ -18,7 +18,11 @@ export default class Recommendations extends React.Component {
 			recMovies: [],
 			numberOfPeople: 1,
 			superHostNeeded: "Yes",
-			prefPrice:0
+			prefPrice:0,
+			selectedFilter: "minimum_nights",
+			selectedBorough: "Manhattan",
+			decades: [],
+			filterResults: []
 		};
 
 		this.handleMovieNameChange = this.handleMovieNameChange.bind(this);
@@ -26,12 +30,25 @@ export default class Recommendations extends React.Component {
 		this.handleSizeChange = this.handleSizeChange.bind(this);
 		this.handleSuperHostChange = this.handleSuperHostChange.bind(this);
 		this.handleSlide = this.handleSlide.bind(this);
-		
+		this.handleFilterChange = this.handleFilterChange.bind(this);
+		this.handleBoroughChange = this.handleBoroughChange.bind(this);
 	};
+
+	handleBoroughChange(e5) {
+		this.setState({
+			selectedBorough : e5.target.value
+		})
+	}
 
 	handleSuperHostChange(e2) {
 		this.setState({
 			superHostNeeded : e2.target.value
+		})
+	}
+
+	handleFilterChange(e4) {
+		this.setState({
+			selectedFilter : e4.target.value
 		})
 	}
 
@@ -51,6 +68,30 @@ export default class Recommendations extends React.Component {
 			movieName: e.target.value
 		});
 	};
+
+	componentDidMount() {
+		fetch("http://localhost:8081/find",
+		{
+		  method: 'GET' // The type of HTTP request.
+		}).then(res => {
+		  // Convert the response data to a JSON.
+		  return res.json();
+		}, err => {
+		  // Print the error if there is one.
+		  console.log(err);
+		}).then(decadesList => {
+		  if (!decadesList) return;
+
+		  const decadeDivs = decadesList.map((movieObj, i) =>
+			<option className="decadesOption" value={movieObj.neighbourhood}>{movieObj.neighbourhood}</option>
+          );
+		  console.log(decadeDivs);
+		  // Set the state of the keywords list to the value returned by the HTTP response from the server.
+		  this.setState({
+			decades: decadeDivs
+		  });
+		});
+	}
 
 	/* ---- Q2 (Recommendations) ---- */
 	// Hint: Name of movie submitted is contained in `this.state.movieName`.
@@ -82,11 +123,78 @@ export default class Recommendations extends React.Component {
 
 	};
 
+	submitFilterAndBorough() {
+	
+		fetch("http://localhost:8081/find/" + this.state.selectedFilter + "/" + this.state.selectedBorough,
+        {
+          method: 'GET' // The type of HTTP request.
+        }).then(res => {
+          // Convert the response data to a JSON.
+          return res.json();
+        }, err => {
+          // Print the error if there is one.
+          console.log(err);
+        }).then(movieList => {
+          if (!movieList) return;
+    
+          // Map each keyword in this.state.keywords to an HTML element:
+          // A button which triggers the showMovies function for each keyword.
+          const movieDivs = movieList.map((movieObj, i) =>
+            <RecommendationsRow movie = {movieObj}/> 
+          );
+    
+          // Set the state of the keywords list to the value returned by the HTTP response from the server.
+          this.setState({
+            filterResults: movieDivs
+          });
+        }, err => {
+          // Print the error if there is one.
+          console.log(err);
+        });
+	};
+
 	
 	render() {
 		return (
 			<div className="Recommendations">
 				<PageNavbar active="Find an Airbnb" />
+
+				<div className="container recommendations-container">
+					<div className="jumbotron">
+						<div className="h5">T-10 Filter</div>
+						<br></br>
+
+						<div>
+							<header> Filter</header>
+							<input type="radio" value="minimum_nights" name="Filter"  onChange = {this.handleFilterChange} checked = {this.state.selectedFilter === "minimum_nights" ? "checked": null} /> Minimum Nights
+							<input type="radio" value="price" name="Filter"  onChange = {this.handleFilterChange} checked = {this.state.numberOfPeople === "price" ? "checked": null} /> Price
+							<input type="radio" value="number_of_reviews" name="Filter"  onChange = {this.handleFilterChange} checked = {this.state.numberOfPeople === "number_of_reviews" ? "checked": null} /> Number of reviews
+						</div>
+
+						<div className="dropdown-container">
+							Borough:
+							<br></br> <select value={this.state.selectedBorough} onChange={this.handleBoroughChange} className="decadesOptions" id="decadesDropdown">
+								{this.state.decades}
+							</select>
+							<button className="submit-btn" id="submitBtn" onClick={this.submitFilterAndBorough}>Submit</button>
+						</div>
+
+
+						<div className="header-container">
+							<div className="headers">
+								<div className="header"><strong>Name</strong></div>
+								<div className="header"><strong>Room Type</strong></div>
+								<div className="header"><strong>Price</strong></div>
+								<div className="header"><strong>Number of Reviews</strong></div>
+							</div>
+						</div>
+
+						<div className="results-container" id="results">
+							{this.state.filterResults}
+						</div>
+
+					</div>
+				</div>
 
 				<br />
 				<div className="container recommendations-container">
