@@ -54,9 +54,9 @@ const getRecs = (req, res) => {
   const ppl = req.params.numberOfPeople;
   var sh;
 
-if(super_host === "No"){
+  if (super_host === "No") {
     sh = 0;
-  } else{
+  } else {
     sh = 1;
   }
   console.log(movie);
@@ -66,7 +66,7 @@ if(super_host === "No"){
 
   const query = `
   SELECT DISTINCT name, room_type, price, number_of_reviews 
-  FROM Listings
+  FROM Lsting
   WHERE host_is_superhost = '${sh}' AND accommodates >= '${ppl}'
   AND amenities LIKE '%${movie}' AND price <= '${price}'
   LIMIT 10;
@@ -173,7 +173,7 @@ const getPartyBnb = (req, res) => {
       WHERE NumParties > '${a}' and NumParties <= '${b}'),
     tab3 AS 
       (SELECT * 
-      FROM Listings
+      FROM Lsting
       WHERE neighbourhood LIKE '${x}' ORDER BY number_of_reviews * rating),
     tab4 AS
       (SELECT id, name, listing_url, price, rating, number_of_reviews, picture_url
