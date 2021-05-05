@@ -13,7 +13,9 @@ export default class Dashboard extends React.Component {
     // and a list of movies for a specified keyword.
     this.state = {
       keywords: [],
-      movies: []
+      movies: [],
+      loudListings: [], // name (link) + neighbourhood
+      quietListings: [] // name (link) + neighbourhood
     };
 
     this.showMovies = this.showMovies.bind(this);
@@ -21,21 +23,15 @@ export default class Dashboard extends React.Component {
 
   // React function that is called when the page load.
   componentDidMount() {
-    // Send an HTTP request to the server.
     fetch("http://localhost:8081/keywords",
     {
-      method: 'GET' // The type of HTTP request.
+      method: 'GET'
     }).then(res => {
-      // Convert the response data to a JSON.
       return res.json();
     }, err => {
-      // Print the error if there is one.
       console.log(err);
     }).then(keywordsList => {
       if (!keywordsList) return;
-
-      // Map each keyword in this.state.keywords to an HTML element:
-      // A button which triggers the showMovies function for each keyword.
       const keywordsDivs = keywordsList.map((keywordObj, i) =>
         <KeywordButton 
           id={"button-" + keywordObj.neighbourhood} 
@@ -43,13 +39,10 @@ export default class Dashboard extends React.Component {
           keyword={keywordObj.neighbourhood} 
         /> 
       );
-
-      // Set the state of the keywords list to the value returned by the HTTP response from the server.
       this.setState({
         keywords: keywordsDivs
       });
     }, err => {
-      // Print the error if there is one.
       console.log(err);
     });
   };
@@ -94,8 +87,43 @@ export default class Dashboard extends React.Component {
       <div className="Dashboard">
 
         <PageNavbar active="home" />
-
         <br />
+
+        <div class="container">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+							<div class="jumbotron">
+								<header>Nearby Bars</header>
+								<div className="movies-container">
+                  <div className="movie">
+										<div className="header"><strong>Listing</strong></div>
+										<div className="header"><strong>Neighbourhood</strong></div>
+									</div>
+									<div className="loud-results" id="results">
+										{this.state.bars}
+									</div>
+								</div>
+							</div>
+							</div>
+							<div class="col-md-6 col-sm-6">
+							<div class="jumbotron">
+								<header>Recent Reviews</header>
+								<div className="movies-container">
+                  <div className="movie">
+										<div className="header"><strong>Listing</strong></div>
+										<div className="header"><strong>Neighbourhood</strong></div>
+									</div>		
+									<div className="quiet-results" id="results">
+										{this.state.reviews}
+									</div>
+								</div>
+							</div>
+							</div>
+
+						</div>
+				</div>
+        <br />
+
         <div className="container movies-container">
           <div className="jumbotron">
             <div className="h5">Manhattan Neighbourhoods</div>
@@ -103,8 +131,8 @@ export default class Dashboard extends React.Component {
               {this.state.keywords}
             </div>
           </div>
-
           <br />
+
           <div className="jumbotron">
             <div className="movies-container">
               <div className="movies-header">
