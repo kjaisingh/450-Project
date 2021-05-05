@@ -127,6 +127,29 @@ const getReviewPic = (req, res) => {
   ORDER BY number_of_reviews DESC
   LIMIT 5;
 `;
+console.log(query);
+
+connection.query(query, (err, rows, fields) => {
+  if (err) console.log(err);
+  else res.json(rows);
+});
+};
+
+
+const getAgg = (req, res) => {
+
+  const borough = req.params.recentReviewBorough;
+  console.log(borough);
+
+  const query = `
+  SELECT neighbourhood_cleansed AS locality, Count(*) AS num, name, price 
+  FROM Lsting 
+  WHERE neighbourhood = '${borough}' 
+  GROUP BY neighbourhood_cleansed 
+  ORDER BY num DESC
+  LIMIT 5;
+`;
+console.log(query);
 
 connection.query(query, (err, rows, fields) => {
   if (err) console.log(err);
@@ -340,6 +363,7 @@ module.exports = {
   getFilter: getFilter,
   getAirbnbPrice: getAirbnbPrice,
   getReviewPic: getReviewPic,
+  getAgg: getAgg,
 
   getDecades: getDecades,
   getGenres: getGenres,

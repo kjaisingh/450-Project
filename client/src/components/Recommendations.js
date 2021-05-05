@@ -3,6 +3,7 @@ import PageNavbar from './PageNavbar';
 import RecommendationsRow from './RecommendationsRow';
 import AirbnbPriceRow from './AirbnbPriceRow';
 import FindReviewRow from './FindReviewRow';
+import AggFindNeighbourhood from './AggFindNeighbourhood';
 import '../style/Recommendations.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "shards-ui/dist/css/shards.min.css"
@@ -37,7 +38,9 @@ export default class Recommendations extends React.Component {
 			kitchenPresent: false,
 			washerPresent: false,
 			recentReviewBorough: "Manhattan",
-			filterResults: []
+			filterResults: [],
+			x: "two",
+			y: "three"
 		};
 
 		this.handleMovieNameChange = this.handleMovieNameChange.bind(this);
@@ -288,7 +291,7 @@ export default class Recommendations extends React.Component {
 
 
 	submitReviews() {
-		fetch("http://localhost:8081/find/" + this.state.recentReviewBorough,
+		fetch("http://localhost:8081/find/" + this.state.recentReviewBorough + "/" +  this.state.x + "/" +  this.state.y,
         {
           method: 'GET' // The type of HTTP request.
         }).then(res => {
@@ -303,9 +306,9 @@ export default class Recommendations extends React.Component {
           // Map each keyword in this.state.keywords to an HTML element:
           // A button which triggers the showMovies function for each keyword.
           const movieDivs = movieList.map((movieObj, i) =>
-            <RecommendationsRow movie = {movieObj}/> 
+            <AggFindNeighbourhood movie = {movieObj}/> 
           );
-    
+
           // Set the state of the keywords list to the value returned by the HTTP response from the server.
           this.setState({
             reviewResults: movieDivs
@@ -526,7 +529,7 @@ export default class Recommendations extends React.Component {
 										<div className="header"><strong>Comment</strong></div>
 									</div>
 									<div className="movies-container" id="results">
-										
+										{this.state.reviewResults}
 									</div>
 								</div>
 							</div>
