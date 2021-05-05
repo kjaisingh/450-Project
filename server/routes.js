@@ -295,7 +295,7 @@ const getReviewResults = (req, res) => {
   const query = `
     SELECT reviewer_name, comments
     FROM reviews
-    WHERE listing_id = '${inputId}'
+    WHERE listing_id = '${inputId}' AND LENGTH(comments) > 200 AND LENGTH(comments) < 350
     LIMIT 5;
   `;
 
