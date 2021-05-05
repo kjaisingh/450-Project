@@ -12,7 +12,6 @@ import { Slider } from "shards-react";
 
 
 export default class Recommendations extends React.Component {
-	// test comment
 	constructor(props) {
 		super(props);
 
@@ -43,6 +42,8 @@ export default class Recommendations extends React.Component {
 			y: "three"
 		};
 
+		// fridge, wifi, tv, kitchen
+
 		this.handleMovieNameChange = this.handleMovieNameChange.bind(this);
 		this.submitMovie = this.submitMovie.bind(this);
 		this.handleSizeChange = this.handleSizeChange.bind(this);
@@ -53,29 +54,18 @@ export default class Recommendations extends React.Component {
 		this.handleBoroughTopHostsChange = this.handleBoroughTopHostsChange.bind(this);
 		this.handleAmenityVerificationChange = this.handleAmenityVerificationChange.bind(this);
 		this.handleFridgeChange = this.handleFridgeChange.bind(this);
-		this.handleBathtubChange = this.handleBathtubChange.bind(this);
-		this.handleHeatingChange = this.handleHeatingChange.bind(this);
-		this.handleSmokeAlarmChange = this.handleSmokeAlarmChange.bind(this);
+		this.handleTVChange = this.handleTVChange.bind(this);
+		this.handleWifiChange = this.handleWifiChange.bind(this);
+		this.handleKitchenChange = this.handleKitchenChange.bind(this);
 		this.submitFilterAndBorough = this.submitFilterAndBorough.bind(this);
 		this.submitBoroughToHosts = this.submitBoroughToHosts.bind(this);
 		this.handleReviewBoroughChange = this.handleReviewBoroughChange.bind(this);
 		this.submitReviews = this.submitReviews.bind(this);
-		this.handleTVChange = this.handleTVChange.bind(this);
-		this.handleWifiChange = this.handleWifiChange.bind(this);
-		this.handleKitchenChange = this.handleKitchenChange.bind(this);
-		this.handleWasherChange = this.handleWasherChange.bind(this);
-		
 	};
 
 	handleKitchenChange(e9) {
 		this.setState({
 			kitchenPresent: e9.target.checked
-		})
-	}
-
-	handleWasherChange(e9) {
-		this.setState({
-			washerPresent: e9.target.checked
 		})
 	}
 
@@ -91,39 +81,16 @@ export default class Recommendations extends React.Component {
 		})
 	}
 
-	handleReviewBoroughChange(e9) {
-		this.setState({
-			recentReviewBorough: e9.target.value
-		})
-	}
-
 	handleFridgeChange(e8) {
-		console.log(this.state.refrigerator);
 		this.setState({
 			refrigerator : e8.target.checked
 		})
 	}
 
-
-	handleHeatingChange(e8) {
+	handleReviewBoroughChange(e9) {
 		this.setState({
-			heating : e8.target.checked
+			recentReviewBorough: e9.target.value
 		})
-		console.log(this.state.heating);
-	}
-
-	handleBathtubChange(e8) {
-		this.setState({
-			bathtub : e8.target.checked
-		})
-		console.log(this.state.bathtub);
-	}
-
-	handleSmokeAlarmChange(e8) {
-		this.setState({
-			smokeAlarm : e8.target.checked
-		})
-		console.log(this.state.smokeAlarm);
 	}
 
 	handleAmenityVerificationChange(e7) {
@@ -176,12 +143,10 @@ export default class Recommendations extends React.Component {
 	componentDidMount() {
 		fetch("http://localhost:8081/find",
 		{
-		  method: 'GET' // The type of HTTP request.
+		  method: 'GET'
 		}).then(res => {
-		  // Convert the response data to a JSON.
 		  return res.json();
 		}, err => {
-		  // Print the error if there is one.
 		  console.log(err);
 		}).then(decadesList => {
 		  if (!decadesList) return;
@@ -190,36 +155,26 @@ export default class Recommendations extends React.Component {
 			<option className="decadesOption" value={movieObj.neighbourhood}>{movieObj.neighbourhood}</option>
           );
 		  console.log(decadeDivs);
-		  // Set the state of the keywords list to the value returned by the HTTP response from the server.
 		  this.setState({
 			decades: decadeDivs
 		  });
 		});
 	}
 
-	/* ---- Q2 (Recommendations) ---- */
-	// Hint: Name of movie submitted is contained in `this.state.movieName`.
 	submitMovie() {
-		// Send an HTTP request to the server.
         fetch("http://localhost:8081/find/" + this.state.movieName + "/" + this.state.numberOfPeople + "/" + this.state.superHostNeeded + "/" + this.state.prefPrice + "/" + this.state.wifiPresent + "/" + this.state.TVPresent + "/" + this.state.kitchenPresent + "/" + this.state.refrigerator,
         {
-          method: 'GET' // The type of HTTP request.
+          method: 'GET'
         }).then(res => {
-          // Convert the response data to a JSON.
           return res.json();
         }, err => {
-          // Print the error if there is one.
           console.log(err);
         }).then(movieList => {
           if (!movieList) return;
-          // Map each keyword in this.state.keywords to an HTML element:
-          // A button which triggers the showMovies function for each keyword.
           const recommendedDivs = movieList.map((movieObj, i) =>
             <RecommendationsRow movie = {movieObj}
             /> 
           );
-    
-          // Set the state of the keywords list to the value returned by the HTTP response from the server.
           this.setState({
             recMovies: recommendedDivs
           });
@@ -227,33 +182,23 @@ export default class Recommendations extends React.Component {
 
 	};
 
-
-	//For the T-10 filter. filterResults contains the results.
 	submitFilterAndBorough() {
 		fetch("http://localhost:8081/find/" + this.state.selectedFilter + "/" + this.state.selectedBorough_T10,
         {
-          method: 'GET' // The type of HTTP request.
+          method: 'GET'
         }).then(res => {
-          // Convert the response data to a JSON.
           return res.json();
         }, err => {
-          // Print the error if there is one.
           console.log(err);
         }).then(movieList => {
           if (!movieList) return;
-    
-          // Map each keyword in this.state.keywords to an HTML element:
-          // A button which triggers the showMovies function for each keyword.
           const movieDivs = movieList.map((movieObj, i) =>
             <AirbnbPriceRow movie = {movieObj}/> 
           );
-    
-          // Set the state of the keywords list to the value returned by the HTTP response from the server.
           this.setState({
             filterResults: movieDivs
           });
         }, err => {
-          // Print the error if there is one.
           console.log(err);
         });
 	};
@@ -263,27 +208,20 @@ export default class Recommendations extends React.Component {
 	submitBoroughToHosts() {
 		fetch("http://localhost:8081/find/" + this.state.selectedBorough_topHosts,
         {
-          method: 'GET' // The type of HTTP request.
+          method: 'GET'
         }).then(res => {
-          // Convert the response data to a JSON.
           return res.json();
         }, err => {
-          // Print the error if there is one.
           console.log(err);
         }).then(movieList => {
           if (!movieList) return;
-          // Map each keyword in this.state.keywords to an HTML element:
-          // A button which triggers the showMovies function for each keyword.
           const movieDivs = movieList.map((movieObj, i) =>
             <FindReviewRow movie = {movieObj}/> 
           );
-    
-          // Set the state of the keywords list to the value returned by the HTTP response from the server.
           this.setState({
             hostResults: movieDivs
           });
         }, err => {
-          // Print the error if there is one.
           console.log(err);
         });
 	};
@@ -293,28 +231,20 @@ export default class Recommendations extends React.Component {
 	submitReviews() {
 		fetch("http://localhost:8081/find/" + this.state.recentReviewBorough + "/" +  this.state.x + "/" +  this.state.y,
         {
-          method: 'GET' // The type of HTTP request.
+          method: 'GET'
         }).then(res => {
-          // Convert the response data to a JSON.
           return res.json();
         }, err => {
-          // Print the error if there is one.
           console.log(err);
         }).then(movieList => {
           if (!movieList) return;
-    
-          // Map each keyword in this.state.keywords to an HTML element:
-          // A button which triggers the showMovies function for each keyword.
           const movieDivs = movieList.map((movieObj, i) =>
             <AggFindNeighbourhood movie = {movieObj}/> 
           );
-
-          // Set the state of the keywords list to the value returned by the HTTP response from the server.
           this.setState({
             reviewResults: movieDivs
           });
         }, err => {
-          // Print the error if there is one.
           console.log(err);
         });
 	};
@@ -386,7 +316,6 @@ export default class Recommendations extends React.Component {
 						</div>
 
 						<div>
-							<header> Do you want amenity verification? </header>
 							<label>
 								Refrigerator:
 								<input
@@ -394,33 +323,6 @@ export default class Recommendations extends React.Component {
 								type="checkbox"
 								checked = {this.state.refrigerator}
 								onChange = {this.handleFridgeChange} />
-							</label>
-
-							<label>
-								Bathtub:
-								<input
-								name="bathtub"
-								type="checkbox"
-								checked={this.state.bathtub}
-								onChange={this.handleBathtubChange} />
-							</label>
-
-							<label>
-								Heating:
-								<input
-								name="heating"
-								type="checkbox"
-								checked={this.state.heating}
-								onChange={this.handleHeatingChange} />
-							</label>
-
-							<label>
-								Smoke alarm:
-								<input
-								name="smokeAlarm"
-								type="checkbox"
-								checked={this.state.smokeAlarm}
-								onChange={this.handleSmokeAlarmChange} />
 							</label>
 
 							<label>
@@ -448,21 +350,7 @@ export default class Recommendations extends React.Component {
 								type="checkbox"
 								checked={this.state.KitchenPresent}
 								onChange={this.handleKitchenChange} />
-							</label>
-
-							<label>
-								Washer:
-								<input
-								name="Washer"
-								type="checkbox"
-								checked={this.state.WasherPresent}
-								onChange={this.handleWasherChange} />
-							</label>
-
-							
-
-
-							
+							</label>		
 						</div>
 
 						<div>
@@ -514,7 +402,7 @@ export default class Recommendations extends React.Component {
 							
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
-								<header>Recent Reviews</header>
+								<header>Neighbourhood Availability</header>
 								<div className="movies-container">
 									<div className="dropdown-container">
 										Borough:

@@ -76,7 +76,6 @@ export default class BestMovies extends React.Component {
 				movie = {movieObj}
 			/> 
           );
-		  console.log(movieList);
           this.setState({
             movies: movieDivs
           });
@@ -101,11 +100,9 @@ export default class BestMovies extends React.Component {
 				<ListingBarsRow movie = {resultObj}
 				/> 
 			);
-			console.log(resultsList);
 			this.setState({
 				bars: resultsDiv
 			});
-			console.log("Bars: " + id + "!");
         }, err => {
 			console.log(err);
         });
@@ -130,7 +127,6 @@ export default class BestMovies extends React.Component {
 			this.setState({
 				reviews: resultsDiv
 			});
-			console.log("Reviews: " + id + "!");
         }, err => {
           	console.log(err);
         });

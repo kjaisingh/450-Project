@@ -138,13 +138,6 @@ const getRecs = (req, res) => {
     r = "";
   }
 
-  console.log(movie);
-  console.log(price);
-  console.log(ppl);
-  console.log(super_host);
-  console.log(wifi);
-  console.log(kitch);
-
   if (wifi == 'false' && kitch == 'false' && refr == 'false' && tv == 'false') {
 
     query = `
@@ -219,18 +212,14 @@ connection.query(query, (err, rows, fields) => {
 };
 
 const getReviewPic = (req, res) => {
-
   const borough = req.params.selectedBorough_topHosts;
-  console.log(borough);
-
   const query = `
   SELECT DISTINCT name, picture_url, listing_url, rating
   FROM Lsting
   WHERE neighbourhood = '${borough}'
   ORDER BY number_of_reviews DESC
   LIMIT 5;
-`;
-console.log(query);
+  `;
 
 connection.query(query, (err, rows, fields) => {
   if (err) console.log(err);
@@ -240,9 +229,7 @@ connection.query(query, (err, rows, fields) => {
 
 
 const getAgg = (req, res) => {
-
   const borough = req.params.recentReviewBorough;
-  console.log(borough);
 
   const query = `
   SELECT neighbourhood_cleansed AS locality, Count(*) AS num
@@ -252,7 +239,6 @@ const getAgg = (req, res) => {
   ORDER BY num DESC
   LIMIT 5;
 `;
-console.log(query);
 
 connection.query(query, (err, rows, fields) => {
   if (err) console.log(err);
@@ -266,10 +252,6 @@ const getAirbnbPrice = (req, res) => {
   const filter = req.params.selectedFilter;
   const borough = req.params.selectedBorough_T10;
   var query;
-
-  console.log(filter);
-  console.log(borough);
-
 
   if (filter == "price") {
     query = `
