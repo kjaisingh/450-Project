@@ -17,7 +17,7 @@ export default class Recommendations extends React.Component {
 		super(props);
 
 		this.state = {
-			movieName: " ",
+			movieName: "",
 			recMovies: [],
 			numberOfPeople: 1,
 			superHostNeeded: "Yes",
