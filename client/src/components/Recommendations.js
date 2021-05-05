@@ -297,7 +297,7 @@ export default class Recommendations extends React.Component {
 						<div className="h5">Recommendations</div>
 						<br></br>
 						<div className="input-container">
-							<input type='text' placeholder="Search for an Airbnb" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
+							<input type='text' placeholder="Enter Description Keyword" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
 							<button id="submitSearch" className="submit-btn" onClick={this.submitMovie}>Submit</button>
 						</div>
 						<div>
@@ -366,7 +366,7 @@ export default class Recommendations extends React.Component {
 								<div className="header"><strong>Name</strong></div>
 								<div className="header"><strong>Room Type</strong></div>
 								<div className="header"><strong>Price</strong></div>
-								<div className="header"><strong>Number of Reviews</strong></div>
+								<div className="header"><strong>Host Name</strong></div>
 							</div>
 						</div>
 						<div className="results-container" id="results">
@@ -391,7 +391,7 @@ export default class Recommendations extends React.Component {
 									</div>									
 									<div className="movie">
 										<div className="header"><strong>Name</strong></div>
-										<div className="header"><strong>Picture</strong></div>
+										<div className="header"><strong>Avg Rating</strong></div>
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.hostResults}
@@ -413,8 +413,8 @@ export default class Recommendations extends React.Component {
 									</div>
 									
 									<div className="movie">
-										<div className="header"><strong>Name</strong></div>
-										<div className="header"><strong>Comment</strong></div>
+										<div className="header"><strong>Borough</strong></div>
+										<div className="header"><strong>Airbnb Number</strong></div>
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.reviewResults}
