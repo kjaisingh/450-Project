@@ -202,13 +202,7 @@ export default class BestMovies extends React.Component {
 							<div class="jumbotron">
 								<header>Nearby Bars</header>
 								<div className="movies-container">
-									<div className="movie">
-										<div className="header"><strong>Address</strong></div>
-										<div className="header"><strong>Latitude</strong></div>
-										<div className="header"><strong>Longitude</strong></div>
-
-									</div>
-									<div className="movies-container" id="results">
+									<div className="bars-results" id="results">
 										{this.state.bars}
 									</div>
 								</div>
@@ -218,12 +212,8 @@ export default class BestMovies extends React.Component {
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
 								<header>Recent Reviews</header>
-								<div className="movies-container">
-									<div className="movie">
-										<div className="header"><strong>Name</strong></div>
-										<div className="header"><strong>Comment</strong></div>
-									</div>
-									<div className="movies-container" id="results">
+								<div className="movies-container">		
+									<div className="reviews-results" id="results">
 										{this.state.reviews}
 									</div>
 								</div>
