@@ -20,7 +20,7 @@ app.get('/loudListings', routes.getLoudListings);
 app.get('/quietListings', routes.getQuietListings);
 
 /* ---- Find an AirBNB ---- */
-app.get('/find/:movieName/:numberOfPeople/:superHostNeeded/:prefPrice', routes.getRecs);
+app.get('/find/:movieName/:numberOfPeople/:superHostNeeded/:prefPrice/:wifiPresent/:TVPresent/:kitchenPresent/:refrigerator', routes.getRecs);
 app.get('/find', routes.getFilter);
 app.get('/find/:selectedFilter/:selectedBorough_T10', routes.getAirbnbPrice);
 app.get('/find/:selectedBorough_topHosts', routes.getReviewPic);

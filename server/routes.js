@@ -97,25 +97,107 @@ const getRecs = (req, res) => {
   const price = req.params.prefPrice;
   const super_host = req.params.superHostNeeded;
   const ppl = req.params.numberOfPeople;
+  const wifi = req.params.wifiPresent;
+  const tv = req.params.TVPresent;
+  const refr = req.params.refrigerator;
+  const kitch = req.params.kitchenPresent;
   var sh;
+  var query;
+  var w;
+  var t;
+  var k;
+  var r;
 
   if (super_host === "No") {
     sh = 0;
   } else {
     sh = 1;
   }
+
+  if (wifi == 'true') {
+    w = "Wifi";
+  } else {
+    w = "";
+  }
+
+  if (tv == 'true') {
+    t = "TV";
+  } else {
+    t = "";
+  }
+
+  if (kitch == 'true') {
+    k = "Kitchen";
+  } else {
+    k = "";
+  }
+
+  if (refr == 'true') {
+    r = "Refrigerator";
+  } else {
+    r = "";
+  }
+
   console.log(movie);
   console.log(price);
   console.log(ppl);
   console.log(super_host);
+  console.log(wifi);
+  console.log(kitch);
 
-  const query = `
-  SELECT DISTINCT name, room_type, price, number_of_reviews 
-  FROM Lsting
-  WHERE host_is_superhost = '${sh}' AND accommodates >= '${ppl}'
-  AND amenities LIKE '%${movie}' AND price <= '${price}'
-  LIMIT 10;
-`;
+  if (wifi == 'false' && kitch == 'false' && refr == 'false' && tv == 'false') {
+
+    query = `
+    SELECT DISTINCT name, room_type, price, number_of_reviews, listing_url, picture_url, host_name, host_url 
+    FROM Lsting
+    WHERE host_is_superhost = '${sh}' AND accommodates >= '${ppl}'
+    AND description LIKE '%${movie}' AND price <= '${price}'
+    LIMIT 10;
+    `;  
+  } else {
+
+    query = `
+      WITH tab1 AS (SELECT amenities, name, id, price, listing_url, room_type, host_name, picture_url, host_url 
+      FROM Lsting 
+      WHERE amenities LIKE '%${t}%' AND description LIKE '%${movie}%' AND price <= '${price}' AND host_is_superhost = '${sh}' AND accommodates >= '${ppl}'),
+      tab2 AS (SELECT listing_id 
+      FROM reviews 
+      WHERE comments LIKE '%${t}%'),
+      tab3 AS (SELECT tab1.id, tab1.name, tab1.price, tab1.listing_url, tab1.host_name, tab1.room_type, tab1.picture_url, tab1.host_url 
+      FROM tab1, tab2 
+      WHERE tab1.id = tab2.listing_id),
+      tab4 AS (SELECT amenities, name, id, price, listing_url, room_type
+      FROM Lsting 
+      WHERE amenities LIKE '%${r}%' AND description LIKE '%${movie}%' AND price <= '${price}' AND host_is_superhost = '${sh}' AND accommodates >= '${ppl}'),
+      tab5 AS (SELECT listing_id 
+      FROM reviews 
+      WHERE comments LIKE '%${r}%'),
+      tab6 AS (SELECT tab4.id, tab4.name, tab4.price, tab4.listing_url 
+      FROM tab4, tab5 
+      WHERE tab4.id = tab5.listing_id),
+      tab7 AS (SELECT amenities, name, id, price, listing_url, room_type
+      FROM Lsting 
+      WHERE amenities LIKE '%${w}%' AND description LIKE '%${movie}%' AND price <= '${price}' AND host_is_superhost = '${sh}' AND accommodates >= '${ppl}'),
+      tab8 AS (SELECT listing_id 
+      FROM reviews 
+      WHERE comments LIKE '%${w}%'),
+      tab9 AS (SELECT tab7.id, tab7.name, tab7.price, tab7.listing_url 
+      FROM tab7, tab8 
+      WHERE tab7.id = tab8.listing_id),
+      tab10 AS (SELECT amenities, name, id, price, listing_url, room_type 
+      FROM Lsting 
+      WHERE amenities LIKE '%${k}%' AND description LIKE '%${movie}%' AND price <= '${price}' AND host_is_superhost = '${sh}' AND accommodates >= '${ppl}'),
+      tab11 AS (SELECT listing_id 
+      FROM reviews 
+      WHERE comments LIKE '%${k}%'),
+      tab12 AS (SELECT tab10.id, tab10.name, tab10.price, tab10.listing_url 
+      FROM tab10, tab11 
+      WHERE tab10.id = tab11.listing_id)
+      SELECT DISTINCT tab3.id, tab3.name, tab3.price, tab3.listing_url, tab3.room_type, tab3.host_name, tab3.picture_url, tab3.host_url 
+      FROM tab3, tab6, tab9, tab12 WHERE tab3.id = tab6.id AND tab3.id = tab9.id AND tab3.id = tab12.id
+      LIMIT 10;
+    `; 
+  }
 
 connection.query(query, (err, rows, fields) => {
   if (err) console.log(err);
@@ -142,7 +224,7 @@ const getReviewPic = (req, res) => {
   console.log(borough);
 
   const query = `
-  SELECT DISTINCT name, picture_url
+  SELECT DISTINCT name, picture_url, listing_url, rating
   FROM Lsting
   WHERE neighbourhood = '${borough}'
   ORDER BY number_of_reviews DESC
@@ -163,7 +245,7 @@ const getAgg = (req, res) => {
   console.log(borough);
 
   const query = `
-  SELECT neighbourhood_cleansed AS locality, Count(*) AS num, name, price 
+  SELECT neighbourhood_cleansed AS locality, Count(*) AS num
   FROM Lsting 
   WHERE neighbourhood = '${borough}' 
   GROUP BY neighbourhood_cleansed 
@@ -191,7 +273,7 @@ const getAirbnbPrice = (req, res) => {
 
   if (filter == "price") {
     query = `
-    SELECT DISTINCT name, room_type, price, number_of_reviews 
+    SELECT DISTINCT name, room_type, price, number_of_reviews, listing_url, picture_url
     FROM Lsting
     WHERE neighbourhood = '${borough}'
     ORDER BY price
@@ -199,7 +281,7 @@ const getAirbnbPrice = (req, res) => {
   `;
   } else if (filter == "minimum_nights") {
     query = `
-    SELECT DISTINCT name, room_type, price, number_of_reviews 
+    SELECT DISTINCT name, room_type, price, number_of_reviews, listing_url, picture_url 
     FROM Lsting
     WHERE neighbourhood = '${borough}'
     ORDER BY minimum_nights DESC
@@ -207,7 +289,7 @@ const getAirbnbPrice = (req, res) => {
     `;
   } else {
     query = `
-    SELECT DISTINCT name, room_type, price, number_of_reviews 
+    SELECT DISTINCT name, room_type, price, number_of_reviews, listing_url, picture_url
     FROM Lsting
     WHERE neighbourhood = '${borough}'
     ORDER BY reviews_per_month DESC
