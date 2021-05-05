@@ -32,6 +32,11 @@ export default class Recommendations extends React.Component {
 			bathtub: false,
 			heating: false,
 			smokeAlarm: false,
+			wifiPresent: false,
+			TVPresent: false,
+			kitchenPresent: false,
+			washerPresent: false,
+			recentReviewBorough: "Manhattan",
 			filterResults: []
 		};
 
@@ -50,8 +55,44 @@ export default class Recommendations extends React.Component {
 		this.handleSmokeAlarmChange = this.handleSmokeAlarmChange.bind(this);
 		this.submitFilterAndBorough = this.submitFilterAndBorough.bind(this);
 		this.submitBoroughToHosts = this.submitBoroughToHosts.bind(this);
-
+		this.handleReviewBoroughChange = this.handleReviewBoroughChange.bind(this);
+		this.submitReviews = this.submitReviews.bind(this);
+		this.handleTVChange = this.handleTVChange.bind(this);
+		this.handleWifiChange = this.handleWifiChange.bind(this);
+		this.handleKitchenChange = this.handleKitchenChange.bind(this);
+		this.handleWasherChange = this.handleWasherChange.bind(this);
+		
 	};
+
+	handleKitchenChange(e9) {
+		this.setState({
+			kitchenPresent: e9.target.checked
+		})
+	}
+
+	handleWasherChange(e9) {
+		this.setState({
+			washerPresent: e9.target.checked
+		})
+	}
+
+	handleTVChange(e9) {
+		this.setState({
+			TVPresent: e9.target.checked
+		})
+	}
+
+	handleWifiChange(e9){
+		this.setState({
+			wifiPresent: e9.target.checked
+		})
+	}
+
+	handleReviewBoroughChange(e9) {
+		this.setState({
+			recentReviewBorough: e9.target.value
+		})
+	}
 
 	handleFridgeChange(e8) {
 		console.log(this.state.refrigerator);
@@ -246,34 +287,34 @@ export default class Recommendations extends React.Component {
 
 
 
-	// submitReviews() {
-	// 	fetch("http://localhost:8081/find/" + this.state.selectedBorough_topHosts,
-    //     {
-    //       method: 'GET' // The type of HTTP request.
-    //     }).then(res => {
-    //       // Convert the response data to a JSON.
-    //       return res.json();
-    //     }, err => {
-    //       // Print the error if there is one.
-    //       console.log(err);
-    //     }).then(movieList => {
-    //       if (!movieList) return;
+	submitReviews() {
+		fetch("http://localhost:8081/find/" + this.state.recentReviewBorough,
+        {
+          method: 'GET' // The type of HTTP request.
+        }).then(res => {
+          // Convert the response data to a JSON.
+          return res.json();
+        }, err => {
+          // Print the error if there is one.
+          console.log(err);
+        }).then(movieList => {
+          if (!movieList) return;
     
-    //       // Map each keyword in this.state.keywords to an HTML element:
-    //       // A button which triggers the showMovies function for each keyword.
-    //       const movieDivs = movieList.map((movieObj, i) =>
-    //         <RecommendationsRow movie = {movieObj}/> 
-    //       );
+          // Map each keyword in this.state.keywords to an HTML element:
+          // A button which triggers the showMovies function for each keyword.
+          const movieDivs = movieList.map((movieObj, i) =>
+            <RecommendationsRow movie = {movieObj}/> 
+          );
     
-    //       // Set the state of the keywords list to the value returned by the HTTP response from the server.
-    //       this.setState({
-    //         reviewResults: movieDivs
-    //       });
-    //     }, err => {
-    //       // Print the error if there is one.
-    //       console.log(err);
-    //     });
-	// };
+          // Set the state of the keywords list to the value returned by the HTTP response from the server.
+          this.setState({
+            reviewResults: movieDivs
+          });
+        }, err => {
+          // Print the error if there is one.
+          console.log(err);
+        });
+	};
 
 	
 	render() {
@@ -379,6 +420,42 @@ export default class Recommendations extends React.Component {
 								onChange={this.handleSmokeAlarmChange} />
 							</label>
 
+							<label>
+								Wifi:
+								<input
+								name="Wifi"
+								type="checkbox"
+								checked={this.state.wifiPresent}
+								onChange={this.handleWifiChange} />
+							</label>
+
+							<label>
+								TV:
+								<input
+								name="TV"
+								type="checkbox"
+								checked={this.state.TVPresent}
+								onChange={this.handleTVChange} />
+							</label>
+
+							<label>
+								Kitchen:
+								<input
+								name="Kitchen"
+								type="checkbox"
+								checked={this.state.KitchenPresent}
+								onChange={this.handleKitchenChange} />
+							</label>
+
+							<label>
+								Washer:
+								<input
+								name="Washer"
+								type="checkbox"
+								checked={this.state.WasherPresent}
+								onChange={this.handleWasherChange} />
+							</label>
+
 							
 
 
@@ -436,6 +513,14 @@ export default class Recommendations extends React.Component {
 							<div class="jumbotron">
 								<header>Recent Reviews</header>
 								<div className="movies-container">
+									<div className="dropdown-container">
+										Borough:
+										<br></br> <select value={this.state.recentReviewBorough} onChange={this.handleReviewBoroughChange} className="decadesOptions" id="decadesDropdown3">
+											{this.state.decades}
+										</select>
+										<button className="submit-btn" id="submitReviewBorough" onClick={this.submitReviews}>Submit</button>
+									</div>
+									
 									<div className="movie">
 										<div className="header"><strong>Name</strong></div>
 										<div className="header"><strong>Comment</strong></div>
