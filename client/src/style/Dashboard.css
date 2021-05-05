@@ -15,7 +15,7 @@
 }
 
 .keywords-container .keyword:hover {
-  background-color: #ddd;
+  background-color: rgb(236, 8, 8);
 }
 
 .movies-container .movies-header, .results-container .movie {

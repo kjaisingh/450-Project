@@ -13,13 +13,11 @@ const getTop20Keywords = (req, res) => {
   /*
   TEST CODE
   */
+ console.log("ABC");
   const query = `
-    WITH tab1 AS (SELECT city, COUNT(*) AS num 
-    FROM Airbnb GROUP BY city) 
-    SELECT DISTINCT city 
-    FROM tab1 
-    ORDER BY num DESC 
-    LIMIT 20;
+  SELECT DISTINCT neighbourhood_cleansed AS neighbourhood
+  FROM Lsting WHERE neighbourhood LIKE 'Manhattan' AND neighbourhood_cleansed NOT LIKE '%Harlem%'
+  LIMIT 20;
   `;
 
   connection.query(query, (err, rows, fields) => {
@@ -29,14 +27,16 @@ const getTop20Keywords = (req, res) => {
 };
 
 const getTopMoviesWithKeyword = (req, res) => {
-  const inputKwd = req.params.keyword;
+  const inputKwd = "%"+req.params.keyword+"%";
+  console.log(" ABC ");
   const query = `
   SELECT name, room_type, price 
-  FROM Airbnb 
-  WHERE city LIKE '${inputKwd}' 
+  FROM Lsting
+  WHERE neighbourhood_cleansed LIKE '${inputKwd}' 
   ORDER BY reviews_per_month DESC 
   LIMIT 10;
 `;
+console.log(query);
 
   connection.query(query, (err, rows, fields) => {
     if (err) console.log(err);

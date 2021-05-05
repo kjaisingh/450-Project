@@ -38,9 +38,9 @@ export default class Dashboard extends React.Component {
       // A button which triggers the showMovies function for each keyword.
       const keywordsDivs = keywordsList.map((keywordObj, i) =>
         <KeywordButton 
-          id={"button-" + keywordObj.city} 
-          onClick={() => this.showMovies(keywordObj.city)} 
-          keyword={keywordObj.city} 
+          id={"button-" + keywordObj.neighbourhood} 
+          onClick={() => this.showMovies(keywordObj.neighbourhood)} 
+          keyword={keywordObj.neighbourhood} 
         /> 
       );
 
@@ -58,9 +58,10 @@ export default class Dashboard extends React.Component {
   /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
   showMovies(keyword) {
         // Send an HTTP request to the server.
+        console.log(keyword);
         fetch("http://localhost:8081/keywords/" + keyword,
         {
-          method: 'GET' // The type of HTTP request.
+                method: 'GET' // The type of HTTP request.
         }).then(res => {
           // Convert the response data to a JSON.
           return res.json();
@@ -76,6 +77,7 @@ export default class Dashboard extends React.Component {
             <DashboardMovieRow movie = {movieObj}
             /> 
           );
+          console.log(movieList);
     
           // Set the state of the keywords list to the value returned by the HTTP response from the server.
           this.setState({
@@ -96,7 +98,7 @@ export default class Dashboard extends React.Component {
         <br />
         <div className="container movies-container">
           <div className="jumbotron">
-            <div className="h5">Keywords</div>
+            <div className="h5">Manhattan Neighbourhoods</div>
             <div className="keywords-container">
               {this.state.keywords}
             </div>
@@ -106,9 +108,9 @@ export default class Dashboard extends React.Component {
           <div className="jumbotron">
             <div className="movies-container">
               <div className="movies-header">
-                <div className="header-lg"><strong>Title</strong></div>
-                <div className="header"><strong>Rating</strong></div>
-                <div className="header"><strong>Vote Count</strong></div>
+                <div className="header-lg"><strong>Name</strong></div>
+                <div className="header"><strong>Room Type</strong></div>
+                <div className="header"><strong>Price</strong></div>
               </div>
               <div className="results-container" id="results">
                 {this.state.movies}
