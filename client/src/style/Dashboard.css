@@ -29,6 +29,25 @@
   flex: 1 0 50%;
 }
 
+.movies-container .loud-results {
+  display: inline;
+  height: 900px;
+  padding: 0 1px;
+}
+
+.loud-results .header, .loud-results .link{
+  flex:  0 0 100%;
+  height: 200 px;
+}
+
+.movies-container .quiet-results {
+  display: inline;
+  flex:  0 0 500%;
+  height: 1200px;
+  padding: 0 1px;
+}
+
+
 .movies-header .header, .movie .rating, .movie .votes {
   flex: 1 0 25%;
 }

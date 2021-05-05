@@ -144,12 +144,12 @@ export default class Dashboard extends React.Component {
 
         <div class="container">
 						<div class="row">
-							<div class="col-md-6 col-sm-6">
+							
+              <div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
-								<header>Loud Favourites</header>
+                <header>AirBNB Reccomendations:</header>
+								<header>Partying in the Big Apple</header>
 								<div className="movies-container">
-                  <div className="movie">
-									</div>
 									<div className="loud-results" id="results">
 										{this.state.loudListings}
 									</div>
@@ -159,14 +159,15 @@ export default class Dashboard extends React.Component {
 
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
-								<header>Quiet Favourites</header>
+                <header>AirBNB Reccomendations:</header>
+								<header>A Relaxing Weekend Trip to Manhattan</header>
+                
 								<div className="movies-container">
-                  <div className="movie">
-									</div>		
 									<div className="quiet-results" id="results">
 										{this.state.quietListings}
 									</div>
 								</div>
+                
 							</div>
 							</div>
 						</div>
