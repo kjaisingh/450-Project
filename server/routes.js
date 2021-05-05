@@ -13,11 +13,10 @@ const getTop20Keywords = (req, res) => {
   /*
   TEST CODE
   */
- console.log("ABC");
   const query = `
-  SELECT DISTINCT neighbourhood_cleansed AS neighbourhood
-  FROM Lsting WHERE neighbourhood LIKE 'Manhattan' AND neighbourhood_cleansed NOT LIKE '%Harlem%'
-  LIMIT 20;
+    SELECT DISTINCT neighbourhood_cleansed AS neighbourhood
+    FROM Lsting WHERE neighbourhood LIKE 'Manhattan' AND neighbourhood_cleansed NOT LIKE '%Harlem%'
+    LIMIT 20;
   `;
 
   connection.query(query, (err, rows, fields) => {
@@ -28,7 +27,6 @@ const getTop20Keywords = (req, res) => {
 
 const getTopMoviesWithKeyword = (req, res) => {
   const inputKwd = "%"+req.params.keyword+"%";
-  console.log(" ABC ");
   const query = `
   SELECT name, room_type, price 
   FROM Lsting
@@ -36,7 +34,34 @@ const getTopMoviesWithKeyword = (req, res) => {
   ORDER BY reviews_per_month DESC 
   LIMIT 10;
 `;
-console.log(query);
+
+  connection.query(query, (err, rows, fields) => {
+    if (err) console.log(err);
+    else res.json(rows);
+  });
+};
+
+const getLoudListings = (req, res) => {
+  const query = `
+    SELECT name, neighbourhood_cleansed AS neighbourhood
+    FROM Lsting
+    WHERE price > 100
+    LIMIT 5;
+  `;
+  
+  connection.query(query, (err, rows, fields) => {
+    if (err) console.log(err);
+    else res.json(rows);
+  });
+};
+
+const getQuietListings = (req, res) => {
+  const query = `
+    SELECT DISTINCT name, neighbourhood_cleansed AS neighbourhood
+    FROM Lsting
+    WHERE price < 100
+    LIMIT 5;
+  `;
 
   connection.query(query, (err, rows, fields) => {
     if (err) console.log(err);
@@ -190,8 +215,6 @@ const getPartyBnb = (req, res) => {
   var c;
   var d;
   
-  console.log(x, y, z);
-
   var Manhattan = [0, 10, 25, 50, 100, 300];
   var Brooklyn = [0, 10, 20, 40, 100, 2000];
   var StatenIsland = [0, 2, 10, 21, 40, 65];
@@ -310,6 +333,8 @@ const getReviewResults = (req, res) => {
 module.exports = {
 	getTop20Keywords: getTop20Keywords,
 	getTopMoviesWithKeyword: getTopMoviesWithKeyword,
+  getLoudListings: getLoudListings,
+  getQuietListings: getQuietListings,
 
 	getRecs: getRecs,
   getFilter: getFilter,

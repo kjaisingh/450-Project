@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import KeywordButton from './KeywordButton';
 import DashboardMovieRow from './DashboardMovieRow';
+import ListingRow from './ListingRow';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -11,8 +12,8 @@ export default class Dashboard extends React.Component {
     this.state = {
       keywords: [],
       movies: [],
-      loudListings: [], // name (link) + neighbourhood
-      quietListings: [] // name (link) + neighbourhood
+      loudListings: [],
+      quietListings: []
     };
 
     this.showMovies = this.showMovies.bind(this);
@@ -38,6 +39,46 @@ export default class Dashboard extends React.Component {
       );
       this.setState({
         keywords: keywordsDivs
+      });
+    }, err => {
+      console.log(err);
+    });
+
+    fetch("http://localhost:8081/loudListings",
+    {
+      method: 'GET'
+    }).then(res => {
+      return res.json();
+    }, err => {
+      console.log(err);
+    }).then(resultsList => {
+      if (!resultsList) return;
+      const resultsDiv = resultsList.map((resultObj, i) =>
+        <ListingRow movie = {resultObj}
+        />  
+      );
+      this.setState({
+        loudListings: resultsDiv
+      });
+    }, err => {
+      console.log(err);
+    });
+
+    fetch("http://localhost:8081/quietListings",
+    {
+      method: 'GET'
+    }).then(res => {
+      return res.json();
+    }, err => {
+      console.log(err);
+    }).then(resultsList => {
+      if (!resultsList) return;
+      const resultsDiv = resultsList.map((resultObj, i) =>
+        <ListingRow movie = {resultObj}
+        />  
+      );
+      this.setState({
+        quietListings: resultsDiv
       });
     }, err => {
       console.log(err);
@@ -92,7 +133,7 @@ export default class Dashboard extends React.Component {
 								</div>
 							</div>
 							</div>
-              
+
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
 								<header>Quiet Favourites</header>

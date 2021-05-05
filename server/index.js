@@ -16,7 +16,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 /* ---- Dashboard ---- */
 app.get('/keywords', routes.getTop20Keywords);
 app.get('/keywords/:keyword', routes.getTopMoviesWithKeyword);
-
+app.get('/loudListings', routes.getLoudListings);
+app.get('/quietListings', routes.getQuietListings);
 
 /* ---- Find an AirBNB ---- */
 app.get('/find/:movieName/:numberOfPeople/:superHostNeeded/:prefPrice', routes.getRecs);
