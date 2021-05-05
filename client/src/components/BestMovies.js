@@ -76,6 +76,7 @@ export default class BestMovies extends React.Component {
 				movie = {movieObj}
 			/> 
           );
+		  console.log(movieList);
           this.setState({
             movies: movieDivs
           });
@@ -100,6 +101,7 @@ export default class BestMovies extends React.Component {
 				<ListingBarsRow movie = {resultObj}
 				/> 
 			);
+			console.log(resultsList);
 			this.setState({
 				bars: resultsDiv
 			});
@@ -202,7 +204,9 @@ export default class BestMovies extends React.Component {
 								<div className="movies-container">
 									<div className="movie">
 										<div className="header"><strong>Address</strong></div>
-										<div className="header"><strong>Distance</strong></div>
+										<div className="header"><strong>Latitude</strong></div>
+										<div className="header"><strong>Longitude</strong></div>
+
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.bars}

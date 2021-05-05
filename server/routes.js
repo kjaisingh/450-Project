@@ -273,9 +273,15 @@ const getPartyBnb = (req, res) => {
 const getBarResults = (req, res) => {
   const inputId = req.params.id;
   const query = `
-    SELECT Incident_ZIP, num_calls
-    FROM Bars 
-    LIMIT 10;
+  WITH tab1 as
+	(Select latitude, longitude 
+    FROM Lsting WHERE id = '${inputId}'),
+tab2 as
+	(Select a.address, a.latitude, a.longitude
+	From tab1 
+	JOIN addresses a ON ABS(a.latitude - tab1.latitude) <= .01 AND ABS(a.longitude - tab1.longitude) <= .01
+	LIMIT 10)
+  SELECT * FROM tab2;
   `;
 
   connection.query(query, (err, rows, fields) => {
@@ -287,9 +293,10 @@ const getBarResults = (req, res) => {
 const getReviewResults = (req, res) => {
   const inputId = req.params.id;
   const query = `
-    SELECT reviewer_name AS name, comments AS comment
-    FROM reviews 
-    LIMIT 10;
+    SELECT reviewer_name, comments
+    FROM reviews
+    WHERE listing_id = '${inputId}'
+    LIMIT 5;
   `;
 
   connection.query(query, (err, rows, fields) => {

@@ -5,8 +5,9 @@ export default class ListingBarsRow extends React.Component {
 	render() {
 		return (
 			<div className="barResults">
-                <div className="address">{this.props.movie.Incident_ZIP}</div>
-				<div className="distance">{this.props.movie.num_calls}</div> 
+                <div className="address">{this.props.movie.address}</div>
+				<div className="latitude">{this.props.movie.latitude}</div> 
+				<div className="longitude">{this.props.movie.longitude}</div> 
 			</div>
 		);
 	};
