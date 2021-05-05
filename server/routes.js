@@ -43,10 +43,32 @@ const getTopMoviesWithKeyword = (req, res) => {
 
 const getLoudListings = (req, res) => {
   const query = `
-    SELECT name, neighbourhood_cleansed AS neighbourhood
-    FROM Lsting
-    WHERE price > 100
-    LIMIT 5;
+  WITH tab1 AS (
+    SELECT Location_type, Incident_ZIP, City, Borough, latitude, longitude, COUNT(*) as NumParties
+    FROM Parties
+    WHERE Borough = 'MANHATTAN'
+    GROUP BY Location_type, Incident_ZIP, City, Borough, latitude, longitude
+    ORDER BY NumParties DESC
+    LIMIT 3), 
+    tab2 AS 
+    (SELECT A.listing_url, A.id, A.latitude, A.longitude, A.description, A.rating, A.neighbourhood
+    FROM Lsting as A),
+    tab3 AS 
+    (SELECT A.listing_url, A.id, A.latitude, A.longitude, A.description, A.rating, A.neighbourhood, B.latitude as Blat, B.longitude as Blon
+    FROM tab1 as B,tab2 as A),
+    tab4 AS
+      (SELECT DISTINCT listing_url, description, (latitude - Blat)*(latitude - Blat) + (longitude - Blon)*(longitude - Blon) as distance
+      FROM tab3
+      WHERE neighbourhood = 'Manhattan' AND description LIKE '%Parties%' AND description NOT LIKE '%no%' AND description NOT LIKE '%spartan%' AND description NOT LIKE '%soho%' AND description NOT LIKE '%queen%' AND description NOT LIKE '%quiet%'
+      AND LENGTH(description) < 1000
+      AND EXISTS
+        (SELECT * 
+        FROM Bars 
+        WHERE ABS(Bars.latitude - tab3.latitude) <= .005 AND ABS(Bars.longitude - tab3.longitude) <= .005)
+      ORDER BY (latitude - Blat)*(latitude - Blat) + (longitude - Blon)*(longitude - Blon) DESC)
+    SELECT DISTINCT listing_url, description
+    FROM tab4
+    LIMIT 3;
   `;
   
   connection.query(query, (err, rows, fields) => {
@@ -57,10 +79,9 @@ const getLoudListings = (req, res) => {
 
 const getQuietListings = (req, res) => {
   const query = `
-    SELECT DISTINCT name, neighbourhood_cleansed AS neighbourhood
-    FROM Lsting
-    WHERE price < 100
-    LIMIT 5;
+  SELECT * FROM peacefulBnbs
+  WHERE description LIKE '%peaceful%' AND description LIKE '%relax%'
+  LIMIT 3;
   `;
 
   connection.query(query, (err, rows, fields) => {

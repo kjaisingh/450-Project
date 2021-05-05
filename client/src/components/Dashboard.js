@@ -117,41 +117,6 @@ export default class Dashboard extends React.Component {
         <PageNavbar active="home" />
         <br />
 
-        <div class="container">
-						<div class="row">
-							<div class="col-md-6 col-sm-6">
-							<div class="jumbotron">
-								<header>Loud Favourites</header>
-								<div className="movies-container">
-                  <div className="movie">
-										<div className="header"><strong>Listing</strong></div>
-										<div className="header"><strong>Neighbourhood</strong></div>
-									</div>
-									<div className="loud-results" id="results">
-										{this.state.loudListings}
-									</div>
-								</div>
-							</div>
-							</div>
-
-							<div class="col-md-6 col-sm-6">
-							<div class="jumbotron">
-								<header>Quiet Favourites</header>
-								<div className="movies-container">
-                  <div className="movie">
-										<div className="header"><strong>Listing</strong></div>
-										<div className="header"><strong>Neighbourhood</strong></div>
-									</div>		
-									<div className="quiet-results" id="results">
-										{this.state.quietListings}
-									</div>
-								</div>
-							</div>
-							</div>
-						</div>
-				</div>
-        <br />
-
         <div className="container movies-container">
           <div className="jumbotron">
             <div className="h5">Manhattan Neighbourhoods</div>
@@ -174,6 +139,38 @@ export default class Dashboard extends React.Component {
             </div>
           </div>
         </div>
+
+        <br />
+
+        <div class="container">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+							<div class="jumbotron">
+								<header>Loud Favourites</header>
+								<div className="movies-container">
+                  <div className="movie">
+									</div>
+									<div className="loud-results" id="results">
+										{this.state.loudListings}
+									</div>
+								</div>
+							</div>
+							</div>
+
+							<div class="col-md-6 col-sm-6">
+							<div class="jumbotron">
+								<header>Quiet Favourites</header>
+								<div className="movies-container">
+                  <div className="movie">
+									</div>		
+									<div className="quiet-results" id="results">
+										{this.state.quietListings}
+									</div>
+								</div>
+							</div>
+							</div>
+						</div>
+				</div>
       </div>
     );
   };

@@ -5,8 +5,7 @@ export default class ListingRow extends React.Component {
 	render() {
 		return (
 			<div className="listingResults">
-                <div className="listingname">{this.props.movie.name}</div>
-				<div className="neighbourhood">{this.props.movie.neighbourhood}</div>
+                <div className="bookinglink"><a href={this.props.movie.listing_url}>{this.props.movie.description}</a></div>
 			</div>
 		);
 	};
