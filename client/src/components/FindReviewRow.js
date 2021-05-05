@@ -6,8 +6,8 @@ export default class FindReviewRow extends React.Component {
 	render() {
 		return (
 			<div className="reviewResults">
-				<div className="Name"><a href={this.props.movie.listing_url}>{this.props.movie.name}</a></div>
-				<div className="Picture"><a href={this.props.movie.picture_url}>{this.props.movie.rating}</a></div>
+				<div className="Name"><a href={this.props.movie.host_url}>{this.props.movie.host_name}</a></div>
+				<div className="Picture"><a href={this.props.movie.picture_url}>{this.props.movie.avg}</a></div>
 			</div>
 		);
 	};

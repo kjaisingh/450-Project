@@ -214,10 +214,12 @@ connection.query(query, (err, rows, fields) => {
 const getReviewPic = (req, res) => {
   const borough = req.params.selectedBorough_topHosts;
   const query = `
-  SELECT DISTINCT name, picture_url, listing_url, rating
+  SELECT DISTINCT AVG(rating) as avg, host_url, host_name
   FROM Lsting
-  WHERE neighbourhood = '${borough}'
-  ORDER BY number_of_reviews DESC
+  WHERE neighbourhood = '${borough}' AND host_total_listings_count >= 3 
+  AND host_is_superhost = 1 AND number_of_reviews >= 10
+  GROUP BY host_name
+  ORDER BY avg DESC
   LIMIT 5;
   `;
 
