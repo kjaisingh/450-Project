@@ -150,47 +150,34 @@ const getRecs = (req, res) => {
   } else {
 
     query = `
-      WITH tab1 AS (SELECT amenities, name, id, price, listing_url, room_type, host_name, picture_url, host_url 
-      FROM Lsting 
-      WHERE amenities LIKE '%${t}%' AND description LIKE '%${movie}%' AND price <= '${price}' AND host_is_superhost = '${sh}' AND accommodates >= '${ppl}'),
-      tab2 AS (SELECT listing_id 
-      FROM reviews 
-      WHERE comments LIKE '%${t}%'),
-      tab3 AS (SELECT tab1.id, tab1.name, tab1.price, tab1.listing_url, tab1.host_name, tab1.room_type, tab1.picture_url, tab1.host_url 
-      FROM tab1, tab2 
-      WHERE tab1.id = tab2.listing_id),
-      tab4 AS (SELECT amenities, name, id, price, listing_url, room_type
-      FROM Lsting 
-      WHERE amenities LIKE '%${r}%' AND description LIKE '%${movie}%' AND price <= '${price}' AND host_is_superhost = '${sh}' AND accommodates >= '${ppl}'),
-      tab5 AS (SELECT listing_id 
-      FROM reviews 
-      WHERE comments LIKE '%${r}%'),
-      tab6 AS (SELECT tab4.id, tab4.name, tab4.price, tab4.listing_url 
-      FROM tab4, tab5 
-      WHERE tab4.id = tab5.listing_id),
-      tab7 AS (SELECT amenities, name, id, price, listing_url, room_type
-      FROM Lsting 
-      WHERE amenities LIKE '%${w}%' AND description LIKE '%${movie}%' AND price <= '${price}' AND host_is_superhost = '${sh}' AND accommodates >= '${ppl}'),
-      tab8 AS (SELECT listing_id 
-      FROM reviews 
-      WHERE comments LIKE '%${w}%'),
-      tab9 AS (SELECT tab7.id, tab7.name, tab7.price, tab7.listing_url 
-      FROM tab7, tab8 
-      WHERE tab7.id = tab8.listing_id),
-      tab10 AS (SELECT amenities, name, id, price, listing_url, room_type 
-      FROM Lsting 
-      WHERE amenities LIKE '%${k}%' AND description LIKE '%${movie}%' AND price <= '${price}' AND host_is_superhost = '${sh}' AND accommodates >= '${ppl}'),
-      tab11 AS (SELECT listing_id 
-      FROM reviews 
-      WHERE comments LIKE '%${k}%'),
-      tab12 AS (SELECT tab10.id, tab10.name, tab10.price, tab10.listing_url 
-      FROM tab10, tab11 
-      WHERE tab10.id = tab11.listing_id)
-      SELECT DISTINCT tab3.id, tab3.name, tab3.price, tab3.listing_url, tab3.room_type, tab3.host_name, tab3.picture_url, tab3.host_url 
-      FROM tab3, tab6, tab9, tab12 WHERE tab3.id = tab6.id AND tab3.id = tab9.id AND tab3.id = tab12.id
-      LIMIT 10;
+
+    WITH tab1 AS (SELECT Lsting.id, Lsting.name, reviews.comments, Lsting.amenities, 
+    Lsting.room_type, Lsting.price, Lsting.listing_url, Lsting.picture_url,
+    Lsting.host_name, Lsting.host_url 
+    FROM Lsting JOIN reviews ON Lsting.id = reviews.listing_id 
+    WHERE Lsting.price <= '${price}' AND Lsting.host_is_superhost = '${sh}' 
+    AND Lsting.accommodates >= '${ppl}' AND description LIKE '%${movie}%'),
+    tab2 AS (SELECT id, name, comments, amenities, room_type, price, 
+    listing_url, picture_url, host_url, host_name 
+    FROM tab1 
+    WHERE amenities LIKE '%${w}%'),
+    tab3 AS (SELECT id, name, comments, amenities, room_type, price, 
+    listing_url, picture_url, host_url, host_name 
+    FROM tab2 WHERE amenities LIKE '%${t}%'),
+    tab4 AS (SELECT id, name, comments, amenities, room_type, price, 
+    listing_url, picture_url, host_url, host_name
+    FROM tab3 
+    WHERE amenities LIKE '%${k}%')
+    SELECT DISTINCT id, name, room_type, price, 
+    listing_url, picture_url, host_url, host_name
+    FROM tab3 
+    WHERE amenities LIKE '%${r}%' AND (comments LIKE '% ${r} %' 
+    OR comments LIKE '% ${k} %' OR comments LIKE '% ${w} %' OR comments LIKE '% ${t} %')
+    LIMIT 10;
+
     `; 
   }
+  console.log(query);
 
 connection.query(query, (err, rows, fields) => {
   if (err) console.log(err);
