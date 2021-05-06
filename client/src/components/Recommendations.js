@@ -154,7 +154,6 @@ export default class Recommendations extends React.Component {
 		  const decadeDivs = decadesList.map((movieObj, i) =>
 			<option className="decadesOption" value={movieObj.neighbourhood}>{movieObj.neighbourhood}</option>
           );
-		  console.log(decadeDivs);
 		  this.setState({
 			decades: decadeDivs
 		  });

@@ -19,7 +19,6 @@ export default class Dashboard extends React.Component {
     this.showMovies = this.showMovies.bind(this);
   };
 
-  // React function that is called when the page load.
   componentDidMount() {
     fetch("http://localhost:8081/keywords",
     {
@@ -87,7 +86,6 @@ export default class Dashboard extends React.Component {
 
   /* ---- Q1b (Dashboard) ---- */
   showMovies(keyword) {
-      console.log(keyword);
       fetch("http://localhost:8081/keywords/" + keyword,
       {
           method: 'GET'
@@ -101,7 +99,6 @@ export default class Dashboard extends React.Component {
           <DashboardMovieRow movie = {movieObj}
           /> 
         );
-        console.log(movieList);
         this.setState({
           movies: movieDivs
         });

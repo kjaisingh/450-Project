@@ -177,12 +177,11 @@ const getRecs = (req, res) => {
 
     `; 
   }
-  console.log(query);
 
-connection.query(query, (err, rows, fields) => {
-  if (err) console.log(err);
-  else res.json(rows);
-});
+  connection.query(query, (err, rows, fields) => {
+    if (err) console.log(err);
+    else res.json(rows);
+  });
 };
 
 const getFilter = (req, res) => {
