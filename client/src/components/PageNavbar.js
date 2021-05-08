@@ -11,12 +11,12 @@ export default class PageNavbar extends React.Component {
 	};
 
 	componentDidMount() {
-		const pageList = ['home', 'Find an Airbnb', 'The New York Party Experience'];
+		const pageList = ['home', 'Find', 'The New York Party Experience'];
 
 		let navbarDivs = pageList.map((page, i) => {
 			if (this.props.active === page) {
 				return <a className="nav-item nav-link active" key={i} href={"/" + page}>{page.charAt(0).toUpperCase() + page.substring(1, page.length)}</a>
-			} else if (page === 'Find an Airbnb') {
+			} else if (page === 'Find') {
 				return <a className="nav-item nav-link" key={i} href={"/find"}>Find an Airbnb</a>
 			}else if (page === 'The New York Party Experience') {
 				return <a className="nav-item nav-link" key={i} href={"/nycparty"}>Find an Experience</a>

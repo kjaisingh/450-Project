@@ -44,15 +44,15 @@ const getTopMoviesWithKeyword = (req, res) => {
 const getLoudListings = (req, res) => {
   const query = `
   WITH tab1 AS (
-    SELECT Location_type, Incident_ZIP, City, Borough, latitude, longitude, COUNT(*) as NumParties
+    SELECT Borough, latitude, longitude, COUNT(*) as NumParties
     FROM Parties
     WHERE Borough = 'MANHATTAN'
-    GROUP BY Location_type, Incident_ZIP, City, Borough, latitude, longitude
+    GROUP BY Borough, latitude, longitude
     ORDER BY NumParties DESC
     LIMIT 3), 
     tab2 AS 
-    (SELECT A.listing_url, A.id, A.latitude, A.longitude, A.description, A.rating, A.neighbourhood
-    FROM Lsting as A),
+    (SELECT listing_url, id, latitude, longitude, description, rating, neighbourhood
+    FROM Lsting WHERE neighbourhood LIKE 'Manhattan'),
     tab3 AS 
     (SELECT A.listing_url, A.id, A.latitude, A.longitude, A.description, A.rating, A.neighbourhood, B.latitude as Blat, B.longitude as Blon
     FROM tab1 as B,tab2 as A),
@@ -67,8 +67,7 @@ const getLoudListings = (req, res) => {
         WHERE ABS(Bars.latitude - tab3.latitude) <= .005 AND ABS(Bars.longitude - tab3.longitude) <= .005)
       ORDER BY (latitude - Blat)*(latitude - Blat) + (longitude - Blon)*(longitude - Blon) DESC)
     SELECT DISTINCT listing_url, description
-    FROM tab4
-    LIMIT 3;
+    FROM tab4;
   `;
   
   connection.query(query, (err, rows, fields) => {
