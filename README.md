@@ -10,7 +10,25 @@ correlation between party activity in NYC with Airbnbs. If someone is looking to
 an Airbnb near a bar, which is the source of many noise complaints. Meanwhile, if someone is looking for a relaxing, 
 tranquil trip in NYC, we will suggest an Airbnb in a quiet neighborhood.
 
-This project was produced in collaboration by the following indivduals:
+## Execution Instructions
+* If you aren't working with the extracted zip file, then run the following in the command line: \
+`git clone https://github.com/kjaisingh/CIS-450-Project`
+* cd into the created folder: `cd 450-Project`
+* cd into the 'client' folder, then install the client-side node modules: `npm install`
+* cd into the root (450-Project) directory, then cd into the  'server' folder and install server-side node modules: `npm install`
+* Execute the following to begin the server-side: `npm start`
+* cd back into the root (450-Project) directory, then into the  'client' folder, and begin the client-side: `npm start`
+
+## Dependencies
+* anymatch@3.1.2
+* bootstrap@4.6.0
+* chokidar@3.5.1
+* react-bootstrap@1.5.2
+* react-vis@1.11.7
+* react@17.0.2
+* shards-react@1.0.3
+
+## Project Contributors
 * [Karan Jaisingh](https://github.com/kjaisingh).
 * [Aakash Jajoo](https://github.com/aakashjajoo1).
 * [Yathu Nadanapathan](https://github.com/yathu-n).
