@@ -8,6 +8,7 @@ import '../style/Recommendations.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "shards-ui/dist/css/shards.min.css"
 import { Slider } from "shards-react";
+import Footer from "./Footer";
 
 
 
@@ -423,8 +424,11 @@ export default class Recommendations extends React.Component {
 							</div>
 
 						</div>
+
 					</div>
+					<Footer />
 			</div>
+
 		);
 	};
 };

@@ -5,6 +5,7 @@ import PageNavbar from './PageNavbar';
 import KeywordButton from './KeywordButton';
 import DashboardMovieRow from './DashboardMovieRow';
 import ListingRow from './ListingRow';
+import Footer from "./Footer";
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -169,6 +170,7 @@ export default class Dashboard extends React.Component {
 							</div>
 						</div>
 				</div>
+        <Footer />
       </div>
     );
   };

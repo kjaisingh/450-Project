@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css"
 import { Slider } from "shards-react";
+import Footer from "./Footer";
 
 export default class BestMovies extends React.Component {
 	constructor(props) {
@@ -219,6 +220,7 @@ export default class BestMovies extends React.Component {
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 	};
