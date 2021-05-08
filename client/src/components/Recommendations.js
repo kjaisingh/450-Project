@@ -179,7 +179,6 @@ export default class Recommendations extends React.Component {
             recMovies: recommendedDivs
           });
         });
-
 	};
 
 	submitFilterAndBorough() {
