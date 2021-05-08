@@ -18,6 +18,7 @@ tranquil trip in NYC, we will suggest an Airbnb in a quiet neighborhood.
 * cd into the root (450-Project) directory, then cd into the  'server' folder and install server-side node modules: `npm install`
 * Execute the following to begin the server-side: `npm start`
 * cd back into the root (450-Project) directory, then into the  'client' folder, and begin the client-side: `npm start`
+* Finally, launch the following URL in your browser: `http://localhost:3000/`
 
 ## Dependencies
 * anymatch@3.1.2
