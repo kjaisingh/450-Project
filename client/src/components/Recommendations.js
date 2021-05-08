@@ -9,8 +9,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "shards-ui/dist/css/shards.min.css"
 import { Slider } from "shards-react";
 import Footer from "./Footer";
-
-
+import { Button } from "shards-react";
+import { FormInput } from "shards-react";
+import { FormCheckbox } from "shards-react";
+import { FormRadio } from "shards-react";
 
 export default class Recommendations extends React.Component {
 	constructor(props) {
@@ -42,8 +44,6 @@ export default class Recommendations extends React.Component {
 			x: "two",
 			y: "three"
 		};
-
-		// fridge, wifi, tv, kitchen
 
 		this.handleMovieNameChange = this.handleMovieNameChange.bind(this);
 		this.submitMovie = this.submitMovie.bind(this);
@@ -151,7 +151,6 @@ export default class Recommendations extends React.Component {
 		  console.log(err);
 		}).then(decadesList => {
 		  if (!decadesList) return;
-
 		  const decadeDivs = decadesList.map((movieObj, i) =>
 			<option className="decadesOption" value={movieObj.neighbourhood}>{movieObj.neighbourhood}</option>
           );
@@ -165,7 +164,9 @@ export default class Recommendations extends React.Component {
 		const l = document.querySelector(".hello");
 
 		if (this.state.movieName === "") {
-			this.state.movieName = " ";
+			this.setState({
+				movieName: " "
+			  });
 		}
         fetch("http://localhost:8081/find/" + this.state.movieName + "/" + this.state.numberOfPeople + "/" + this.state.superHostNeeded + "/" + this.state.prefPrice + "/" + this.state.wifiPresent + "/" + this.state.TVPresent + "/" + this.state.kitchenPresent + "/" + this.state.refrigerator,
         {
@@ -272,18 +273,25 @@ export default class Recommendations extends React.Component {
 						<br></br>
 
 						<div>
-							<header> Filter</header>
-							<input type="radio" value="minimum_nights" name="Filter"  onChange = {this.handleFilterChange} checked = {this.state.selectedFilter === "minimum_nights" ? "checked": null} /> Minimum Nights
-							<input type="radio" value="price" name="Filter"  onChange = {this.handleFilterChange} checked = {this.state.numberOfPeople === "price" ? "checked": null} /> Price
-							<input type="radio" value="number_of_reviews" name="Filter"  onChange = {this.handleFilterChange} checked = {this.state.numberOfPeople === "number_of_reviews" ? "checked": null} /> Number of reviews
+							<header><strong>Filter</strong></header>
+							<FormRadio inline value="minimum_nights" name="Filter"  onChange = {this.handleFilterChange} checked = {this.state.selectedFilter === "minimum_nights" ? "checked": null}>
+            					Minimum Nights
+         		 			</FormRadio>
+							<FormRadio inline value="price" name="Filter"  onChange = {this.handleFilterChange} checked = {this.state.numberOfPeople === "price" ? "checked": null}>
+            					Price
+         		 			</FormRadio>
+							<FormRadio inline value="number_of_reviews" name="Filter"  onChange = {this.handleFilterChange} checked = {this.state.numberOfPeople === "number_of_reviews" ? "checked": null}>
+            					Number of Reviews
+         		 			</FormRadio>
 						</div>
 
 						<div className="dropdown-container">
-							Borough:
-							<br></br> <select value={this.state.selectedBorough_T10} onChange={this.handleBoroughT10Change} className="decadesOptions" id="decadesDropdown1">
+							<strong>Borough</strong>:
+							<br></br>
+							<select value={this.state.selectedBorough_T10} onChange={this.handleBoroughT10Change} className="decadesOptions" id="decadesDropdown1">
 								{this.state.decades}
 							</select>
-							<button className="submit-btn" id="submitT10Filter" onClick={this.submitFilterAndBorough}>Submit</button>
+							<Button pill theme="secondary" size="sm" className="submit-btn" id="submitT10Filter" onClick={this.submitFilterAndBorough}>Submit</Button>
 						</div>
 
 
@@ -308,69 +316,70 @@ export default class Recommendations extends React.Component {
 						<div className="h5">Recommendations</div>
 						<br></br>
 						<div className="input-container">
-							<input type='text' placeholder="Enter Description Keyword" required="required" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
-							<button id="submitSearch" className="submit-btn" onClick={this.submitMovie}>Submit</button>
+							<FormInput width="100" type='text' placeholder="Enter Description Keyword" required="required" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
 						</div>
-						<p class="hello"> Error this does not have any results </p>
+						<p class="hello">Please enter a search term.</p>
 						<div>
-							<header> Number of people</header>
-							<input type="radio" value="1" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 1 ? "checked": null} /> 1
-							<input type="radio" value="2" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 2 ? "checked": null} /> 2
-							<input type="radio" value="3" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 3 ? "checked": null} /> 3
-							<input type="radio" value="4" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 4 ? "checked": null}/> 4
-							<input type="radio" value="5" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 5 ? "checked": null}/> 5
-						</div>
-
-						<div>
-							<header> Is having a superhost essential to you?</header>
-							<input type="radio" value="Yes" name="SuperHost" onChange = {this.handleSuperHostChange} checked = {this.state.superHostNeeded === "Yes" ? "checked": null}/> Yes 
-							<input type="radio" value="No" name="SuperHost" onChange = {this.handleSuperHostChange} checked = {this.state.superHostNeeded === "No" ? "checked": null} /> No 
-						</div>
-
-						<div>
-							<label>
-								Refrigerator:
-								<input
-								name="refrigerator"
-								type="checkbox"
-								checked = {this.state.refrigerator}
-								onChange = {this.handleFridgeChange} />
-							</label>
-
-							<label>
-								Wifi:
-								<input
-								name="Wifi"
-								type="checkbox"
-								checked={this.state.wifiPresent}
-								onChange={this.handleWifiChange} />
-							</label>
-
-							<label>
-								TV:
-								<input
-								name="TV"
-								type="checkbox"
-								checked={this.state.TVPresent}
-								onChange={this.handleTVChange} />
-							</label>
-
-							<label>
-								Kitchen:
-								<input
-								name="Kitchen"
-								type="checkbox"
-								checked={this.state.KitchenPresent}
-								onChange={this.handleKitchenChange} />
-							</label>		
+							<header><strong>Number of People</strong></header>
+							<FormRadio inline value="1" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 1 ? "checked": null}>
+            					1
+         		 			</FormRadio>
+							<FormRadio inline value="2" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 2 ? "checked": null}>
+            					2
+         		 			</FormRadio>
+							<FormRadio inline value="3" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 3 ? "checked": null}>
+            					3
+         		 			</FormRadio>
+							<FormRadio inline value="4" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 4 ? "checked": null}>
+            					4
+         		 			</FormRadio>
+							<FormRadio inline value="5" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 5 ? "checked": null}>
+            					5
+         		 			</FormRadio>
 						</div>
 
 						<div>
-							<header>Price Limit</header>
+							<header><strong>Superhost Required</strong></header>
+							<FormRadio inline value="Yes" name="SuperHost" onChange = {this.handleSuperHostChange} checked = {this.state.superHostNeeded === "Yes" ? "checked": null}>
+            					Yes
+         		 			</FormRadio>
+							<FormRadio inline value="No" name="SuperHost" onChange = {this.handleSuperHostChange} checked = {this.state.superHostNeeded === "No" ? "checked": null}>
+            					No
+         		 			</FormRadio>
+						</div>
+
+						<div>
+						<strong>Amenities</strong>
+						</div>
+
+						<div>
+							<FormCheckbox inline name="refrigerator" checked = {this.state.refrigerator} onChange = {this.handleFridgeChange}>
+								Refrigerator
+							</FormCheckbox>
+
+							<FormCheckbox inline name="wifi" checked = {this.state.wifiPresent} onChange = {this.handleWifiChange}>
+								Wifi
+							</FormCheckbox>
+
+							<FormCheckbox inline name="TV" checked = {this.state.TVPresent} onChange = {this.handleTVChange}>
+								Television
+							</FormCheckbox>
+
+							<FormCheckbox inline name="Kitchen" checked = {this.state.KitchenPresent} onChange = {this.handleKitchenChange}>
+								Kitchen
+							</FormCheckbox>	
+						</div>
+
+						<div>
+							<header><strong>Price Limit</strong></header>
 							<Slider pips={{ mode: "steps", stepped: true, density: 10 }}
 									step={50} onSlide={this.handleSlide} connect={[true, false]} 
 									start={[this.state.prefPrice]} range={{ min: 0, max: 500 }}
 							/>
+						</div>
+
+						<div>
+						<Button pill theme="secondary" size="sm" id="submitSearch" className="submit-btn" onClick={this.submitMovie}>Submit</Button>
 						</div>
 
 						<div className="header-container">
@@ -387,19 +396,19 @@ export default class Recommendations extends React.Component {
 					</div>
 				</div>
 
-				<div class="container">
+				<div class="container recommendations-container">
 						<div class="row">
 
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
-								<header>Top Hosts by reviews</header>
+								<header className="h6">Top Hosts by Reviews</header>
 								<div className="movies-container">
 									<div className="dropdown-container">
-										Borough:
+										<strong>Borough</strong>
 										<br></br> <select value = {this.state.selectedBorough_topHosts} onChange={this.handleBoroughTopHostsChange} className="decadesOptions" id="decadesDropdown2">
 											{this.state.decades}
 										</select>
-										<button className="submit-btn" id="submitHostFilter" onClick={this.submitBoroughToHosts}>Submit</button>
+										<Button pill theme="secondary" size="sm" className="submit-btn" id="submitHostFilter" onClick={this.submitBoroughToHosts}>Submit</Button>
 									</div>									
 									<div className="movie">
 										<div className="header"><strong>Name</strong></div>
@@ -414,14 +423,14 @@ export default class Recommendations extends React.Component {
 							
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
-								<header>Neighbourhood Availability</header>
+								<header className="h6">Neighbourhood Availability</header>
 								<div className="movies-container">
 									<div className="dropdown-container">
-										Borough:
+										<strong>Borough</strong>
 										<br></br> <select value={this.state.recentReviewBorough} onChange={this.handleReviewBoroughChange} className="decadesOptions" id="decadesDropdown3">
 											{this.state.decades}
 										</select>
-										<button className="submit-btn" id="submitReviewBorough" onClick={this.submitReviews}>Submit</button>
+										<Button pill theme="secondary" size="sm" className="submit-btn" id="submitReviewBorough" onClick={this.submitReviews}>Submit</Button>
 									</div>
 									
 									<div className="movie">
@@ -438,8 +447,11 @@ export default class Recommendations extends React.Component {
 						</div>
 
 					</div>
-					<Footer />
+					<div>
+						<Footer />
+					</div>
 			</div>
+			
 
 		);
 	};

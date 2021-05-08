@@ -51,3 +51,7 @@
 .movies-header .header, .movie .rating, .movie .votes {
   flex: 1 0 25%;
 }
+
+.movies-container {
+  text-align: center;
+}

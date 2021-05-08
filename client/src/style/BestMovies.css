@@ -21,6 +21,9 @@
   padding: 0 1px;
 }
 
+.bestmovies-container {
+  text-align: center;
+}
 
 .movies-container .movieResults:hover {
   background-color: rgb(223, 222, 205);

@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css"
 import { Slider } from "shards-react";
+import { Button } from "shards-react";
+import { FormRadio } from "shards-react";
 import Footer from "./Footer";
 
 export default class BestMovies extends React.Component {
@@ -143,17 +145,27 @@ export default class BestMovies extends React.Component {
 						<div className="h5">Party Filter</div>
 
 						<div>
-							<header>Borough</header>
-							<input type="radio" value="Manhattan" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Manhattan" ? "checked": null} /> Manhattan
-							<input type="radio" value="Brooklyn" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Brooklyn" ? "checked": null} /> Brooklyn
-							<input type="radio" value="Queens" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Queens" ? "checked": null} /> Queens
-							<input type="radio" value="Staten Island" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Staten Island" ? "checked": null}/> Staten Island
-							<input type="radio" value="Bronx" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Bronx" ? "checked": null}/> Bronx
+							<header className="section-title"><strong>Borough</strong></header>
+							<FormRadio inline value="Manhattan" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Manhattan" ? "checked": null}>
+            					Manhattan
+         		 			</FormRadio>
+							<FormRadio inline value="Brooklyn" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Brooklyn" ? "checked": null}>
+            					Brooklyn
+         		 			</FormRadio>
+							<FormRadio inline value="Queens" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Queens" ? "checked": null}>
+            					Queens
+         		 			</FormRadio>
+							<FormRadio inline value="Staten Island" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Staten Island" ? "checked": null}>
+            					Staten Island
+         		 			</FormRadio>
+							<FormRadio inline value="Bronx" name="Size"  onChange = {this.handleBoroughChange} checked = {this.state.selectedBorough === "Bronx" ? "checked": null}>
+            					Bronx
+         		 			</FormRadio>
 						</div>
 						<br />
 
 						<div>
-							<header>Party Intensity</header>
+							<header><strong>Party Intensity</strong></header>
 							<Slider pips={{ mode: "steps", stepped: true, density: 5 }}
 									step={1} onSlide={this.handlePartySlide} connect={[true, false]} 
 									start={[this.state.selectedParty]} range={{ min: 1, max: 5 }}
@@ -162,7 +174,7 @@ export default class BestMovies extends React.Component {
 						<br />
 
 						<div>
-							<header>Bar Intensity</header>
+							<header><strong>Bar Intensity</strong></header>
 							<Slider pips={{ mode: "steps", stepped: true, density: 5 }}
 									step={1} onSlide={this.handleBarSlide} connect={[true, false]} 
 									start={[this.state.selectedBar]} range={{ min: 1, max: 5 }}
@@ -171,7 +183,7 @@ export default class BestMovies extends React.Component {
 						<br />
 
 						<div>
-							<button className="submit-btn" id="submitBtn" onClick={this.submitPreferences}>Submit</button>
+							<Button className="submit-btn" id="submitBtn" onClick={this.submitPreferences} theme="secondary">Submit</Button>
 						</div>
 					</div>
 					<br />
@@ -197,7 +209,7 @@ export default class BestMovies extends React.Component {
 
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
-								<header>Nearby Bars</header>
+								<header className="h6">Nearby Bars</header>
 								<div className="movies-container">
 									<div className="bars-results" id="results">
 										{this.state.bars}
@@ -208,7 +220,7 @@ export default class BestMovies extends React.Component {
 							
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
-								<header>Recent Reviews</header>
+							<header className="h6">Recent Reviews</header>
 								<div className="movies-container">		
 									<div className="reviews-results" id="results">
 										{this.state.reviews}

@@ -117,7 +117,7 @@ export default class Dashboard extends React.Component {
 
         <div className="container movies-container">
           <div className="jumbotron">
-            <div className="h5">Manhattan Neighbourhoods</div>
+            <div className="h5">Popular Neighbourhoods</div>
             <div className="keywords-container">
               {this.state.keywords}
             </div>
@@ -140,7 +140,7 @@ export default class Dashboard extends React.Component {
 
         <br />
 
-        <div class="container">
+        <div class="container movies-container">
 						<div class="row">
 							
               <div class="col-md-6 col-sm-6">

@@ -17,3 +17,16 @@
 .hello {
 	opacity: 0;
 }
+
+.recommendations-container {
+  text-align: center;
+}
+
+.submit-btn {
+  margin-left: 10px;
+}
+
+.movie-input {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
