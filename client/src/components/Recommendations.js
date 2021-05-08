@@ -162,6 +162,11 @@ export default class Recommendations extends React.Component {
 	}
 
 	submitMovie() {
+		const l = document.querySelector(".hello");
+
+		if (this.state.movieName === "") {
+			this.state.movieName = " ";
+		}
         fetch("http://localhost:8081/find/" + this.state.movieName + "/" + this.state.numberOfPeople + "/" + this.state.superHostNeeded + "/" + this.state.prefPrice + "/" + this.state.wifiPresent + "/" + this.state.TVPresent + "/" + this.state.kitchenPresent + "/" + this.state.refrigerator,
         {
           method: 'GET'
@@ -171,6 +176,12 @@ export default class Recommendations extends React.Component {
           console.log(err);
         }).then(movieList => {
           if (!movieList) return;
+          if(movieList.length === 0) {
+          	console.log("error");
+          	l.style.opacity = "1";
+          } else {
+          	l.style.opacity = "0";
+          }
           const recommendedDivs = movieList.map((movieObj, i) =>
             <RecommendationsRow movie = {movieObj}
             /> 
@@ -179,6 +190,7 @@ export default class Recommendations extends React.Component {
             recMovies: recommendedDivs
           });
         });
+
 	};
 
 	submitFilterAndBorough() {
@@ -296,9 +308,10 @@ export default class Recommendations extends React.Component {
 						<div className="h5">Recommendations</div>
 						<br></br>
 						<div className="input-container">
-							<input type='text' placeholder="Enter Description Keyword" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
+							<input type='text' placeholder="Enter Description Keyword" required="required" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
 							<button id="submitSearch" className="submit-btn" onClick={this.submitMovie}>Submit</button>
 						</div>
+						<p class="hello"> Error this does not have any results </p>
 						<div>
 							<header> Number of people</header>
 							<input type="radio" value="1" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 1 ? "checked": null} /> 1
