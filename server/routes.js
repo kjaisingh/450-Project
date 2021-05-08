@@ -203,7 +203,7 @@ const getReviewPic = (req, res) => {
   FROM Lsting
   WHERE neighbourhood = '${borough}' AND host_total_listings_count >= 3 
   AND host_is_superhost = 1 AND number_of_reviews >= 10
-  GROUP BY host_name
+  GROUP BY host_id
   ORDER BY avg DESC
   LIMIT 5;
   `;
