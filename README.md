@@ -30,8 +30,8 @@ tranquil trip in NYC, we will suggest an Airbnb in a quiet neighborhood.
 * shards-react@1.0.3
 
 ## Project Contributors
-* [Karan Jaisingh](https://github.com/kjaisingh).
 * [Aakash Jajoo](https://github.com/aakashjajoo1).
+* [Karan Jaisingh](https://github.com/kjaisingh).
 * [Yathu Nadanapathan](https://github.com/yathu-n).
 * [Kush Pandey](https://github.com/kushpandey1811).
 * [Vian Djianto](https://github.com/viandjianto) (Mentor).
