@@ -13,6 +13,9 @@ import { Button } from "shards-react";
 import { FormInput } from "shards-react";
 import { FormCheckbox } from "shards-react";
 import { FormRadio } from "shards-react";
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+import Select from 'react-select';
 
 export default class Recommendations extends React.Component {
 	constructor(props) {
@@ -42,7 +45,14 @@ export default class Recommendations extends React.Component {
 			recentReviewBorough: "Manhattan",
 			filterResults: [],
 			x: "two",
-			y: "three"
+			y: "three",
+			options: [
+				{ value: 'Manhattan', label: 'Manhattan' },
+				{ value: 'Queens', label: 'Queens' },
+				{ value: 'Brooklyn', label: 'Brooklyn' },
+				{value: 'Bronx', label: 'Bronx'},
+				{value: 'Staten Island', label: 'Staten Island'}
+			  ]
 		};
 
 		this.handleMovieNameChange = this.handleMovieNameChange.bind(this);
@@ -62,7 +72,21 @@ export default class Recommendations extends React.Component {
 		this.submitBoroughToHosts = this.submitBoroughToHosts.bind(this);
 		this.handleReviewBoroughChange = this.handleReviewBoroughChange.bind(this);
 		this.submitReviews = this.submitReviews.bind(this);
+		this.handleDropDownBoroughChange = this.handleDropDownBoroughChange.bind(this);
+		this.handleDropDownTopHostsBoroughChange = this.handleDropDownTopHostsBoroughChange.bind(this);
+		this.handleDropDownRecentReviewBoroughChange = this.handleDropDownRecentReviewBoroughChange.bind(this);
+		
+
+		const options = [
+			{ value: 'Manhattan', label: 'Manhattan' },
+			{ value: 'Queens', label: 'Queens' },
+			{ value: 'Brooklyn', label: 'Brooklyn' },
+			{value: 'Bronx', label: 'Bronx'},
+			{value: 'Staten Island', label: 'Staten Island'}
+		  ];
 	};
+
+	
 
 	handleKitchenChange(e9) {
 		this.setState({
@@ -141,6 +165,24 @@ export default class Recommendations extends React.Component {
 		});
 	};
 
+	handleDropDownBoroughChange = (selectedOption) => {
+		this.setState({selectedBorough_T10: selectedOption.value }, () =>
+		  console.log(`Option selected:`, this.state.selectedBorough_T10)
+		);
+	  };
+
+	  handleDropDownTopHostsBoroughChange = (selectedOption) => {
+		this.setState({selectedBorough_topHosts: selectedOption.value }, () =>
+		  console.log(`Option selected:`, this.state.selectedBorough_topHosts)
+		);
+	  };
+
+	  handleDropDownRecentReviewBoroughChange = (selectedOption) => {
+		this.setState({recentReviewBorough: selectedOption.value }, () =>
+		  console.log(`Option selected:`, this.state.recentReviewBorough)
+		);
+	  };
+
 	componentDidMount() {
 		fetch("http://localhost:8081/find",
 		{
@@ -195,6 +237,7 @@ export default class Recommendations extends React.Component {
 	};
 
 	submitFilterAndBorough() {
+		console.log(this.state.selectedBorough_T10);
 		fetch("http://localhost:8081/find/" + this.state.selectedFilter + "/" + this.state.selectedBorough_T10,
         {
           method: 'GET'
@@ -263,6 +306,7 @@ export default class Recommendations extends React.Component {
 
 	
 	render() {
+		const { selectedBorough_T10 } = this.state;
 		return (
 			<div className="Recommendations">
 				<PageNavbar active="Find an Airbnb" />
@@ -288,11 +332,24 @@ export default class Recommendations extends React.Component {
 						<div className="dropdown-container">
 							<strong>Borough</strong>:
 							<br></br>
-							<select value={this.state.selectedBorough_T10} onChange={this.handleBoroughT10Change} className="decadesOptions" id="decadesDropdown1">
+							{/* <select value={this.state.selectedBorough_T10} onChange={this.handleBoroughT10Change} className="decadesOptions" id="decadesDropdown1">
 								{this.state.decades}
-							</select>
+							</select> */}
+							{/* <Dropdown options={this.state.decades} onChange={this.handleBoroughT10Change} value={this.state.selectedBorough_T10} placeholder="Select an option" />; */}
+							<Select
+								value={{label : this.state.selectedBorough_T10}}
+								onChange={this.handleDropDownBoroughChange}
+								options={this.state.options}
+							/>
+
+							<br></br>
 							<Button pill theme="secondary" size="sm" className="submit-btn" id="submitT10Filter" onClick={this.submitFilterAndBorough}>Submit</Button>
 						</div>
+						
+
+						
+
+						
 
 
 						<div className="header-container">
@@ -405,9 +462,14 @@ export default class Recommendations extends React.Component {
 								<div className="movies-container">
 									<div className="dropdown-container">
 										<strong>Borough</strong>
-										<br></br> <select value = {this.state.selectedBorough_topHosts} onChange={this.handleBoroughTopHostsChange} className="decadesOptions" id="decadesDropdown2">
+										{/* <br></br> <select value = {this.state.selectedBorough_topHosts} onChange={this.handleBoroughTopHostsChange} className="decadesOptions" id="decadesDropdown2">
 											{this.state.decades}
-										</select>
+										</select> */}
+										<Select
+											value={{label : this.state.selectedBorough_topHosts}}
+											onChange={this.handleDropDownTopHostsBoroughChange}
+											options={this.state.options}
+										/>
 										<Button pill theme="secondary" size="sm" className="submit-btn" id="submitHostFilter" onClick={this.submitBoroughToHosts}>Submit</Button>
 									</div>									
 									<div className="movie">
@@ -427,9 +489,14 @@ export default class Recommendations extends React.Component {
 								<div className="movies-container">
 									<div className="dropdown-container">
 										<strong>Borough</strong>
-										<br></br> <select value={this.state.recentReviewBorough} onChange={this.handleReviewBoroughChange} className="decadesOptions" id="decadesDropdown3">
+										{/* <br></br> <select value={this.state.recentReviewBorough} onChange={this.handleReviewBoroughChange} className="decadesOptions" id="decadesDropdown3">
 											{this.state.decades}
-										</select>
+										</select> */}
+										<Select
+											value={{label : this.state.recentReviewBorough}}
+											onChange={this.handleDropDownRecentReviewBoroughChange}
+											options={this.state.options}
+										/>
 										<Button pill theme="secondary" size="sm" className="submit-btn" id="submitReviewBorough" onClick={this.submitReviews}>Submit</Button>
 									</div>
 									
