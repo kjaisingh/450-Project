@@ -26,12 +26,12 @@ export default class Recommendations extends React.Component {
 		super(props);
 
 		this.state = {
-			movieName: "",
+			movieName: " ",
 			recMovies: [],
 			numberOfPeople: 1,
 			superHostNeeded: "Yes",
 			amenityVerification: "Yes",
-			prefPrice:0,
+			prefPrice:250,
 			selectedFilter: "minimum_nights",
 			selectedBorough_T10: "Manhattan",
 			decades: [],
@@ -334,7 +334,7 @@ export default class Recommendations extends React.Component {
 				<br />
 				<div className="container recommendations-container">
 					<div className="jumbotron">
-						<div className="h5">Top 10 Filter</div>
+						<div className="h5">Top 5 Filter</div>
 						<br></br>
 
 						<div>
@@ -377,15 +377,15 @@ export default class Recommendations extends React.Component {
 					</div>
 				</div>
 
-				<br />
 				<div className="container recommendations-container">
 					<div className="jumbotron">
 						<div className="h5">Recommendations</div>
 						<br></br>
 						<div className="input-container">
+							<header><strong>Search Description for Keywords</strong></header>
 							<FormInput width="100" type='text' placeholder="Enter Description Keyword" required="required" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
 						</div>
-						<p class="hello">Please enter a search term.</p>
+						<p class="hello">No Results Found: Adjust Keywords/Price</p>
 						<div>
 							<header><strong>Number of People</strong></header>
 							<FormRadio inline value="1" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 1 ? "checked": null}>
@@ -483,13 +483,13 @@ export default class Recommendations extends React.Component {
 										<br />
 										<br />
 									</div>									
-									<div className="kushResults">
+									{/* <div className="kushResults">
 										<div className="header"><strong>Name</strong></div>
 										<div className="header"><strong>Average Rating</strong></div>
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.hostResults}
-									</div>
+									</div> */}
 									<div>
 										{this.state.hostChart}
 									</div>
@@ -515,13 +515,13 @@ export default class Recommendations extends React.Component {
 										<br />
 										<br />
 									</div>
-									<div className="kushResults">
+									{/* <div className="kushResults">
 										<div className="header"><strong>Borough</strong></div>
 										<div className="header"><strong>Total Number of Listings</strong></div>
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.reviewResults}
-									</div>
+									</div> */}
 									<div>
 										{this.state.neighbourhoodChart}
 									</div>
