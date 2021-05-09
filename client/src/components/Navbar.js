@@ -13,7 +13,7 @@ function Navbar() {
   const showSidebar = () => setSidebar(!sidebar);
 
 
-    var myVar = "Find the Best Airbnb Experience in NYC!";
+    var myVar = "Welcome to the Best NYC-specific Housing Search Application!";
 
   
 
@@ -28,7 +28,6 @@ function Navbar() {
           <div className = "centerText"> 
           {myVar}
           </div>
-          
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
           <ul className='nav-menu-items' onClick={showSidebar}>

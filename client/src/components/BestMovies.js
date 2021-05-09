@@ -139,7 +139,12 @@ export default class BestMovies extends React.Component {
 		return (
 			<div className="BestMovies">
 				{/* <PageNavbar active="bestgenres" /> */}
-				<br />
+				<div className="heading"> 
+					<div className="headingText"> 
+					The NYC Party Experience!
+					</div>
+				</div>
+				<br></br>
 				<div className="container bestmovies-container">
 					<div className="jumbotron">
 						<div className="h5">Party Filter</div>

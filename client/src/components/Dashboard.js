@@ -113,7 +113,11 @@ export default class Dashboard extends React.Component {
       <div className="Dashboard">
 
         {/* <PageNavbar active="home" /> */}
-        <br />
+        <div className="heading"> 
+          <div className="headingText"> 
+          Home Page
+          </div>
+        </div>
 
         <div className="container movies-container">
           <div className="jumbotron">
