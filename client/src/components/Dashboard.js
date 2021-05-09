@@ -128,8 +128,10 @@ export default class Dashboard extends React.Component {
             <div className="movies-container">
               <div className="movies-header">
                 <div className="header-lg"><strong>Name</strong></div>
-                <div className="header"><strong>Picture</strong></div>              </div>
-              <div className="movies-container" id="results">
+                <div className="header"><strong>Room Type</strong></div>
+                <div className="header"><strong>Price (per night)</strong></div>
+              </div>
+              <div className="results-container" id="results">
                 {this.state.movies}
               </div>
             </div>

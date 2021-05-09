@@ -2,7 +2,6 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class FindReviewRow extends React.Component {
-	/* ---- Q2 (Recommendations) ---- */
 	render() {
 		return (
 			<div className="kushResults">

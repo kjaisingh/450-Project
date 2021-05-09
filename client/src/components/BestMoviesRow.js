@@ -7,7 +7,7 @@ export default class BestGenreRow extends React.Component {
 			<div className="movieResults" id={this.props.id} onClick={this.props.onClick}>
 				<div className="bookinglink"><a href={this.props.movie.listing_url}>{this.props.movie.id}</a></div>
 
-				<div className="price">{this.props.movie.price}</div>
+				<div className="price">${this.props.movie.price}</div>
 
 				<div className="rating">{this.props.movie.rating}</div>
 				<div className="reviews">{this.props.movie.number_of_reviews}</div>

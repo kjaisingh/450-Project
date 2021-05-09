@@ -76,7 +76,6 @@ export default class Recommendations extends React.Component {
 		this.handleDropDownTopHostsBoroughChange = this.handleDropDownTopHostsBoroughChange.bind(this);
 		this.handleDropDownRecentReviewBoroughChange = this.handleDropDownRecentReviewBoroughChange.bind(this);
 		
-
 		const options = [
 			{ value: 'Manhattan', label: 'Manhattan' },
 			{ value: 'Queens', label: 'Queens' },
@@ -332,31 +331,20 @@ export default class Recommendations extends React.Component {
 						<div className="dropdown-container">
 							<strong>Borough</strong>:
 							<br></br>
-							{/* <select value={this.state.selectedBorough_T10} onChange={this.handleBoroughT10Change} className="decadesOptions" id="decadesDropdown1">
-								{this.state.decades}
-							</select> */}
-							{/* <Dropdown options={this.state.decades} onChange={this.handleBoroughT10Change} value={this.state.selectedBorough_T10} placeholder="Select an option" />; */}
 							<Select
 								value={{label : this.state.selectedBorough_T10}}
 								onChange={this.handleDropDownBoroughChange}
 								options={this.state.options}
 							/>
-
 							<br></br>
 							<Button pill theme="secondary" size="sm" className="submit-btn" id="submitT10Filter" onClick={this.submitFilterAndBorough}>Submit</Button>
 						</div>
 						
-
-						
-
-						
-
-
 						<div className="header-container">
 							<div className="headers">
 								<div className="header"><strong>Name</strong></div>
 								<div className="header"><strong>Room Type</strong></div>
-								<div className="header"><strong>Price</strong></div>
+								<div className="header"><strong>Price (per night)</strong></div>
 								<div className="header"><strong>Number of Reviews</strong></div>
 							</div>
 						</div>
@@ -443,7 +431,7 @@ export default class Recommendations extends React.Component {
 							<div className="headers">
 								<div className="header"><strong>Name</strong></div>
 								<div className="header"><strong>Room Type</strong></div>
-								<div className="header"><strong>Price</strong></div>
+								<div className="header"><strong>Price (per night)</strong></div>
 								<div className="header"><strong>Host Name</strong></div>
 							</div>
 						</div>
@@ -464,9 +452,6 @@ export default class Recommendations extends React.Component {
 										<strong>Borough</strong>
 										<br />
 										<br />
-										{/* <br></br> <select value = {this.state.selectedBorough_topHosts} onChange={this.handleBoroughTopHostsChange} className="decadesOptions" id="decadesDropdown2">
-											{this.state.decades}
-										</select> */}
 										<Select
 											value={{label : this.state.selectedBorough_topHosts}}
 											onChange={this.handleDropDownTopHostsBoroughChange}
@@ -497,9 +482,6 @@ export default class Recommendations extends React.Component {
 										<strong>Borough</strong>
 										<br />
 										<br />
-										{/* <br></br> <select value={this.state.recentReviewBorough} onChange={this.handleReviewBoroughChange} className="decadesOptions" id="decadesDropdown3">
-											{this.state.decades}
-										</select> */}
 										<Select
 											value={{label : this.state.recentReviewBorough}}
 											onChange={this.handleDropDownRecentReviewBoroughChange}
