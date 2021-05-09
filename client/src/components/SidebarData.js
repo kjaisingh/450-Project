@@ -11,7 +11,7 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
-    title: 'Find',
+    title: 'Find An Airbnb',
     path: '/find',
     icon: <IoIcons.IoIosPaper />,
     cName: 'nav-text'

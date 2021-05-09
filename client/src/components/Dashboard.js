@@ -112,7 +112,7 @@ export default class Dashboard extends React.Component {
     return (
       <div className="Dashboard">
 
-        <PageNavbar active="home" />
+        {/* <PageNavbar active="home" /> */}
         <br />
 
         <div className="container movies-container">

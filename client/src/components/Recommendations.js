@@ -330,7 +330,7 @@ export default class Recommendations extends React.Component {
 		const { selectedBorough_T10 } = this.state;
 		return (
 			<div className="Recommendations">
-				<PageNavbar active="Find an Airbnb" />
+				{/* <PageNavbar active="Find an Airbnb" /> */}
 				<br />
 				<div className="container recommendations-container">
 					<div className="jumbotron">
