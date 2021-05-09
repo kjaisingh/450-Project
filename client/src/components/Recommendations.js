@@ -1,21 +1,25 @@
+import '../style/Recommendations.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "shards-ui/dist/css/shards.min.css"
+import 'react-dropdown/style.css';
+import "react-vis/dist/style.css";
+
 import React from 'react';
 import PageNavbar from './PageNavbar';
 import RecommendationsRow from './RecommendationsRow';
 import AirbnbPriceRow from './AirbnbPriceRow';
 import FindReviewRow from './FindReviewRow';
 import AggFindNeighbourhood from './AggFindNeighbourhood';
-import '../style/Recommendations.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "shards-ui/dist/css/shards.min.css"
-import { Slider } from "shards-react";
 import Footer from "./Footer";
+
+import Dropdown from 'react-dropdown';
+import Select from 'react-select';
+import { Slider } from "shards-react";
 import { Button } from "shards-react";
 import { FormInput } from "shards-react";
 import { FormCheckbox } from "shards-react";
 import { FormRadio } from "shards-react";
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
-import Select from 'react-select';
+import {XYPlot, XAxis, YAxis, VerticalBarSeries, HorizontalGridLines, LineSeries} from 'react-vis';
 
 export default class Recommendations extends React.Component {
 	constructor(props) {
@@ -34,6 +38,8 @@ export default class Recommendations extends React.Component {
 			selectedBorough_topHosts: "Manhattan",
 			hostResults: [],
 			reviewResults: [],
+			hostChart: [],
+			neighbourhoodChart: [],
 			refrigerator: false,
 			bathtub: false,
 			heating: false,
@@ -84,8 +90,6 @@ export default class Recommendations extends React.Component {
 			{value: 'Staten Island', label: 'Staten Island'}
 		  ];
 	};
-
-	
 
 	handleKitchenChange(e9) {
 		this.setState({
@@ -170,17 +174,17 @@ export default class Recommendations extends React.Component {
 		);
 	  };
 
-	  handleDropDownTopHostsBoroughChange = (selectedOption) => {
-		this.setState({selectedBorough_topHosts: selectedOption.value }, () =>
-		  console.log(`Option selected:`, this.state.selectedBorough_topHosts)
-		);
-	  };
+	handleDropDownTopHostsBoroughChange = (selectedOption) => {
+	this.setState({selectedBorough_topHosts: selectedOption.value }, () =>
+		console.log(`Option selected:`, this.state.selectedBorough_topHosts)
+	);
+	};
 
-	  handleDropDownRecentReviewBoroughChange = (selectedOption) => {
-		this.setState({recentReviewBorough: selectedOption.value }, () =>
-		  console.log(`Option selected:`, this.state.recentReviewBorough)
-		);
-	  };
+	handleDropDownRecentReviewBoroughChange = (selectedOption) => {
+	this.setState({recentReviewBorough: selectedOption.value }, () =>
+		console.log(`Option selected:`, this.state.recentReviewBorough)
+	);
+	};
 
 	componentDidMount() {
 		fetch("http://localhost:8081/find",
@@ -257,8 +261,6 @@ export default class Recommendations extends React.Component {
         });
 	};
 
-
-
 	submitBoroughToHosts() {
 		fetch("http://localhost:8081/find/" + this.state.selectedBorough_topHosts,
         {
@@ -268,19 +270,29 @@ export default class Recommendations extends React.Component {
         }, err => {
           console.log(err);
         }).then(movieList => {
-          if (!movieList) return;
-          const movieDivs = movieList.map((movieObj, i) =>
-            <FindReviewRow movie = {movieObj}/> 
-          );
+			if (!movieList) return;
+			console.log(movieList);
+			const movieDivs = movieList.map((movieObj, i) =>
+				<FindReviewRow movie = {movieObj}/> 
+			);
+			const graphData = movieList.map((movieObj, i) =>
+				({x: movieObj.host_name, y: movieObj.avg})
+			);
+			const maxRating = Math.max.apply(Math, graphData.map(function(o) { return o.y; }))
+			const graphImage = 
+			<XYPlot xType="ordinal" width={450} height={300} yDomain={[0, maxRating]}>
+				<XAxis />
+				<YAxis />
+				<VerticalBarSeries data={graphData}/>
+			</XYPlot>
           this.setState({
-            hostResults: movieDivs
+            hostResults: movieDivs,
+			hostChart: graphImage
           });
         }, err => {
           console.log(err);
         });
 	};
-
-
 
 	submitReviews() {
 		fetch("http://localhost:8081/find/" + this.state.recentReviewBorough + "/" +  this.state.x + "/" +  this.state.y,
@@ -291,18 +303,28 @@ export default class Recommendations extends React.Component {
         }, err => {
           console.log(err);
         }).then(movieList => {
-          if (!movieList) return;
-          const movieDivs = movieList.map((movieObj, i) =>
-            <AggFindNeighbourhood movie = {movieObj}/> 
-          );
-          this.setState({
-            reviewResults: movieDivs
-          });
+			if (!movieList) return;
+			const movieDivs = movieList.map((movieObj, i) =>
+				<AggFindNeighbourhood movie = {movieObj}/> 
+			);
+			const graphData = movieList.map((movieObj, i) =>
+				({x: movieObj.locality, y: movieObj.num})
+			);
+			const maxListings = Math.max.apply(Math, graphData.map(function(o) { return o.y; }))
+			const graphImage = 
+			<XYPlot xType="ordinal" width={450} height={300} yDomain={[0, maxListings]}>
+				<XAxis />
+                <YAxis />
+                <VerticalBarSeries data={graphData}/>
+      		</XYPlot>
+			this.setState({
+				reviewResults: movieDivs,
+				neighbourhoodChart: graphImage
+			});
         }, err => {
           console.log(err);
         });
 	};
-
 	
 	render() {
 		const { selectedBorough_T10 } = this.state;
@@ -363,7 +385,7 @@ export default class Recommendations extends React.Component {
 						<div className="input-container">
 							<FormInput width="100" type='text' placeholder="Enter Description Keyword" required="required" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
 						</div>
-						<p class="hello">Please enter a search term.</p>
+						<p>Please enter a search term.</p>
 						<div>
 							<header><strong>Number of People</strong></header>
 							<FormRadio inline value="1" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 1 ? "checked": null}>
@@ -441,9 +463,8 @@ export default class Recommendations extends React.Component {
 					</div>
 				</div>
 
-				<div class="container recommendations-container">
+				<div className="container recommendations-container">
 						<div class="row">
-
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
 								<header className="h6">Top Hosts by Reviews</header>
@@ -469,6 +490,9 @@ export default class Recommendations extends React.Component {
 									<div className="movies-container" id="results">
 										{this.state.hostResults}
 									</div>
+									<div>
+										{this.state.hostChart}
+									</div>
 								</div>
 							</div>
 							</div>
@@ -477,7 +501,6 @@ export default class Recommendations extends React.Component {
 							<div class="jumbotron">
 								<header className="h6">Neighbourhood Availability</header>
 								<div className="movies-container">
-									
 									<div className="dropdown-container">
 										<strong>Borough</strong>
 										<br />
@@ -492,13 +515,15 @@ export default class Recommendations extends React.Component {
 										<br />
 										<br />
 									</div>
-									
 									<div className="kushResults">
 										<div className="header"><strong>Borough</strong></div>
 										<div className="header"><strong>Total Number of Listings</strong></div>
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.reviewResults}
+									</div>
+									<div>
+										{this.state.neighbourhoodChart}
 									</div>
 								</div>
 							</div>
