@@ -6,10 +6,17 @@ import { SidebarData } from './SidebarData';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
 
+
 function Navbar() {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
+
+
+    var myVar = "Find the Best Airbnb Experience in NYC!";
+
+  
+
 
   return (
     <>
@@ -18,6 +25,10 @@ function Navbar() {
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
+          <div className = "centerText"> 
+          {myVar}
+          </div>
+          
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
           <ul className='nav-menu-items' onClick={showSidebar}>
@@ -26,7 +37,7 @@ function Navbar() {
                 <AiIcons.AiOutlineClose />
               </Link>
             </li>
-            {SidebarData.map((item, index) => {
+            {SidebarData.map((item, index) => { 
               return (
                 <li key={index} className={item.cName}>
                   <Link to={item.path}>
@@ -35,6 +46,7 @@ function Navbar() {
                   </Link>
                 </li>
               );
+              
             })}
           </ul>
         </nav>

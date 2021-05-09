@@ -13,13 +13,13 @@ export const SidebarData = [
   {
     title: 'Find An Airbnb',
     path: '/find',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <FaIcons.FaAirbnb />,
     cName: 'nav-text'
   },
   {
-    title: 'New York City Party Experience',
+    title: 'Experience NYC',
     path: '/nycparty',
-    icon: <FaIcons.FaCartPlus />,
+    icon: <FaIcons.FaGlassCheers />,
     cName: 'nav-text'
   },
 ];
