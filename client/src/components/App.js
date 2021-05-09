@@ -1,41 +1,24 @@
-import React from 'react';
-import {
-	BrowserRouter as Router,
-	Route,
-	Switch
-} from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Recommendations from './Recommendations';
 import BestMovies from './BestMovies';
+import React from 'react';
+import './App.css';
+import Navbar from './Navbar';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-export default class App extends React.Component {
+function App() {
+  return (
+    <>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route path='/' exact component={Dashboard} />
+          <Route path='/find' component={Recommendations} />
+          <Route path='/nycparty' component={BestMovies} />
+        </Switch>
+      </Router>
+    </>
+  );
+}
 
-	render() {
-		return (
-			<div className="App">
-				<Router>
-					<Switch>
-						<Route
-							exact
-							path="/"
-							render={() => <Dashboard />}
-						/>
-						<Route
-							exact
-							path="/home"
-							render={() => <Dashboard />}
-						/>
-						<Route
-							path="/find"
-							render={() => <Recommendations />}
-						/>
-						<Route
-							path="/nycparty"
-							render={() => <BestMovies />}
-						/>
-					</Switch>
-				</Router>
-			</div>
-		);
-	};
-};
+export default App;
