@@ -385,7 +385,7 @@ export default class Recommendations extends React.Component {
 						<div className="input-container">
 							<FormInput width="100" type='text' placeholder="Enter Description Keyword" required="required" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input"/>
 						</div>
-						<p>Please enter a search term.</p>
+						<p class="hello">Please enter a search term.</p>
 						<div>
 							<header><strong>Number of People</strong></header>
 							<FormRadio inline value="1" name="Size"  onChange = {this.handleSizeChange} checked = {this.state.numberOfPeople === 1 ? "checked": null}>
