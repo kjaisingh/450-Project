@@ -13,7 +13,7 @@ function Navbar() {
   const showSidebar = () => setSidebar(!sidebar);
 
 
-    var myVar = "Welcome to the Best NYC-specific Housing Search Application!";
+    var myVar = "The New York Experience";
 
   
 

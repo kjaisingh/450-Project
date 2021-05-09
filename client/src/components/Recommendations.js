@@ -333,7 +333,7 @@ export default class Recommendations extends React.Component {
 				{/* <PageNavbar active="Find an Airbnb" /> */}
 				<div className="heading"> 
 						<div className="headingText"> 
-						Search for an Airbnb
+						Find an Airbnb
 						</div>
 				</div>
 				<br />

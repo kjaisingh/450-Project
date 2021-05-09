@@ -141,7 +141,7 @@ export default class BestMovies extends React.Component {
 				{/* <PageNavbar active="bestgenres" /> */}
 				<div className="heading"> 
 					<div className="headingText"> 
-					The NYC Party Experience!
+					Experience NYC
 					</div>
 				</div>
 				<br></br>
