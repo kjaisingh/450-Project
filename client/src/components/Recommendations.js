@@ -313,7 +313,7 @@ export default class Recommendations extends React.Component {
 				<br />
 				<div className="container recommendations-container">
 					<div className="jumbotron">
-						<div className="h5">T-10 Filter</div>
+						<div className="h5">Top 10 Filter</div>
 						<br></br>
 
 						<div>
@@ -462,6 +462,8 @@ export default class Recommendations extends React.Component {
 								<div className="movies-container">
 									<div className="dropdown-container">
 										<strong>Borough</strong>
+										<br />
+										<br />
 										{/* <br></br> <select value = {this.state.selectedBorough_topHosts} onChange={this.handleBoroughTopHostsChange} className="decadesOptions" id="decadesDropdown2">
 											{this.state.decades}
 										</select> */}
@@ -470,11 +472,14 @@ export default class Recommendations extends React.Component {
 											onChange={this.handleDropDownTopHostsBoroughChange}
 											options={this.state.options}
 										/>
+										<br />
 										<Button pill theme="secondary" size="sm" className="submit-btn" id="submitHostFilter" onClick={this.submitBoroughToHosts}>Submit</Button>
+										<br />
+										<br />
 									</div>									
-									<div className="movie">
+									<div className="kushResults">
 										<div className="header"><strong>Name</strong></div>
-										<div className="header"><strong>Avg Rating</strong></div>
+										<div className="header"><strong>Average Rating</strong></div>
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.hostResults}
@@ -487,8 +492,11 @@ export default class Recommendations extends React.Component {
 							<div class="jumbotron">
 								<header className="h6">Neighbourhood Availability</header>
 								<div className="movies-container">
+									
 									<div className="dropdown-container">
 										<strong>Borough</strong>
+										<br />
+										<br />
 										{/* <br></br> <select value={this.state.recentReviewBorough} onChange={this.handleReviewBoroughChange} className="decadesOptions" id="decadesDropdown3">
 											{this.state.decades}
 										</select> */}
@@ -497,12 +505,15 @@ export default class Recommendations extends React.Component {
 											onChange={this.handleDropDownRecentReviewBoroughChange}
 											options={this.state.options}
 										/>
+										<br />
 										<Button pill theme="secondary" size="sm" className="submit-btn" id="submitReviewBorough" onClick={this.submitReviews}>Submit</Button>
+										<br />
+										<br />
 									</div>
 									
-									<div className="movie">
+									<div className="kushResults">
 										<div className="header"><strong>Borough</strong></div>
-										<div className="header"><strong>Airbnb Number</strong></div>
+										<div className="header"><strong>Total Number of Listings</strong></div>
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.reviewResults}

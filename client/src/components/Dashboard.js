@@ -128,10 +128,8 @@ export default class Dashboard extends React.Component {
             <div className="movies-container">
               <div className="movies-header">
                 <div className="header-lg"><strong>Name</strong></div>
-                <div className="header"><strong>Room Type</strong></div>
-                <div className="header"><strong>Price</strong></div>
-              </div>
-              <div className="results-container" id="results">
+                <div className="header"><strong>Picture</strong></div>              </div>
+              <div className="movies-container" id="results">
                 {this.state.movies}
               </div>
             </div>
@@ -161,7 +159,7 @@ export default class Dashboard extends React.Component {
 								<header>A Relaxing Weekend Trip to Manhattan</header>
                 
 								<div className="movies-container">
-									<div className="quiet-results" id="results">
+									<div className="loud-results" id="results">
 										{this.state.quietListings}
 									</div>
 								</div>

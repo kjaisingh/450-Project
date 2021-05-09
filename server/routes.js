@@ -15,8 +15,8 @@ const getTop20Keywords = (req, res) => {
   */
   const query = `
     SELECT DISTINCT neighbourhood_cleansed AS neighbourhood
-    FROM Lsting WHERE neighbourhood LIKE 'Manhattan' AND neighbourhood_cleansed NOT LIKE '%Harlem%'
-    LIMIT 20;
+    FROM Lsting WHERE neighbourhood LIKE 'Manhattan' AND neighbourhood_cleansed NOT LIKE '%Harlem%' AND neighbourhood_cleansed NOT LIKE '%Hell%'
+    LIMIT 25;
   `;
 
   connection.query(query, (err, rows, fields) => {
@@ -28,11 +28,11 @@ const getTop20Keywords = (req, res) => {
 const getTopMoviesWithKeyword = (req, res) => {
   const inputKwd = "%"+req.params.keyword+"%";
   const query = `
-  SELECT name, room_type, price 
+  SELECT name, room_type, price, listing_url, picture_url
   FROM Lsting
   WHERE neighbourhood_cleansed LIKE '${inputKwd}' 
   ORDER BY reviews_per_month DESC 
-  LIMIT 10;
+  LIMIT 5;
 `;
 
   connection.query(query, (err, rows, fields) => {
@@ -59,15 +59,15 @@ const getLoudListings = (req, res) => {
     tab4 AS
       (SELECT DISTINCT listing_url, description, (latitude - Blat)*(latitude - Blat) + (longitude - Blon)*(longitude - Blon) as distance
       FROM tab3
-      WHERE neighbourhood = 'Manhattan' AND description LIKE '%Parties%' AND description NOT LIKE '%no%' AND description NOT LIKE '%spartan%' AND description NOT LIKE '%soho%' AND description NOT LIKE '%queen%' AND description NOT LIKE '%quiet%'
-      AND LENGTH(description) < 1000
+      WHERE neighbourhood = 'Manhattan' AND description LIKE '%Parties%' AND description NOT LIKE '%no%' AND description NOT LIKE '%spartan%' AND description NOT LIKE '%soho%' AND description NOT LIKE '%queen%'
       AND EXISTS
         (SELECT * 
         FROM Bars 
         WHERE ABS(Bars.latitude - tab3.latitude) <= .005 AND ABS(Bars.longitude - tab3.longitude) <= .005)
       ORDER BY (latitude - Blat)*(latitude - Blat) + (longitude - Blon)*(longitude - Blon) DESC)
     SELECT DISTINCT listing_url, description
-    FROM tab4;
+    FROM tab4
+    LIMIT 5;
   `;
   
   connection.query(query, (err, rows, fields) => {
@@ -80,7 +80,7 @@ const getQuietListings = (req, res) => {
   const query = `
   SELECT * FROM peacefulBnbs
   WHERE description LIKE '%peaceful%' AND description LIKE '%relax%'
-  LIMIT 3;
+  LIMIT 5;
   `;
 
   connection.query(query, (err, rows, fields) => {
@@ -144,7 +144,7 @@ const getRecs = (req, res) => {
     FROM Lsting
     WHERE host_is_superhost = '${sh}' AND accommodates >= '${ppl}'
     AND description LIKE '%${movie}' AND price <= '${price}'
-    LIMIT 10;
+    LIMIT 5;
     `;  
   } else {
 
@@ -172,7 +172,7 @@ const getRecs = (req, res) => {
     FROM tab3 
     WHERE amenities LIKE '%${r}%' AND (comments LIKE '% ${r} %' 
     OR comments LIKE '% ${k} %' OR comments LIKE '% ${w} %' OR comments LIKE '% ${t} %')
-    LIMIT 10;
+    LIMIT 5;
 
     `; 
   }
@@ -246,7 +246,7 @@ const getAirbnbPrice = (req, res) => {
     FROM Lsting
     WHERE neighbourhood = '${borough}'
     ORDER BY price
-    LIMIT 10;
+    LIMIT 5;
   `;
   } else if (filter == "minimum_nights") {
     query = `
@@ -254,7 +254,7 @@ const getAirbnbPrice = (req, res) => {
     FROM Lsting
     WHERE neighbourhood = '${borough}'
     ORDER BY minimum_nights DESC
-    LIMIT 10;
+    LIMIT 5;
     `;
   } else {
     query = `
@@ -262,7 +262,7 @@ const getAirbnbPrice = (req, res) => {
     FROM Lsting
     WHERE neighbourhood = '${borough}'
     ORDER BY reviews_per_month DESC
-    LIMIT 10;
+    LIMIT 5;
   `;
   }
 

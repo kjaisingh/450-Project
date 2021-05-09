@@ -26,24 +26,32 @@
 }
 
 .movie .title, .movies-header .header-lg {
-  flex: 1 0 50%;
+  flex: 1 0 0%;
+}
+
+.movie .pic{
+  width: 10px;
+  height: 50px;
 }
 
 .movies-container .loud-results {
   display: inline;
-  height: 900px;
+  height: 450px;
   padding: 0 1px;
 }
 
 .loud-results .header, .loud-results .link{
   flex:  0 0 100%;
   height: 200 px;
+  line-height: 1.5em;
+  height: 4.5em;       /* height is 2x line-height, so two lines will display */
+  overflow: hidden;
 }
 
 .movies-container .quiet-results {
   display: inline;
   flex:  0 0 500%;
-  height: 1200px;
+  height: 450px;
   padding: 0 1px;
 }
 

@@ -7,12 +7,38 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  height: 40px;
+  height: 50px;
+  padding: 0 10px;
 }
 
-.movieResults .title, .movieResults .id, .movieResults .rating, .movieResults .votes, .headers .header {
-  flex: 1 0 25%;
+.movieResults .name{
+  flex: 0 0 27%;
 }
+
+.movieResults .room_type{
+  flex: 0 0 30%;
+}
+
+ .movieResults .price, .movieResults .host_name {
+  flex: 0 0 35%;
+}
+
+.headers .header {
+  flex: 0 0 27%;
+}
+
+.movies-container .kushResults {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  height: 40px;
+  padding: 0;
+}
+
+.kushResults .header, .kushResults .name, .kushResults .picture {
+  flex:  0 0 48%;
+}
+
 
 .hello {
 	opacity: 0;

@@ -5,9 +5,9 @@ export default class AggFindNeighbourhood extends React.Component {
 	/* ---- Q2 (Recommendations) ---- */
 	render() {
 		return (
-			<div className="reviewResults">
-				<div className="Neighbourhood">{this.props.movie.locality}</div>
-				<div className="Number">{this.props.movie.num}</div>
+			<div className="kushResults">
+				<div className="name">{this.props.movie.locality}</div>
+				<div className="picture">{this.props.movie.num}</div>
 			</div>
 		);
 	};
