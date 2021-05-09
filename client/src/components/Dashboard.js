@@ -145,7 +145,7 @@ export default class Dashboard extends React.Component {
 							
               <div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
-                <header class>AirBNB Reccomendations:</header>
+                <header class>AirBNB Recommendations:</header>
 								<header>Partying in the Big Apple</header>
 								<div className="movies-container">
 									<div className="loud-results" id="results">
@@ -157,7 +157,7 @@ export default class Dashboard extends React.Component {
 
 							<div class="col-md-6 col-sm-6">
 							<div class="jumbotron">
-                <header>AirBNB Reccomendations:</header>
+                <header>AirBNB Recommendations:</header>
 								<header>A Relaxing Weekend Trip to Manhattan</header>
                 
 								<div className="movies-container">
