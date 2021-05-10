@@ -26,7 +26,7 @@ export default class Recommendations extends React.Component {
 		super(props);
 
 		this.state = {
-			movieName: " ",
+			movieName: "",
 			recMovies: [],
 			numberOfPeople: 1,
 			superHostNeeded: "Yes",
@@ -488,13 +488,14 @@ export default class Recommendations extends React.Component {
 										<br />
 										<br />
 									</div>									
-									{/* <div className="kushResults">
+									<div className="kushResults">
 										<div className="header"><strong>Name</strong></div>
 										<div className="header"><strong>Average Rating</strong></div>
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.hostResults}
-									</div> */}
+									</div>
+									<br />
 									<div>
 										{this.state.hostChart}
 									</div>
@@ -520,13 +521,14 @@ export default class Recommendations extends React.Component {
 										<br />
 										<br />
 									</div>
-									{/* <div className="kushResults">
+									<div className="kushResults">
 										<div className="header"><strong>Borough</strong></div>
 										<div className="header"><strong>Total Number of Listings</strong></div>
 									</div>
 									<div className="movies-container" id="results">
 										{this.state.reviewResults}
-									</div> */}
+									</div>
+									<br />
 									<div>
 										{this.state.neighbourhoodChart}
 									</div>

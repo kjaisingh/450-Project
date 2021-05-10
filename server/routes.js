@@ -261,7 +261,7 @@ const getAirbnbPrice = (req, res) => {
     SELECT DISTINCT name, room_type, price, number_of_reviews, listing_url, picture_url
     FROM Lsting
     WHERE neighbourhood = '${borough}'
-    ORDER BY reviews_per_month DESC
+    ORDER BY number_of_reviews DESC
     LIMIT 5;
   `;
   }
